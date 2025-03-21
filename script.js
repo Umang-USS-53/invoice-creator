@@ -206,3 +206,67 @@ function calculateAmount(row) {
     amountCell.textContent = amount.toFixed(2);
     calculateTotals();
 }
+
+// script.js (continued)
+
+function calculateTotals() {
+    const quantityInputs = document.querySelectorAll('.quantity');
+    const amountCells = document.querySelectorAll('.amount');
+    const buyerGST = document.getElementById('buyerGST').textContent;
+
+    let totalQuantity = 0;
+    let taxableValue = 0;
+
+    quantityInputs.forEach(input => {
+        totalQuantity += parseFloat(input.value);
+    });
+
+    amountCells.forEach(cell => {
+        taxableValue += parseFloat(cell.textContent);
+    });
+
+    document.getElementById('totalQuantity').textContent = totalQuantity.toFixed(2);
+    document.getElementById('taxableValue').textContent = taxableValue.toFixed(2);
+
+    calculateGST(taxableValue, buyerGST); // Call GST calculation function
+}
+
+// script.js (continued)
+
+function calculateGST(taxableValue, buyerGST) {
+    let cgstValue = 0;
+    let sgstValue = 0;
+    let igstValue = 0;
+
+    const cgstRates = document.querySelectorAll('.cgstRate');
+    const sgstRates = document.querySelectorAll('.sgstRate');
+    const igstRates = document.querySelectorAll('.igstRate');
+
+    if (buyerGST.startsWith('27')) {
+        let totalCgst = 0;
+        let totalSgst = 0;
+        cgstRates.forEach(rate => {
+            totalCgst += taxableValue * (parseFloat(rate.textContent) / 100);
+        });
+        sgstRates.forEach(rate => {
+            totalSgst += taxableValue * (parseFloat(rate.textContent) / 100);
+        });
+        cgstValue = totalCgst;
+        sgstValue = totalSgst;
+    } else {
+        let totalIgst = 0;
+        igstRates.forEach(rate => {
+            totalIgst += taxableValue * (parseFloat(rate.textContent) / 100);
+        });
+        igstValue = totalIgst;
+    }
+
+    document.getElementById('cgstValue').textContent = cgstValue.toFixed(2);
+    document.getElementById('sgstValue').textContent = sgstValue.toFixed(2);
+    document.getElementById('igstValue').textContent = igstValue.toFixed(2);
+
+    const invoiceValue = taxableValue + cgstValue + sgstValue + igstValue;
+    document.getElementById('invoiceValue').textContent = invoiceValue.toFixed(2);
+
+    calculateAmountInWords(invoiceValue); // Call amount in words function
+}

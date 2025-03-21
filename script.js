@@ -242,25 +242,33 @@ function calculateGST(taxableValue, buyerGST) {
     const sgstRates = document.querySelectorAll('.sgstRate');
     const igstRates = document.querySelectorAll('.igstRate');
 
-    console.log("Buyer GST:", buyerGST); //add console log
+    console.log("Buyer GST:", buyerGST);
 
     if (buyerGST.startsWith('27')) {
         let totalCgst = 0;
         let totalSgst = 0;
         cgstRates.forEach(rate => {
-            totalCgst += taxableValue * (parseFloat(rate.textContent.replace('%','')) / 100);
+            totalCgst += taxableValue * (parseFloat(rate.textContent.replace('%', '')) / 100);
         });
         sgstRates.forEach(rate => {
-            totalSgst += taxableValue * (parseFloat(rate.textContent.replace('%','')) / 100);
+            totalSgst += taxableValue * (parseFloat(rate.textContent.replace('%', '')) / 100);
         });
         cgstValue = totalCgst;
         sgstValue = totalSgst;
     } else {
         let totalIgst = 0;
         igstRates.forEach(rate => {
-            totalIgst += taxableValue * (parseFloat(rate.textContent.replace('%','')) / 100);
+            totalIgst += taxableValue * (parseFloat(rate.textContent.replace('%', '')) / 100);
         });
         igstValue = totalIgst;
+    }
+
+    // Reset the values to zero if they are not being used.
+    if (!buyerGST.startsWith('27')) {
+        cgstValue = 0;
+        sgstValue = 0;
+    } else {
+        igstValue = 0;
     }
 
     document.getElementById('cgstValue').textContent = cgstValue.toFixed(2);
@@ -270,7 +278,7 @@ function calculateGST(taxableValue, buyerGST) {
     const invoiceValue = taxableValue + cgstValue + sgstValue + igstValue;
     document.getElementById('invoiceValue').textContent = invoiceValue.toFixed(2);
 
-    calculateAmountInWords(invoiceValue); // Call amount in words function
+    calculateAmountInWords(invoiceValue);
 }
 
 // script.js (continued)

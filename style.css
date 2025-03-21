@@ -1,0 +1,29 @@
+body {
+    font-family: sans-serif;
+    padding: 20px;
+}
+
+.form-section {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+#buyerDetails, #newBuyerForm {
+    margin-top: 10px;
+}

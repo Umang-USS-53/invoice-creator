@@ -8,26 +8,42 @@
 </head>
 <body>
     <h1>Invoice Creator</h1>
-    
-    <div id="invoice-form">
-        <!-- Buyer Selection -->
-        <label for="buyerSelect">Select Buyer:</label>
-        <select id="buyerSelect">
-            <option value="">Loading...</option>
-        </select>
-        <button id="add-buyer">Add New Buyer</button>
-        
-        <div id="line-items">
-            <button id="add-line-item">Add Line Item</button>
-        </div>
-        
-        <button id="preview-invoice">Preview Invoice</button>
-        <button id="create-invoice">Create Invoice</button>
-        <button id="create-pdf">Create PDF</button>
+
+    <label for="buyerSelect">Select Buyer:</label>
+    <select id="buyerSelect">
+        <option value="">Loading...</option>
+    </select>
+    <button id="add-buyer">Add New Buyer</button>
+
+    <!-- Buyer Form (Hidden by Default) -->
+    <div id="buyer-form" style="display: none;">
+        <h3>Add New Buyer</h3>
+        <label for="buyerName">Name:</label>
+        <input type="text" id="buyerName">
+
+        <label for="buyerGSTIN">GSTIN:</label>
+        <input type="text" id="buyerGSTIN">
+
+        <label for="buyerAddress">Address:</label>
+        <input type="text" id="buyerAddress">
+
+        <label for="buyerCity">City:</label>
+        <input type="text" id="buyerCity">
+
+        <label for="buyerPin">PIN Code:</label>
+        <input type="text" id="buyerPin">
+
+        <label for="buyerState">State:</label>
+        <input type="text" id="buyerState">
+
+        <label for="buyerPAN">PAN:</label>
+        <input type="text" id="buyerPAN">
+
+        <button id="save-buyer">Save Buyer</button>
+        <button id="cancel-buyer">Cancel</button>
     </div>
-    
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <script src="script.js"></script>
+
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

@@ -13,37 +13,35 @@
     <select id="buyerSelect">
         <option value="">Loading...</option>
     </select>
-    <button id="add-buyer">Add New Buyer</button>
+    <button id="addBuyerBtn">Add New Buyer</button>
 
-    <!-- Buyer Form (Hidden by Default) -->
-    <div id="buyer-form" style="display: none;">
-        <h3>Add New Buyer</h3>
-        <label for="buyerName">Name:</label>
-        <input type="text" id="buyerName">
-
-        <label for="buyerGSTIN">GSTIN:</label>
-        <input type="text" id="buyerGSTIN">
-
-        <label for="buyerAddress">Address:</label>
-        <input type="text" id="buyerAddress">
-
-        <label for="buyerCity">City:</label>
-        <input type="text" id="buyerCity">
-
-        <label for="buyerPin">PIN Code:</label>
-        <input type="text" id="buyerPin">
-
-        <label for="buyerState">State:</label>
-        <input type="text" id="buyerState">
-
-        <label for="buyerPAN">PAN:</label>
-        <input type="text" id="buyerPAN">
-
-        <button id="save-buyer">Save Buyer</button>
-        <button id="cancel-buyer">Cancel</button>
+    <div id="line-items">
+        <h2>Line Items</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Rate</th>
+                    <th>GST</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="lineItemsBody"></tbody>
+        </table>
+        <button id="addLineItemBtn">Add Line Item</button>
     </div>
 
-    <script type="module" src="firebase.js"></script>
-    <script type="module" src="script.js"></script>
+    <h3>Total Invoice Amount: <span id="totalAmount">0.00</span></h3>
+
+    <button id="previewInvoiceBtn">Preview Invoice</button>
+    <button id="createInvoiceBtn">Create Invoice</button>
+    <button id="createPdfBtn">Create PDF</button>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="firebase.js" type="module"></script>
+    <script src="script.js" type="module"></script>
 </body>
 </html>

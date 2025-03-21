@@ -1,29 +1,47 @@
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyDCk3z...",
+    authDomain: "hk-invoice-new.firebaseapp.com",
+    projectId: "hk-invoice-new",
+    storageBucket: "hk-invoice-new.appspot.com",
+    messagingSenderId: "433334964621",
+    appId: "1:433334964621:web:d4c679cf4a3193457a6dc4"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Fetch Buyer Data and Populate Dropdown
-async function loadBuyers() {
-    const buyerDropdown = document.getElementById("buyerName");
-    buyerDropdown.innerHTML = "<option value=''>Select Buyer</option>";
+// Fetch Buyers
+const buyerDropdown = document.getElementById("buyerDropdown");
 
-    const snapshot = await db.collection("buyers").get();
-    snapshot.forEach(doc => {
-        const data = doc.data();
-        const option = document.createElement("option");
-        option.value = doc.id;
-        option.textContent = `${data.name} - ${data.gstin}`;
-        buyerDropdown.appendChild(option);
+function loadBuyers() {
+    db.collection("buyers").get().then((querySnapshot) => {
+        buyerDropdown.innerHTML = "<option value=''>Select Buyer</option>";
+        querySnapshot.forEach((doc) => {
+            let buyer = doc.data();
+            let option = document.createElement("option");
+            option.value = buyer.gstin;
+            option.textContent = `${buyer.name} - ${buyer.gstin}`;
+            buyerDropdown.appendChild(option);
+        });
     });
 }
+
+// Add Buyer
+document.getElementById("saveBuyerBtn").addEventListener("click", function() {
+    let newBuyer = {
+        name: document.getElementById("newBuyerName").value,
+        gstin: document.getElementById("newBuyerGST").value,
+        address: document.getElementById("newBuyerAddress").value,
+        city: document.getElementById("newBuyerCity").value,
+        state: document.getElementById("newBuyerState").value,
+        pin: document.getElementById("newBuyerPIN").value,
+        pan: document.getElementById("newBuyerPAN").value
+    };
+
+    db.collection("buyers").add(newBuyer).then(() => {
+        loadBuyers();
+        alert("Buyer Added Successfully!");
+    });
+});
 
 loadBuyers();

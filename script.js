@@ -242,21 +242,23 @@ function calculateGST(taxableValue, buyerGST) {
     const sgstRates = document.querySelectorAll('.sgstRate');
     const igstRates = document.querySelectorAll('.igstRate');
 
+    console.log("Buyer GST:", buyerGST); //add console log
+
     if (buyerGST.startsWith('27')) {
         let totalCgst = 0;
         let totalSgst = 0;
         cgstRates.forEach(rate => {
-            totalCgst += taxableValue * (parseFloat(rate.textContent) / 100);
+            totalCgst += taxableValue * (parseFloat(rate.textContent.replace('%','')) / 100);
         });
         sgstRates.forEach(rate => {
-            totalSgst += taxableValue * (parseFloat(rate.textContent) / 100);
+            totalSgst += taxableValue * (parseFloat(rate.textContent.replace('%','')) / 100);
         });
         cgstValue = totalCgst;
         sgstValue = totalSgst;
     } else {
         let totalIgst = 0;
         igstRates.forEach(rate => {
-            totalIgst += taxableValue * (parseFloat(rate.textContent) / 100);
+            totalIgst += taxableValue * (parseFloat(rate.textContent.replace('%','')) / 100);
         });
         igstValue = totalIgst;
     }
@@ -269,4 +271,12 @@ function calculateGST(taxableValue, buyerGST) {
     document.getElementById('invoiceValue').textContent = invoiceValue.toFixed(2);
 
     calculateAmountInWords(invoiceValue); // Call amount in words function
+}
+
+// script.js (continued)
+
+function calculateAmountInWords(amount) {
+    // Implement amount in words conversion here
+    // For now, let's just display the number
+    document.getElementById('amountInWords').textContent = amount.toFixed(2);
 }

@@ -4,106 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice Generator</title>
-    <link rel="stylesheet" href="styles.css">
+    <script defer src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script defer src="firebase.js"></script>
+    <script defer src="script.js"></script>
 </head>
 <body>
-    <h1>Invoice Generator</h1>
+    <h2>Invoice Generator</h2>
 
-    <form id="invoiceForm">
-        <!-- Invoice Details -->
-        <fieldset>
-            <legend>Invoice Details</legend>
-            <label for="invoiceDate">Invoice Date:</label>
-            <input type="date" id="invoiceDate" required>
+    <label for="invoiceNumber">Invoice Number:</label>
+    <input type="text" id="invoiceNumber" placeholder="Enter invoice number"><br><br>
 
-            <label for="invoiceNumber">Invoice Number:</label>
-            <input type="text" id="invoiceNumber" readonly>
-        </fieldset>
+    <label for="buyerDropdown">Buyer Name:</label>
+    <select id="buyerDropdown">
+        <option value="">Select Buyer</option>
+    </select>
+    <button id="addBuyerButton">Add Buyer</button>
 
-        <!-- Seller Details (Fixed, Non-Editable) -->
-        <fieldset>
-            <legend>Seller Details</legend>
-            <p><strong>Name:</strong> HK & SONS</p>
-            <p><strong>Address:</strong> B-803 ANMOL EXCEL ESTATE OFF:- S V ROAD, GOREGAON WEST, MUMBAI:-400062</p>
-            <p><strong>State:</strong> Maharashtra</p>
-            <p><strong>Email:</strong> hkandsons18@gmail.com</p>
-            <p><strong>GST:</strong> 27AALFH1384H1Z7</p>
-            <p><strong>PAN:</strong> AALFH1384H</p>
-        </fieldset>
+    <div id="addBuyerForm" style="display: none;">
+        <input type="text" id="buyerName" placeholder="Buyer Name">
+        <input type="text" id="buyerGST" placeholder="GST Number">
+        <input type="text" id="buyerAddress" placeholder="Address">
+        <input type="text" id="buyerCity" placeholder="City">
+        <input type="text" id="buyerState" placeholder="State">
+        <input type="text" id="buyerPin" placeholder="PIN Code">
+        <input type="text" id="buyerPAN" placeholder="PAN">
+        <button id="saveBuyerButton">Save Buyer</button>
+    </div>
 
-        <!-- Buyer Details -->
-        <fieldset>
-            <legend>Buyer Details</legend>
-            <label for="buyerName">Buyer Name:</label>
-            <select id="buyerName" required></select>
+    <h3>Line Items</h3>
+    <table id="invoiceTable" border="1">
+        <thead>
+            <tr>
+                <th>Lot No.</th>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody id="invoiceBody"></tbody>
+    </table>
+    <button id="addLineItem">Add Line Item</button>
 
-            <p><strong>Address:</strong> <span id="buyerAddress"></span></p>
-            <p><strong>City:</strong> <span id="buyerCity"></span></p>
-            <p><strong>State:</strong> <span id="buyerState"></span></p>
-            <p><strong>PIN:</strong> <span id="buyerPIN"></span></p>
-            <p><strong>GST:</strong> <span id="buyerGST"></span></p>
-            <p><strong>PAN:</strong> <span id="buyerPAN"></span></p>
-
-            <button type="button" id="addBuyerBtn">Add New Buyer</button>
-        </fieldset>
-
-        <!-- Place of Supply -->
-        <fieldset>
-            <legend>Place of Supply</legend>
-            <p><strong>Place of Supply:</strong> <span id="placeOfSupply"></span></p>
-        </fieldset>
-
-        <!-- Goods Details -->
-        <fieldset>
-            <legend>Goods Details</legend>
-            <table id="goodsTable">
-                <thead>
-                    <tr>
-                        <th>Lot No</th>
-                        <th>Description</th>
-                        <th>HSN Code</th>
-                        <th>Unit</th>
-                        <th>Quantity</th>
-                        <th>Rate</th>
-                        <th>Amount</th>
-                        <th>CGST</th>
-                        <th>SGST</th>
-                        <th>IGST</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dynamic Rows Will Be Added Here -->
-                </tbody>
-            </table>
-            <button type="button" id="addLineItem">Add Line Item</button>
-        </fieldset>
-
-        <!-- Tax and Invoice Calculations -->
-        <fieldset>
-            <legend>Tax and Invoice Calculation</legend>
-            <p><strong>Total Quantity:</strong> <span id="totalQuantity">0</span></p>
-            <p><strong>Taxable Value:</strong> <span id="taxableValue">0</span></p>
-            <p><strong>CGST Value:</strong> <span id="cgstValue">0</span></p>
-            <p><strong>SGST Value:</strong> <span id="sgstValue">0</span></p>
-            <p><strong>IGST Value:</strong> <span id="igstValue">0</span></p>
-            <p><strong>Invoice Value:</strong> <span id="invoiceValue">0</span></p>
-            <p><strong>Amount in Words:</strong> <span id="amountInWords"></span></p>
-        </fieldset>
-
-        <!-- Payment Terms -->
-        <fieldset>
-            <legend>Payment Terms</legend>
-            <label for="termsOfPayment">Terms of Payment:</label>
-            <input type="text" id="termsOfPayment" placeholder="e.g., 60 days" required>
-        </fieldset>
-
-        <!-- Buttons -->
-        <button type="button" id="previewInvoice">Preview Invoice</button>
-        <button type="submit" id="createInvoice">Create Invoice</button>
-        <button type="button" id="createPDF">Create PDF</button>
-    </form>
-
-    <script src="firebase.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>

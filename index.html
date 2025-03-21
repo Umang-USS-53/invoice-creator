@@ -8,9 +8,13 @@
 </head>
 <body>
     <h1>Invoice Creator</h1>
+    
     <div id="invoice-form">
-        <label for="buyer">Buyer:</label>
-        <select id="buyer"></select>
+        <!-- Buyer Selection -->
+        <label for="buyerSelect">Select Buyer:</label>
+        <select id="buyerSelect">
+            <option value="">Loading...</option>
+        </select>
         <button id="add-buyer">Add New Buyer</button>
         
         <div id="line-items">

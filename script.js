@@ -111,3 +111,98 @@ saveBuyerButton.addEventListener('click', () => {
     });
 });
 
+// script.js (continued)
+
+const addItemButton = document.getElementById('addItemButton');
+const itemRows = document.getElementById('itemRows');
+let lotNumber = 1;
+
+addItemButton.addEventListener('click', () => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${lotNumber}</td>
+        <td>
+            <select class="description">
+                <option value="">Select Description</option>
+                <option value="Cut and Polished Diamonds">Cut and Polished Diamonds</option>
+                <option value="Gold">Gold</option>
+                <option value="Jewellery">Jewellery</option>
+            </select>
+        </td>
+        <td class="hsnCode"></td>
+        <td class="unit"></td>
+        <td><input type="number" class="quantity" value="0" step="0.01"></td>
+        <td><input type="number" class="rate" value="0"></td>
+        <td class="amount">0</td>
+        <td class="cgstRate"></td>
+        <td class="sgstRate"></td>
+        <td class="igstRate"></td>
+    `;
+    itemRows.appendChild(row);
+    lotNumber++;
+
+    // Add event listeners to the new row's elements
+    addEventListenersToRow(row);
+});
+
+function addEventListenersToRow(row) {
+    const descriptionSelect = row.querySelector('.description');
+    const quantityInput = row.querySelector('.quantity');
+    const rateInput = row.querySelector('.rate');
+
+    descriptionSelect.addEventListener('change', () => updateItemDetails(row));
+    quantityInput.addEventListener('input', () => calculateAmount(row));
+    rateInput.addEventListener('input', () => calculateAmount(row));
+}
+
+function updateItemDetails(row) {
+    const description = row.querySelector('.description').value;
+    const hsnCodeCell = row.querySelector('.hsnCode');
+    const unitCell = row.querySelector('.unit');
+    const cgstRateCell = row.querySelector('.cgstRate');
+    const sgstRateCell = row.querySelector('.sgstRate');
+    const igstRateCell = row.querySelector('.igstRate');
+
+    let hsnCode = '';
+    let unit = '';
+    let cgstRate = '';
+    let sgstRate = '';
+    let igstRate = '';
+
+    if (description === 'Cut and Polished Diamonds') {
+        hsnCode = '71023910';
+        unit = 'CTS';
+        cgstRate = '0.75%';
+        sgstRate = '0.75%';
+        igstRate = '1.5%';
+    } else if (description === 'Gold') {
+        hsnCode = '71081300';
+        unit = 'GMS';
+        cgstRate = '1.5%';
+        sgstRate = '1.5%';
+        igstRate = '3%';
+    } else if (description === 'Jewellery') {
+        hsnCode = '71131910';
+        unit = 'NOS';
+        cgstRate = '1.5%';
+        sgstRate = '1.5%';
+        igstRate = '3%';
+    }
+
+    hsnCodeCell.textContent = hsnCode;
+    unitCell.textContent = unit;
+    cgstRateCell.textContent = cgstRate;
+    sgstRateCell.textContent = sgstRate;
+    igstRateCell.textContent = igstRate;
+
+    calculateAmount(row); // Recalculate amount after description change
+}
+
+function calculateAmount(row) {
+    const quantity = parseFloat(row.querySelector('.quantity').value);
+    const rate = parseFloat(row.querySelector('.rate').value);
+    const amountCell = row.querySelector('.amount');
+    const amount = quantity * rate;
+    amountCell.textContent = amount.toFixed(2);
+    calculateTotals();
+}

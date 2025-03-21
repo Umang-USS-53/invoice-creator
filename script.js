@@ -1,99 +1,71 @@
-import { fetchBuyers, addBuyer } from "./firebase.js";
+document.addEventListener("DOMContentLoaded", function () {
+    const buyerDropdown = document.getElementById("buyerName");
+    const invoiceDate = document.getElementById("invoiceDate");
 
-document.addEventListener("DOMContentLoaded", async () => {
-    const buyerSelect = document.getElementById("buyerSelect");
-    const addBuyerBtn = document.getElementById("addBuyerBtn");
-    const addLineItemBtn = document.getElementById("addLineItemBtn");
-    const lineItemsBody = document.getElementById("lineItemsBody");
-    const totalAmountEl = document.getElementById("totalAmount");
+    // Fetch Buyer Details When Selected
+    buyerDropdown.addEventListener("change", async function () {
+        const buyerId = buyerDropdown.value;
+        if (!buyerId) return;
 
-    // Fetch buyers and populate dropdown
-    async function loadBuyers() {
-        const buyers = await fetchBuyers();
-        buyerSelect.innerHTML = '<option value="">Select Buyer</option>';
-        buyers.forEach(buyer => {
-            const option = document.createElement("option");
-            option.value = buyer.gstin;
-            option.textContent = `${buyer.name} - ${buyer.gstin}`;
-            buyerSelect.appendChild(option);
-        });
-    }
-
-    await loadBuyers();
-
-    // Add new buyer logic
-    addBuyerBtn.addEventListener("click", () => {
-        const name = prompt("Enter Buyer Name:");
-        const gstin = prompt("Enter Buyer GSTIN:");
-        const address = prompt("Enter Buyer Address:");
-        const city = prompt("Enter Buyer City:");
-        const pin = prompt("Enter Buyer PIN:");
-        const state = prompt("Enter Buyer State:");
-        const pan = prompt("Enter Buyer PAN:");
-
-        if (name && gstin) {
-            addBuyer({ name, gstin, address, city, pin, state, pan }).then(() => {
-                alert("Buyer added successfully!");
-                loadBuyers();
-            });
+        const doc = await db.collection("buyers").doc(buyerId).get();
+        if (doc.exists) {
+            const data = doc.data();
+            document.getElementById("buyerAddress").value = data.address;
+            document.getElementById("buyerCity").value = data.city;
+            document.getElementById("buyerState").value = data.state;
+            document.getElementById("buyerPin").value = data.pin;
+            document.getElementById("buyerGST").value = data.gstin;
+            document.getElementById("buyerPAN").value = data.pan;
+            document.getElementById("placeOfSupply").value = `${data.city}, ${data.state}`;
         }
     });
 
-    // Function to calculate GST
-    function calculateGST(buyerGST, amount) {
-        if (buyerGST.startsWith("27")) {
-            return amount * 0.09 * 2; // CGST + SGST
+    // Generate Invoice Number
+    invoiceDate.addEventListener("change", function () {
+        const selectedDate = new Date(invoiceDate.value);
+        const year = selectedDate.getFullYear();
+        const month = selectedDate.getMonth() + 1;
+
+        let financialYear = "";
+        if (month >= 4) {
+            financialYear = `${year % 100}-${(year + 1) % 100}`;
         } else {
-            return amount * 0.18; // IGST
+            financialYear = `${(year - 1) % 100}-${year % 100}`;
         }
-    }
 
-    // Function to add a new line item
-    function addLineItem() {
+        db.collection("invoices").orderBy("invoiceNumber", "desc").limit(1).get()
+            .then(snapshot => {
+                let nextNumber = "001";
+                if (!snapshot.empty) {
+                    const lastInvoice = snapshot.docs[0].data().invoiceNumber;
+                    const lastNumber = parseInt(lastInvoice.split("/")[0].split("-")[1], 10);
+                    nextNumber = String(lastNumber + 1).padStart(3, "0");
+                }
+                document.getElementById("invoiceNumber").value = `HK-${nextNumber}/${financialYear}`;
+            });
+    });
+
+    // Handle Adding Goods Line Items
+    document.getElementById("addItem").addEventListener("click", function () {
+        const table = document.getElementById("goodsTable").querySelector("tbody");
         const row = document.createElement("tr");
-
         row.innerHTML = `
-            <td><input type="text" class="description"></td>
-            <td><input type="number" class="quantity" step="0.01" value="1"></td>
-            <td><input type="number" class="rate" value="0"></td>
-            <td class="gst">0.00</td>
-            <td class="total">0.00</td>
-            <td><button class="removeItemBtn">❌</button></td>
+            <td></td>
+            <td><select><option>Cut and Polished Diamonds</option><option>Gold</option><option>Jewellery</option></select></td>
+            <td></td>
+            <td></td>
+            <td><input type="number"></td>
+            <td><input type="number"></td>
+            <td></td>
+            <td><button type="button" class="remove">X</button></td>
         `;
+        table.appendChild(row);
+    });
 
-        lineItemsBody.appendChild(row);
-        updateTotals();
-
-        // Attach event listeners
-        row.querySelector(".quantity").addEventListener("input", updateTotals);
-        row.querySelector(".rate").addEventListener("input", updateTotals);
-        row.querySelector(".removeItemBtn").addEventListener("click", () => {
-            row.remove();
-            updateTotals();
-        });
-    }
-
-    addLineItemBtn.addEventListener("click", addLineItem);
-
-    // Update totals dynamically
-    function updateTotals() {
-        let totalAmount = 0;
-        document.querySelectorAll("#lineItemsBody tr").forEach(row => {
-            const quantity = parseFloat(row.querySelector(".quantity").value) || 0;
-            const rate = parseFloat(row.querySelector(".rate").value) || 0;
-            const buyerGST = buyerSelect.value;
-
-            const amount = quantity * rate;
-            const gstAmount = calculateGST(buyerGST, amount);
-            const total = amount + gstAmount;
-
-            row.querySelector(".gst").textContent = gstAmount.toFixed(2);
-            row.querySelector(".total").textContent = total.toFixed(2);
-            totalAmount += total;
-        });
-
-        totalAmountEl.textContent = totalAmount.toFixed(2);
-    }
-
-    buyerSelect.addEventListener("change", updateTotals);
+    // Remove Line Item
+    document.getElementById("goodsTable").addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove")) {
+            event.target.parentElement.parentElement.remove();
+        }
+    });
 });

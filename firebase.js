@@ -1,49 +1,29 @@
-// Version 00002
-// firebase.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getFirestore, collection, getDocs, addDoc, doc, setDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
 const firebaseConfig = {
-  apiKey: "AIzaSyDCk3zgMLzuXZM79F5QhbG9spZ5p_Tq7Gg",
-  authDomain: "hk-invoice-new.firebaseapp.com",
-  projectId: "hk-invoice-new",
-  storageBucket: "hk-invoice-new.firebasestorage.app",
-  messagingSenderId: "433334964621",
-  appId: "1:433334964621:web:d4c679cf4a3193457a6dc4",
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-// Function to fetch buyers from Firestore
-async function fetchBuyers() {
-  const buyersCollection = collection(db, "buyers");
-  const buyersSnapshot = await getDocs(buyersCollection);
-  const buyersList = buyersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  return buyersList;
+// Fetch Buyer Data and Populate Dropdown
+async function loadBuyers() {
+    const buyerDropdown = document.getElementById("buyerName");
+    buyerDropdown.innerHTML = "<option value=''>Select Buyer</option>";
+
+    const snapshot = await db.collection("buyers").get();
+    snapshot.forEach(doc => {
+        const data = doc.data();
+        const option = document.createElement("option");
+        option.value = doc.id;
+        option.textContent = `${data.name} - ${data.gstin}`;
+        buyerDropdown.appendChild(option);
+    });
 }
 
-// Function to add a new buyer to Firestore
-async function addBuyer(buyerData) {
-  const buyersCollection = collection(db, "buyers");
-  await addDoc(buyersCollection, buyerData);
-}
-
-// Function to generate the next invoice number
-async function generateInvoiceNumber() {
-  const invoicesCollection = collection(db, "invoices");
-  const lastInvoiceQuery = query(invoicesCollection, orderBy("invoiceNumber", "desc"), limit(1));
-  const lastInvoiceSnapshot = await getDocs(lastInvoiceQuery);
-  let nextInvoiceNumber = 1;
-
-  if (!lastInvoiceSnapshot.empty) {
-    const lastInvoice = lastInvoiceSnapshot.docs[0].data();
-    nextInvoiceNumber = lastInvoice.invoiceNumber + 1;
-  }
-
-  return nextInvoiceNumber;
-}
-
-// Export functions for use in other files
-export { db, fetchBuyers, addBuyer, generateInvoiceNumber };
+loadBuyers();

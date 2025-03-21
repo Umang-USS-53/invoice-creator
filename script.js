@@ -284,7 +284,50 @@ function calculateGST(taxableValue, buyerGST) {
 // script.js (continued)
 
 function calculateAmountInWords(amount) {
-    // Implement amount in words conversion here
-    // For now, let's just display the number
-    document.getElementById('amountInWords').textContent = amount.toFixed(2);
+    const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+    const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+    const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+    const thousands = ['', 'Thousand', 'Lakh', 'Crore'];
+
+    function convert(number) {
+        if (number === 0) {
+            return '';
+        }
+
+        if (number < 10) {
+            return units[number] + ' ';
+        }
+
+        if (number < 20) {
+            return teens[number - 10] + ' ';
+        }
+
+        if (number < 100) {
+            return tens[Math.floor(number / 10)] + ' ' + units[number % 10] + ' ';
+        }
+
+        if (number < 1000) {
+            return units[Math.floor(number / 100)] + ' Hundred ' + convert(number % 100);
+        }
+
+        let i = 0;
+        let str = '';
+        while (number > 0) {
+            str = convert(number % 1000) + thousands[i] + ' ' + str;
+            number = Math.floor(number / 1000);
+            i++;
+        }
+        return str;
+    }
+
+    const rupees = Math.floor(amount);
+    const paise = Math.round((amount - rupees) * 100);
+
+    let result = convert(rupees).trim() + ' Rupees';
+
+    if (paise > 0) {
+        result += ' and ' + convert(paise).trim() + ' Paise';
+    }
+
+    document.getElementById('amountInWords').textContent = result + " Only";
 }

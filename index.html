@@ -1,51 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Generator</title>
-    <script defer src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <script defer src="firebase.js"></script>
-    <script defer src="script.js"></script>
+    <title>Invoice Creator</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>Invoice Generator</h2>
+    <h1>Invoice Creator</h1>
 
-    <label for="invoiceNumber">Invoice Number:</label>
-    <input type="text" id="invoiceNumber" placeholder="Enter invoice number"><br><br>
+    <div id="invoiceForm">
+        <div class="form-section">
+            <h2>Invoice Details</h2>
+            <label for="invoiceDate">Invoice Date (DD/MM/YYYY):</label>
+            <input type="date" id="invoiceDate" name="invoiceDate" required>
+            <label for="invoiceNumber">Invoice Number:</label>
+            <input type="text" id="invoiceNumber" name="invoiceNumber" required>
+        </div>
 
-    <label for="buyerDropdown">Buyer Name:</label>
-    <select id="buyerDropdown">
-        <option value="">Select Buyer</option>
-    </select>
-    <button id="addBuyerButton">Add Buyer</button>
+        <div class="form-section">
+            <h2>Seller Details</h2>
+            <p><strong>Seller Name:</strong> <span id="sellerName">HK & SONS</span></p>
+            <p><strong>Seller Address:</strong> <span id="sellerAddress">B-803 ANMOL EXCEL ESTATE OFF:- S V ROAD, GOREGAON WEST, MUMBAI:-400062</span></p>
+            <p><strong>Seller State:</strong> <span id="sellerState">Maharashtra</span></p>
+            <p><strong>Seller Email:</strong> <span id="sellerEmail">hkandsons18@gmail.com</span></p>
+            <p><strong>Seller GST:</strong> <span id="sellerGST">27AALFH1384H1Z7</span></p>
+            <p><strong>Seller PAN:</strong> <span id="sellerPAN">AALFH1384H</span></p>
+        </div>
 
-    <div id="addBuyerForm" style="display: none;">
-        <input type="text" id="buyerName" placeholder="Buyer Name">
-        <input type="text" id="buyerGST" placeholder="GST Number">
-        <input type="text" id="buyerAddress" placeholder="Address">
-        <input type="text" id="buyerCity" placeholder="City">
-        <input type="text" id="buyerState" placeholder="State">
-        <input type="text" id="buyerPin" placeholder="PIN Code">
-        <input type="text" id="buyerPAN" placeholder="PAN">
-        <button id="saveBuyerButton">Save Buyer</button>
+        <div class="form-section">
+            <h2>Buyer Details</h2>
+            <label for="buyerName">Buyer Name - Buyer GST:</label>
+            <select id="buyerName" name="buyerName" required>
+                <option value="">Select Buyer</option>
+            </select>
+            <div id="buyerDetails">
+                <p><strong>Buyer Address:</strong> <span id="buyerAddress"></span></p>
+                <p><strong>Buyer City:</strong> <span id="buyerCity"></span></p>
+                <p><strong>Buyer State:</strong> <span id="buyerState"></span></p>
+                <p><strong>Buyer PIN:</strong> <span id="buyerPIN"></span></p>
+                <p><strong>Buyer GST:</strong> <span id="buyerGST"></span></p>
+                <p><strong>Buyer PAN:</strong> <span id="buyerPAN"></span></p>
+            </div>
+            <button type="button" id="addBuyerButton">Add New Buyer</button>
+            <div id="newBuyerForm" style="display: none;">
+                <label for="newBuyerName">Buyer Name:</label>
+                <input type="text" id="newBuyerName" name="newBuyerName">
+                <label for="newBuyerAddress">Buyer Address:</label>
+                <input type="text" id="newBuyerAddress" name="newBuyerAddress">
+                <label for="newBuyerCity">Buyer City:</label>
+                <input type="text" id="newBuyerCity" name="newBuyerCity">
+                <label for="newBuyerState">Buyer State:</label>
+                <input type="text" id="newBuyerState" name="newBuyerState">
+                <label for="newBuyerPIN">Buyer PIN:</label>
+                <input type="text" id="newBuyerPIN" name="newBuyerPIN">
+                <label for="newBuyerGST">Buyer GST:</label>
+                <input type="text" id="newBuyerGST" name="newBuyerGST">
+                <label for="newBuyerPAN">Buyer PAN:</label>
+                <input type="text" id="newBuyerPAN" name="newBuyerPAN">
+                <button type="button" id="saveBuyerButton">Save Buyer</button>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Place of Supply</h2>
+            <p><strong>Place of Supply:</strong> <span id="placeOfSupply"></span></p>
+        </div>
+
+        <div class="form-section">
+            <h2>Item Details</h2>
+            <table id="itemTable">
+                <thead>
+                    <tr>
+                        <th>Lot No.</th>
+                        <th>Description</th>
+                        <th>HSN Code</th>
+                        <th>Unit</th>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Amount (QxR)</th>
+                        <th>CGST Rate</th>
+                        <th>SGST Rate</th>
+                        <th>IGST Rate</th>
+                    </tr>
+                </thead>
+                <tbody id="itemRows">
+                    </tbody>
+            </table>
+            <button type="button" id="addItemButton">Add Line Item</button>
+        </div>
+
+        <div class="form-section">
+            <h2>Totals</h2>
+            <p><strong>Total Quantity:</strong> <span id="totalQuantity"></span></p>
+            <p><strong>Taxable Value:</strong> <span id="taxableValue"></span></p>
+            <p><strong>CGST Value:</strong> <span id="cgstValue"></span></p>
+            <p><strong>SGST Value:</strong> <span id="sgstValue"></span></p>
+            <p><strong>IGST Value:</strong> <span id="igstValue"></span></p>
+            <p><strong>Invoice Value:</strong> <span id="invoiceValue"></span></p>
+            <p><strong>Amount in Words:</strong> <span id="amountInWords"></span></p>
+        </div>
+
+        <div class="form-section">
+            <button type="button" id="previewButton">Preview Invoice</button>
+            <button type="button" id="createButton">Create Invoice</button>
+        </div>
     </div>
 
-    <h3>Line Items</h3>
-    <table id="invoiceTable" border="1">
-        <thead>
-            <tr>
-                <th>Lot No.</th>
-                <th>Description</th>
-                <th>Quantity</th>
-                <th>Rate</th>
-                <th>Amount</th>
-            </tr>
-        </thead>
-        <tbody id="invoiceBody"></tbody>
-    </table>
-    <button id="addLineItem">Add Line Item</button>
-
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

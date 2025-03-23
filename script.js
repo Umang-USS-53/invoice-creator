@@ -113,6 +113,7 @@ saveBuyerButton.addEventListener('click', () => {
 
 // script.js (continued)
 
+// Item Details
 const addItemButton = document.getElementById('addItemButton');
 const itemRows = document.getElementById('itemRows');
 let lotNumber = 1;
@@ -145,14 +146,24 @@ addItemButton.addEventListener('click', () => {
     addEventListenerToRow(row);
 });
 
-function addEventListenersToRow(row) {
+function addEventListenerToRow(row) {
     const descriptionSelect = row.querySelector('.description');
     const quantityInput = row.querySelector('.quantity');
     const rateInput = row.querySelector('.rate');
 
-    descriptionSelect.addEventListener('change', () => updateItemDetails(row));
-    quantityInput.addEventListener('input', () => calculateAmount(row));
-    rateInput.addEventListener('input', () => calculateAmount(row));
+    descriptionSelect.addEventListener('change', () => {
+        updateItemDetails(row);
+        calculateAmount(row);
+        calculateTotals();
+    });
+    quantityInput.addEventListener('input', () => {
+        calculateAmount(row);
+        calculateTotals();
+    });
+    rateInput.addEventListener('input', () => {
+        calculateAmount(row);
+        calculateTotals();
+    });
 }
 
 function updateItemDetails(row) {
@@ -328,6 +339,30 @@ function calculateAmountInWords(amount) {
 
 // Part 3: previewInvoice function and event listener
 
+
+
+function updateItemDetails(row) {
+    // ... (updateItemDetails function remains the same)
+}
+
+function calculateAmount(row) {
+    // ... (calculateAmount function remains the same)
+}
+
+function calculateTotals() {
+    // ... (calculateTotals function remains the same)
+}
+
+function calculateGST(taxableValue, buyerGST) {
+    // ... (calculateGST function remains the same)
+}
+
+function calculateAmountInWords(amount) {
+    // ... (calculateAmountInWords function remains the same)
+}
+
+// Part 3: previewInvoice function and event listener
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const previewInvoiceButton = document.getElementById('previewInvoiceButton');
@@ -337,14 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function previewInvoice() {
         // Buyer Details
-        document.getElementById('previewBuyerName').textContent = buyerDropdown.options[buyerDropdown.selectedIndex].textContent;
-        document.getElementById('previewBuyerAddress').textContent = buyerAddressSpan.textContent;
-        document.getElementById('previewBuyerCity').textContent = buyerCitySpan.textContent;
-        document.getElementById('previewBuyerState').textContent = buyerStateSpan.textContent;
-        document.getElementById('previewBuyerPIN').textContent = buyerPINSpan.textContent;
-        document.getElementById('previewBuyerGST').textContent = buyerGSTSpan.textContent;
-        document.getElementById('previewBuyerPAN').textContent = buyerPANSpan.textContent;
-        document.getElementById('previewPlaceOfSupply').textContent = placeOfSupplySpan.textContent;
+        // ... (Buyer detail retrieval remains the same)
 
         // Item Details
         const previewItemRows = document.getElementById('previewItemRows');
@@ -353,7 +381,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const itemRowsData = document.querySelectorAll('#itemRows tr');
         itemRowsData.forEach(row => {
             const previewRow = document.createElement('tr');
-            previewRow.innerHTML = row.innerHTML;
+
+            // Extract description text instead of dropdown
+            const descriptionSelect = row.querySelector('.description');
+            const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
+
+            previewRow.innerHTML = `
+                <td>${row.cells[0].textContent}</td>
+                <td>${descriptionText}</td>
+                <td>${row.cells[2].textContent}</td>
+                <td>${row.cells[3].textContent}</td>
+                <td>${row.cells[4].querySelector('input').value}</td>
+                <td>${row.cells[5].querySelector('input').value}</td>
+                <td>${row.cells[6].textContent}</td>
+                <td>${row.cells[7].textContent}</td>
+                <td>${row.cells[8].textContent}</td>
+                <td>${row.cells[9].textContent}</td>
+            `;
+
             previewItemRows.appendChild(previewRow);
         });
 

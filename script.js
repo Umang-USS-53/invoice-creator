@@ -350,48 +350,45 @@ document.addEventListener('DOMContentLoaded', () => {
     previewInvoiceButton.addEventListener('click', previewInvoice);
 
     function previewInvoice() {
-        // Buyer Details
-        // ... (Buyer detail retrieval remains the same)
+    // Buyer Details
+    // ... (Buyer detail retrieval remains the same)
 
-        // Item Details
-        const previewItemRows = document.getElementById('previewItemRows');
-        previewItemRows.innerHTML = ''; // Clear previous rows
+    // Item Details
+    const previewItemRows = document.getElementById('previewItemRows');
+    previewItemRows.innerHTML = ''; // Clear previous rows
 
-        const itemRowsData = document.querySelectorAll('#itemRows tr');
-        itemRowsData.forEach(row => {
-            const previewRow = document.createElement('tr');
+    const itemRowsData = document.querySelectorAll('#itemRows tr');
+    itemRowsData.forEach(row => {
+        const previewRow = document.createElement('tr');
 
-            // Extract description text instead of dropdown
-            const descriptionSelect = row.querySelector('.description');
-            const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
+        // Extract description text instead of dropdown
+        const descriptionSelect = row.querySelector('.description');
+        const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
 
-            previewRow.innerHTML = `
-                <td><span class="math-inline">\{row\.cells\[0\]\.textContent\}</td\>
-<td\></span>{descriptionText}</td>
-                <td><span class="math-inline">\{row\.cells\[2\]\.textContent\}</td\>
-<td\></span>{row.cells[3].textContent}</td>
-                <td><span class="math-inline">\{row\.cells\[4\]\.querySelector\('input'\)\.value\}</td\>
-<td\></span>{row.cells[5].querySelector('input').value}</td>
-                <td><span class="math-inline">\{row\.cells\[6\]\.textContent\}</td\>
-<td\></span>{row.cells[7].textContent}</td>
-                <td><span class="math-inline">\{row\.cells\[8\]\.textContent\}</td\>
-<td\></span>{row.cells[9].textContent}</td>
-            `;
+        previewRow.innerHTML = `
+            <td>${row.cells[0].textContent}</td>
+            <td>${descriptionText}</td>
+            <td>${row.cells[2].textContent}</td>
+            <td>${row.cells[3].textContent}</td>
+            <td>${row.cells[4].querySelector('input').value}</td>
+            <td>${row.cells[5].querySelector('input').value}</td>
+            <td>${row.cells[6].textContent}</td>
+            <td>${row.cells[7].textContent}</td>
+            <td>${row.cells[8].textContent}</td>
+            <td>${row.cells[9].textContent}</td>
+        `;
 
-            console.log("Preview Row:", previewRow.innerHTML);
+        previewItemRows.appendChild(previewRow);
+    });
 
-            previewItemRows.appendChild(previewRow);
-        });
+    // Totals
+    document.getElementById('previewTotalQuantity').textContent = document.getElementById('totalQuantity').textContent;
+    document.getElementById('previewTaxableValue').textContent = document.getElementById('taxableValue').textContent;
+    document.getElementById('previewCgstValue').textContent = document.getElementById('cgstValue').textContent;
+    document.getElementById('previewSgstValue').textContent = document.getElementById('sgstValue').textContent;
+    document.getElementById('previewIgstValue').textContent = document.getElementById('igstValue').textContent;
+    document.getElementById('previewInvoiceValue').textContent = document.getElementById('invoiceValue').textContent;
+    document.getElementById('previewAmountInWords').textContent = document.getElementById('amountInWords').textContent;
 
-        // Totals
-        document.getElementById('previewTotalQuantity').textContent = document.getElementById('totalQuantity').textContent;
-        document.getElementById('previewTaxableValue').textContent = document.getElementById('taxableValue').textContent;
-        document.getElementById('previewCgstValue').textContent = document.getElementById('cgstValue').textContent;
-        document.getElementById('previewSgstValue').textContent = document.getElementById('sgstValue').textContent;
-        document.getElementById('previewIgstValue').textContent = document.getElementById('igstValue').textContent;
-        document.getElementById('previewInvoiceValue').textContent = document.getElementById('invoiceValue').textContent;
-        document.getElementById('previewAmountInWords').textContent = document.getElementById('amountInWords').textContent;
-
-        invoicePreview.style.display = 'block';
-    }
-});
+    invoicePreview.style.display = 'block';
+}

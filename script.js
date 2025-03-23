@@ -595,4 +595,42 @@ function calculateAmountInWords(amount) {
 
 }
 
+// Part 3: previewInvoice function and event listener
+const previewInvoiceButton = document.getElementById('previewInvoiceButton');
+const invoicePreview = document.getElementById('invoicePreview');
 
+previewInvoiceButton.addEventListener('click', previewInvoice);
+
+function previewInvoice() {
+    // Buyer Details
+    document.getElementById('previewBuyerName').textContent = buyerDropdown.options[buyerDropdown.selectedIndex].textContent;
+    document.getElementById('previewBuyerAddress').textContent = buyerAddressSpan.textContent;
+    document.getElementById('previewBuyerCity').textContent = buyerCitySpan.textContent;
+    document.getElementById('previewBuyerState').textContent = buyerStateSpan.textContent;
+    document.getElementById('previewBuyerPIN').textContent = buyerPINSpan.textContent;
+    document.getElementById('previewBuyerGST').textContent = buyerGSTSpan.textContent;
+    document.getElementById('previewBuyerPAN').textContent = buyerPANSpan.textContent;
+    document.getElementById('previewPlaceOfSupply').textContent = placeOfSupplySpan.textContent;
+
+    // Item Details
+    const previewItemRows = document.getElementById('previewItemRows');
+    previewItemRows.innerHTML = ''; // Clear previous rows
+
+    const itemRowsData = document.querySelectorAll('#itemRows tr');
+    itemRowsData.forEach(row => {
+        const previewRow = document.createElement('tr');
+        previewRow.innerHTML = row.innerHTML;
+        previewItemRows.appendChild(previewRow);
+    });
+
+    // Totals
+    document.getElementById('previewTotalQuantity').textContent = document.getElementById('totalQuantity').textContent;
+    document.getElementById('previewTaxableValue').textContent = document.getElementById('taxableValue').textContent;
+    document.getElementById('previewCgstValue').textContent = document.getElementById('cgstValue').textContent;
+    document.getElementById('previewSgstValue').textContent = document.getElementById('sgstValue').textContent;
+    document.getElementById('previewIgstValue').textContent = document.getElementById('igstValue').textContent;
+    document.getElementById('previewInvoiceValue').textContent = document.getElementById('invoiceValue').textContent;
+    document.getElementById('previewAmountInWords').textContent = document.getElementById('amountInWords').textContent;
+
+    invoicePreview.style.display = 'block';
+}

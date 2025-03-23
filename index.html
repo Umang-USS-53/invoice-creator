@@ -216,32 +216,49 @@
 <button id="previewInvoiceButton">Preview Invoice</button>
 
 
-<div id="invoicePreview" style="display: none;">
-
+<<div id="invoicePreview" style="display: none;">
     <h2>Invoice Preview</h2>
 
+    <p><strong>Invoice Number:</strong> <span id="previewInvoiceNumber"></span></p>
+    <p><strong>Invoice Date:</strong> <span id="previewInvoiceDate"></span></p>
+
+    <div id="sellerPreview">
+        <h3>Seller Details</h3>
+        <p>Name: <span id="previewSellerName"></span></p>
+        <p>Address: <span id="previewSellerAddress"></span></p>
+        <p>State: <span id="previewSellerState"></span></p>
+        <p>Email: <span id="previewSellerEmail"></span></p>
+        <p>GST: <span id="previewSellerGST"></span></p>
+        <p>PAN: <span id="previewSellerPAN"></span></p>
+    </div>
+
+    <div id="paymentDetails">
+        <h3>Payment Instructions</h3>
+        <p><span id="previewPaymentInstructions"></span></p>
+    </div>
+
+    <div id="bankDetails">
+        <h3>Bank Details</h3>
+        <p><span id="previewBankDetails"></span></p>
+    </div>
+
+    <div id="termsConditions">
+        <h3>Terms & Conditions</h3>
+        <p><span id="previewTermsConditions"></span></p>
+    </div>
+
     <div id="buyerPreview">
-
         <h3>Buyer Details</h3>
-
         <p>Name: <span id="previewBuyerName"></span></p>
-
         <p>Address: <span id="previewBuyerAddress"></span></p>
-
         <p>City: <span id="previewBuyerCity"></span></p>
-
         <p>State: <span id="previewBuyerState"></span></p>
-
         <p>PIN: <span id="previewBuyerPIN"></span></p>
-
         <p>GSTIN: <span id="previewBuyerGST"></span></p>
-
         <p>PAN: <span id="previewBuyerPAN"></span></p>
-
         <p>Place of Supply: <span id="previewPlaceOfSupply"></span></p>
-
         <p>Terms of Payment: <span id="previewTermsOfPayment"></span></p>
-
+   
     </div>
 
 

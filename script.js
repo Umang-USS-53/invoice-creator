@@ -1,3 +1,4 @@
+// Part 1: Initialization, buyer details, add buyer functionality, add item functionality, and item details update
 // script.js
 
 // Initialize Firebase
@@ -142,7 +143,7 @@ addItemButton.addEventListener('click', () => {
     lotNumber++;
 
     // Add event listeners to the new row's elements
-    addEventListenersToRow(row);
+    addEventListenerToRow(row);
 });
 
 function addEventListenersToRow(row) {
@@ -209,6 +210,7 @@ function calculateAmount(row) {
 
 // script.js (continued)
 
+// Part 2: calculateTotals, calculateGST, and calculateAmountInWords
 function calculateTotals() {
     const quantityInputs = document.querySelectorAll('.quantity');
     const amountCells = document.querySelectorAll('.amount');
@@ -324,6 +326,7 @@ function calculateAmountInWords(amount) {
     document.getElementById('amountInWords').textContent = result + " Only";
 }
 
+// Part 3: previewInvoice function and event listener
 const previewInvoiceButton = document.getElementById('previewInvoiceButton');
 const invoicePreview = document.getElementById('invoicePreview');
 

@@ -318,9 +318,9 @@ function calculateAmountInWords(amount) {
         let thousand = Math.floor((number % 100000) / 1000);
         let remainder = number % 1000;
 
-        if (crore) parts.push(convertLessThanThousand(crore) + 'Crore');
-        if (lakh) parts.push(convertLessThanThousand(lakh) + 'Lakh');
-        if (thousand) parts.push(convertLessThanThThousand(thousand) + 'Thousand');
+        if (crore) parts.push(convertLessThanThousand(crore) + ' Crore ');
+        if (lakh) parts.push(convertLessThanThousand(lakh) + ' Lakh ');
+        if (thousand) parts.push(convertLessThanThousand(thousand) + ' Thousand ');
         if (remainder) parts.push(convertLessThanThousand(remainder));
 
         return parts.join(' ').trim();

@@ -1,143 +1,361 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
-    <title>Invoice Generator</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        #buyerDetails {
-            display: none;
-        }
-        #newBuyerForm {
-            display: none;
-        }
-        #invoicePreview {
-            display: none;
-        }
 
-    </style>
+    <title>Invoice Creator</title>
+
+    <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
-    <h1>Invoice Generator</h1>
 
-    <h2>Buyer Details</h2>
-    <select id="buyerName">
-        <option value="">Select Buyer</option>
-    </select>
-    <button id="addBuyerButton">Add New Buyer</button>
+    <h1>Invoice Creator</h1>
 
-    <div id="newBuyerForm">
-        <h3>Add New Buyer</h3>
-        <input type="text" id="newBuyerName" placeholder="Name"><br>
-        <input type="text" id="newBuyerAddress" placeholder="Address"><br>
-        <input type="text" id="newBuyerCity" placeholder="City"><br>
-        <input type="text" id="newBuyerState" placeholder="State"><br>
-        <input type="text" id="newBuyerPIN" placeholder="PIN"><br>
-        <input type="text" id="newBuyerGST" placeholder="GST"><br>
-        <input type="text" id="newBuyerPAN" placeholder="PAN"><br>
-        <button id="saveBuyerButton">Save Buyer</button>
+
+    <div id="invoiceForm">
+
+        <div class="form-section">
+
+            <h2>Invoice Details</h2>
+
+            <label for="invoiceDate">Invoice Date (DD/MM/YYYY):</label>
+
+            <input type="date" id="invoiceDate" name="invoiceDate" required>
+
+            <label for="invoiceNumber">Invoice Number:</label>
+
+            <input type="text" id="invoiceNumber" name="invoiceNumber" required>
+
+        </div>
+
+
+        <div class="form-section">
+
+            <h2>Seller Details</h2>
+
+            <p><strong>Seller Name:</strong> <span id="sellerName">HK & SONS</span></p>
+
+            <p><strong>Seller Address:</strong> <span id="sellerAddress">B-803 ANMOL EXCEL ESTATE OFF:- S V ROAD, GOREGAON WEST, MUMBAI:-400062</span></p>
+
+            <p><strong>Seller State:</strong> <span id="sellerState">Maharashtra</span></p>
+
+            <p><strong>Seller Email:</strong> <span id="sellerEmail">hkandsons18@gmail.com</span></p>
+
+            <p><strong>Seller GST:</strong> <span id="sellerGST">27AALFH1384H1Z7</span></p>
+
+            <p><strong>Seller PAN:</strong> <span id="sellerPAN">AALFH1384H</span></p>
+
+        </div>
+
+
+        <div class="form-section">
+
+            <h2>Buyer Details</h2>
+
+            <label for="buyerName">Buyer Name - Buyer GST:</label>
+
+            <select id="buyerName" name="buyerName" required>
+
+                <option value="">Select Buyer</option>
+
+            </select>
+
+            <div id="buyerDetails">
+
+                <p><strong>Buyer Address:</strong> <span id="buyerAddress"></span></p>
+
+                <p><strong>Buyer City:</strong> <span id="buyerCity"></span></p>
+
+                <p><strong>Buyer State:</strong> <span id="buyerState"></span></p>
+
+                <p><strong>Buyer PIN:</strong> <span id="buyerPIN"></span></p>
+
+                <p><strong>Buyer GST:</strong> <span id="buyerGST"></span></p>
+
+                <p><strong>Buyer PAN:</strong> <span id="buyerPAN"></span></p>
+
+            </div>
+
+            <button type="button" id="addBuyerButton">Add New Buyer</button>
+
+            <div id="newBuyerForm" style="display: none;">
+
+                <label for="newBuyerName">Buyer Name:</label>
+
+                <input type="text" id="newBuyerName" name="newBuyerName">
+
+                <label for="newBuyerAddress">Buyer Address:</label>
+
+                <input type="text" id="newBuyerAddress" name="newBuyerAddress">
+
+                <label for="newBuyerCity">Buyer City:</label>
+
+                <input type="text" id="newBuyerCity" name="newBuyerCity">
+
+                <label for="newBuyerState">Buyer State:</label>
+
+                <input type="text" id="newBuyerState" name="newBuyerState">
+
+                <label for="newBuyerPIN">Buyer PIN:</label>
+
+                <input type="text" id="newBuyerPIN" name="newBuyerPIN">
+
+                <label for="newBuyerGST">Buyer GST:</label>
+
+                <input type="text" id="newBuyerGST" name="newBuyerGST">
+
+                <label for="newBuyerPAN">Buyer PAN:</label>
+
+                <input type="text" id="newBuyerPAN" name="newBuyerPAN">
+
+                <button type="button" id="saveBuyerButton">Save Buyer</button>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-section">
+
+            <h2>Place of Supply</h2>
+
+            <p><strong>Place of Supply:</strong> <span id="placeOfSupply"></span></p>
+
+        </div>
+
+
+        <div class="form-section">
+
+            <h2>Item Details</h2>
+
+            <table id="itemTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Lot No.</th>
+
+                        <th>Description</th>
+
+                        <th>HSN Code</th>
+
+                        <th>Unit</th>
+
+                        <th>Quantity</th>
+
+                        <th>Rate</th>
+
+                        <th>Amount (QxR)</th>
+
+                        <th>CGST Rate</th>
+
+                        <th>SGST Rate</th>
+
+                        <th>IGST Rate</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="itemRows">
+
+                    </tbody>
+
+            </table>
+
+            <button type="button" id="addItemButton">Add Line Item</button>
+
+        </div>
+
+
+        <div class="form-section">
+
+            <h2>Totals</h2>
+
+            <p><strong>Total Quantity:</strong> <span id="totalQuantity"></span></p>
+
+            <p><strong>Taxable Value:</strong> <span id="taxableValue"></span></p>
+
+            <p><strong>CGST Value:</strong> <span id="cgstValue"></span></p>
+
+            <p><strong>SGST Value:</strong> <span id="sgstValue"></span></p>
+
+            <p><strong>IGST Value:</strong> <span id="igstValue"></span></p>
+
+            <p><strong>Invoice Value:</strong> <span id="invoiceValue"></span></p>
+
+            <p><strong>Amount in Words:</strong> <span id="amountInWords"></span></p>
+
+        </div>
+
+
+        <div class="form-section">
+
+            <button type="button" id="previewButton">Preview Invoice</button>
+
+            <button type="button" id="createButton">Create Invoice</button>
+
+        </div>
+
     </div>
 
-    <div id="buyerDetails">
-        <p>Address: <span id="buyerAddress"></span></p>
-        <p>City: <span id="buyerCity"></span></p>
-        <p>State: <span id="buyerState"></span></p>
-        <p>PIN: <span id="buyerPIN"></span></p>
-        <p>GST: <span id="buyerGST"></span></p>
-        <p>PAN: <span id="buyerPAN"></span></p>
-        <p>Place of Supply: <span id="placeOfSupply"></span></p>
-    </div>
 
-    <h2>Item Details</h2>
-    <table id="itemTable">
-        <thead>
-            <tr>
-                <th>Lot No.</th>
-                <th>Description</th>
-                <th>HSN/SAC</th>
-                <th>Unit</th>
-                <th>Quantity</th>
-                <th>Rate</th>
-                <th>Amount</th>
-                <th>CGST Rate</th>
-                <th>SGST Rate</th>
-                <th>IGST Rate</th>
-            </tr>
-        </thead>
-        <tbody id="itemRows">
-            </tbody>
-    </table>
-    <button id="addItemButton">Add Item</button>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
 
-    <h2>Totals</h2>
-    <p>Total Quantity: <span id="totalQuantity">0</span></p>
-    <p>Taxable Value: <span id="taxableValue">0</span></p>
-    <p>CGST: <span id="cgstValue">0</span></p>
-    <p>SGST: <span id="sgstValue">0</span></p>
-    <p>IGST: <span id="igstValue">0</span></p>
-    <p>Invoice Value: <span id="invoiceValue">0</span></p>
-    <p>Amount in Words: <span id="amountInWords"></span></p>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
-    <button id="previewInvoiceButton">Preview Invoice</button>
+    <script src="script.js"></script>
 
-    <div id="invoicePreview">
-        <h2>Invoice Preview</h2>
+
+<button id="previewInvoiceButton">Preview Invoice</button>
+
+
+<div id="invoicePreview" style="display: none;">
+
+    <h2>Invoice Preview</h2>
+
+    <div id="buyerPreview">
+
         <h3>Buyer Details</h3>
+
         <p>Name: <span id="previewBuyerName"></span></p>
+
         <p>Address: <span id="previewBuyerAddress"></span></p>
+
         <p>City: <span id="previewBuyerCity"></span></p>
+
         <p>State: <span id="previewBuyerState"></span></p>
+
         <p>PIN: <span id="previewBuyerPIN"></span></p>
-        <p>GST: <span id="previewBuyerGST"></span></p>
+
+        <p>GSTIN: <span id="previewBuyerGST"></span></p>
+
         <p>PAN: <span id="previewBuyerPAN"></span></p>
+
         <p>Place of Supply: <span id="previewPlaceOfSupply"></span></p>
 
-        <h3>Item Details</h3>
-        <table id="previewItemTable">
-            <thead>
-                <tr>
-                    <th>Lot No.</th>
-                    <th>Description</th>
-                    <th>HSN/SAC</th>
-                    <th>Unit</th>
-                    <th>Quantity</th>
-                    <th>Rate</th>
-                    <th>Amount</th>
-                    <th>CGST Rate</th>
-                    <th>SGST Rate</th>
-                    <th>IGST Rate</th>
-                </tr>
-            </thead>
-            <tbody id="previewItemRows">
-                </tbody>
-        </table>
-
-        <h3>Totals</h3>
-        <p>Total Quantity: <span id="previewTotalQuantity"></span></p>
-        <p>Taxable Value: <span id="previewTaxableValue"></span></p>
-        <p>CGST: <span id="previewCgstValue"></span></p>
-        <p>SGST: <span id="previewSgstValue"></span></p>
-        <p>IGST: <span id="previewIgstValue"></span></p>
-        <p>Invoice Value: <span id="previewInvoiceValue"></span></p>
-        <p>Amount in Words: <span id="previewAmountInWords"></span></p>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="script.js"></script>
+
+    <table id="itemsPreview">
+
+        <thead>
+
+            <tr>
+
+                <th>Lot No.</th>
+
+                <th>Description</th>
+
+                <th>HSN/SAC</th>
+
+                <th>Unit</th>
+
+                <th>Quantity</th>
+
+                <th>Rate</th>
+
+                <th>Amount</th>
+
+                <th>CGST Rate</th>
+
+                <th>SGST Rate</th>
+
+                <th>IGST Rate</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="previewItemRows">
+
+        </tbody>
+
+        <tfoot>
+
+            <tr>
+
+                <td colspan="4"></td>
+
+                <td>Total Quantity</td>
+
+                <td colspan="4"><span id="previewTotalQuantity"></span></td>
+
+            </tr>
+
+            <tr>
+
+                <td colspan="4"></td>
+
+                <td>Taxable Value</td>
+
+                <td colspan="4"><span id="previewTaxableValue"></span></td>
+
+            </tr>
+
+            <tr>
+
+                <td colspan="4"></td>
+
+                <td>CGST</td>
+
+                <td colspan="4"><span id="previewCgstValue"></span></td>
+
+            </tr>
+
+            <tr>
+
+                <td colspan="4"></td>
+
+                <td>SGST</td>
+
+                <td colspan="4"><span id="previewSgstValue"></span></td>
+
+            </tr>
+
+            <tr>
+
+                <td colspan="4"></td>
+
+                <td>IGST</td>
+
+                <td colspan="4"><span id="previewIgstValue"></span></td>
+
+            </tr>
+
+            <tr>
+
+                <td colspan="4"></td>
+
+                <td>Invoice Value</td>
+
+                <td colspan="4"><span id="previewInvoiceValue"></span></td>
+
+            </tr>
+
+            <tr>
+
+                <td colspan="4"></td>
+
+                <td>Amount in Words</td>
+
+                <td colspan="4"><span id="previewAmountInWords"></span></td>
+
+            </tr>
+
+        </tfoot>
+
+    </table>
+
+</div>
+
+
+
+
 </body>
+
 </html>

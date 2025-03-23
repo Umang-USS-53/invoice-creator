@@ -350,7 +350,14 @@ document.addEventListener('DOMContentLoaded', () => {
    function previewInvoice() {
     // Invoice Details
     document.getElementById('previewInvoiceNumber').textContent = document.getElementById('invoiceNumber').value;
-    document.getElementById('previewInvoiceDate').textContent = document.getElementById('invoiceDate').value;
+
+    // Format Invoice Date
+    const invoiceDate = new Date(document.getElementById('invoiceDate').value);
+    const day = String(invoiceDate.getDate()).padStart(2, '0');
+    const month = String(invoiceDate.getMonth() + 1).padStart(2, '0');
+    const year = invoiceDate.getFullYear();
+    const formattedDate = `${day}/${month}/${year}`;
+    document.getElementById('previewInvoiceDate').textContent = formattedDate;
 
     // Buyer Details
     document.getElementById('previewBuyerName').textContent = document.getElementById('buyerName').options[document.getElementById('buyerName').selectedIndex].text;

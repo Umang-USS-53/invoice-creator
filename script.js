@@ -1,4 +1,4 @@
-// script.js
+// script.js (version00005)
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -10,7 +10,13 @@ const firebaseConfig = {
     appId: "1:433334964621:web:d4c679cf4a3193457a6dc4"
 };
 
+let firebaseInitialized = false; // Add this line
+
 firebase.initializeApp(firebaseConfig);
+if (!firebaseInitialized) { // Add this check
+    console.log("Firebase initialized");
+    firebaseInitialized = true;
+}
 const db = firebase.firestore();
 
 // script.js (continued)
@@ -28,6 +34,8 @@ function populateBuyerDropdown() {
             option.textContent = `${buyer.name} - ${buyer.gstin}`;
             buyerDropdown.appendChild(option);
         });
+    }).catch((error) => {
+        console.error("Firestore query error:", error); // Added line
     });
 }
 
@@ -241,8 +249,6 @@ function calculateTotals() {
     calculateGST(taxableValue, buyerGST); // Call GST calculation function
 }
 
-// script.js (continued)
-
 function calculateGST(taxableValue, buyerGST) {
     let cgstValue = 0;
     let sgstValue = 0;
@@ -290,8 +296,6 @@ function calculateGST(taxableValue, buyerGST) {
 
     calculateAmountInWords(invoiceValue);
 }
-
-// script.js (continued)
 
 function calculateAmountInWords(amount) {
     const units = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
@@ -344,45 +348,48 @@ document.addEventListener('DOMContentLoaded', () => {
     previewInvoiceButton.addEventListener('click', previewInvoice);
 
     function previewInvoice() {
-    // Buyer Details
-    // ... (Buyer detail retrieval remains the same)
+        // Buyer Details
+        // ... (Buyer detail retrieval remains the same)
 
-    // Item Details
-    const previewItemRows = document.getElementById('previewItemRows');
-    previewItemRows.innerHTML = ''; // Clear previous rows
+        // Item Details
+        const previewItemRows = document.getElementById('previewItemRows');
+        previewItemRows.innerHTML = ''; // Clear previous rows
 
-    const itemRowsData = document.querySelectorAll('#itemRows tr');
-    itemRowsData.forEach(row => {
-        const previewRow = document.createElement('tr');
+        const itemRowsData = document.querySelectorAll('#itemRows tr');
+        itemRowsData.forEach(row => {
+            const previewRow = document.createElement('tr');
 
-        // Extract description text instead of dropdown
-        const descriptionSelect = row.querySelector('.description');
-        const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
+            // Extract description text instead of dropdown
+            const descriptionSelect = row.querySelector('.description');
+            const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
 
-        previewRow.innerHTML = `
-            <td>${row.cells[0].textContent}</td>
-            <td>${descriptionText}</td>
-            <td>${row.cells[2].textContent}</td>
-            <td>${row.cells[3].textContent}</td>
-            <td>${row.cells[4].querySelector('input').value}</td>
-            <td>${row.cells[5].querySelector('input').value}</td>
-            <td>${row.cells[6].textContent}</td>
-            <td>${row.cells[7].textContent}</td>
-            <td>${row.cells[8].textContent}</td>
-            <td>${row.cells[9].textContent}</td>
-        `;
+            previewRow.innerHTML = `
+                <td>${row.cells[0].textContent}</td>
+                <td>${descriptionText}</td>
+                <td>${row.cells[2].textContent}</td>
+                <td>${row.cells[3].textContent}</td>
+                <td>${row.cells[4].querySelector('input').value}</td>
+                <td>${row.cells[5].querySelector('input').value}</td>
+                <td>${row.cells[6].textContent}</td>
+                <td>${row.cells[7].textContent}</td>
+                <td>${row.cells[8].textContent}</td>
+                <td>${row.cells[9].textContent}</td>
+            `;
 
-        previewItemRows.appendChild(previewRow);
-    });
+            console.log("Preview Row:", previewRow.innerHTML);
 
-    // Totals
-    document.getElementById('previewTotalQuantity').textContent = document.getElementById('totalQuantity').textContent;
-    document.getElementById('previewTaxableValue').textContent = document.getElementById('taxableValue').textContent;
-    document.getElementById('previewCgstValue').textContent = document.getElementById('cgstValue').textContent;
-    document.getElementById('previewSgstValue').textContent = document.getElementById('sgstValue').textContent;
-    document.getElementById('previewIgstValue').textContent = document.getElementById('igstValue').textContent;
-    document.getElementById('previewInvoiceValue').textContent = document.getElementById('invoiceValue').textContent;
-    document.getElementById('previewAmountInWords').textContent = document.getElementById('amountInWords').textContent;
+            previewItemRows.appendChild(previewRow);
+        });
 
-    invoicePreview.style.display = 'block';
-}
+        // Totals
+        document.getElementById('previewTotalQuantity').textContent = document.getElementById('totalQuantity').textContent;
+        document.getElementById('previewTaxableValue').textContent = document.getElementById('taxableValue').textContent;
+        document.getElementById('previewCgstValue').textContent = document.getElementById('cgstValue').textContent;
+        document.getElementById('previewSgstValue').textContent = document.getElementById('sgstValue').textContent;
+        document.getElementById('previewIgstValue').textContent = document.getElementById('igstValue').textContent;
+        document.getElementById('previewInvoiceValue').textContent = document.getElementById('invoiceValue').textContent;
+        document.getElementById('previewAmountInWords').textContent = document.getElementById('amountInWords').textContent;
+
+        invoicePreview.style.display = 'block';
+    }
+});

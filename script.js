@@ -387,21 +387,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Static Terms & Conditions
     document.getElementById('previewTermsConditions').textContent = "1) The diamonds herein invoiced have been purchased from a legitimate source that is not involved in funding conflict and is in compliance with United Nations Resolutions.\n2) The diamonds herein invoiced are exclusively of natural origin and untreated based on personal knowledge and/or written guarantees provided by the supplier.\n3) The acceptance of goods herein invoiced will be as per the WFDB guidelines.\n4) To the best of our knowledge and/or written assurance from our suppliers, these diamonds have not been obtained in violation of applicable laws and are not organized from Mbada and Mrange Resources of Zimbabwe.\n5) I/We certify that our Registration Certificate under the GST Act, 2017 is valid on the date of sale and that this invoice is duly certified.\n6) Subject to Mumbai Jurisdiction.\n7) Provision for TCS under Section 206C (1H) will be charged separately through a debit note.";
 
-   // Item Details
+    // Item Details
     const previewItemRows = document.getElementById('previewItemRows');
     previewItemRows.innerHTML = '';
 
     const itemRowsData = document.querySelectorAll('#itemRows tr');
-    let cgstRate = 0;
-    let sgstRate = 0;
-    let igstRate = 0;
-
-    if (itemRowsData.length > 0) {
-        cgstRate = itemRowsData[0].cells[7].textContent;
-        sgstRate = itemRowsData[0].cells[8].textContent;
-        igstRate = itemRowsData[0].cells[9].textContent;
-    }
-
     itemRowsData.forEach(row => {
         const previewRow = document.createElement('tr');
         const descriptionSelect = row.querySelector('.description');
@@ -415,33 +405,12 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>${row.cells[4].querySelector('input').value}</td>
             <td>${row.cells[5].querySelector('input').value}</td>
             <td>${row.cells[6].textContent}</td>
+            <td>${row.cells[7].textContent}</td>
+            <td>${row.cells[8].textContent}</td>
+            <td>${row.cells[9].textContent}</td>
         `;
 
         previewItemRows.appendChild(previewRow);
-        const cgstRow = document.createElement('tr');
-        cgstRow.innerHTML = `
-            <td colspan="5"></td>
-            <td>CGST</td>
-            <td>${cgstRate}</td>
-            <td>${document.getElementById('cgstValue').textContent}</td>
-        `;
-        previewItemRows.appendChild(cgstRow);
-        const sgstRow = document.createElement('tr');
-        sgstRow.innerHTML = `
-            <td colspan="5"></td>
-            <td>SGST</td>
-            <td>${sgstRate}</td>
-            <td>${document.getElementById('sgstValue').textContent}</td>
-        `;
-        previewItemRows.appendChild(sgstRow);
-        const igstRow = document.createElement('tr');
-        igstRow.innerHTML = `
-            <td colspan="5"></td>
-            <td>IGST</td>
-            <td>${igstRate}</td>
-            <td>${document.getElementById('igstValue').textContent}</td>
-        `;
-        previewItemRows.appendChild(igstRow);
     });
 
     // Totals

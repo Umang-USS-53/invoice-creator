@@ -1,4 +1,3 @@
-// Part 1: Initialization, buyer details, add buyer functionality, add item functionality, and item details update
 // script.js
 
 // Initialize Firebase
@@ -199,6 +198,7 @@ function updateItemDetails(row) {
     calculateAmount(row); // Recalculate amount after description change
 }
 
+// Part 2: calculateAmount, calculateTotals, calculateGST, and calculateAmountInWords
 function calculateAmount(row) {
     const quantity = parseFloat(row.querySelector('.quantity').value);
     const rate = parseFloat(row.querySelector('.rate').value);
@@ -210,7 +210,6 @@ function calculateAmount(row) {
 
 // script.js (continued)
 
-// Part 2: calculateTotals, calculateGST, and calculateAmountInWords
 function calculateTotals() {
     const quantityInputs = document.querySelectorAll('.quantity');
     const amountCells = document.querySelectorAll('.amount');

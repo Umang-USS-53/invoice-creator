@@ -356,6 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('previewBuyerPIN').textContent = document.getElementById('buyerPIN').textContent;
     document.getElementById('previewBuyerGST').textContent = document.getElementById('buyerGST').textContent;
     document.getElementById('previewBuyerPAN').textContent = document.getElementById('buyerPAN').textContent;
+    document.getElementById('previewTermsOfPayment').textContent = document.getElementById('termsOfPayment').value;
     document.getElementById('previewPlaceOfSupply').textContent = document.getElementById('placeOfSupply').textContent;
 
     // Item Details

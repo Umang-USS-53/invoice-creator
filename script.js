@@ -359,6 +359,23 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('previewTermsOfPayment').textContent = document.getElementById('termsOfPayment').value;
     document.getElementById('previewPlaceOfSupply').textContent = document.getElementById('placeOfSupply').textContent;
 
+    // Seller Details (Static Data)
+    document.getElementById('previewSellerName').textContent = "HK & SONS";
+    document.getElementById('previewSellerAddress').textContent = "B-803 ANMOL EXCEL ESTATE OFF:- S V ROAD, GOREGAON WEST, MUMBAI:-400062";
+    document.getElementById('previewSellerState').textContent = "Maharashtra";
+    document.getElementById('previewSellerEmail').textContent = "hkandsons18@gmail.com";
+    document.getElementById('previewSellerGST').textContent = "27AALFH1384H1Z7";
+    document.getElementById('previewSellerPAN').textContent = "AALFH1384H";
+
+    // Static Bank Details
+    document.getElementById('previewBankDetails').textContent = "BANK NAME: ICICI BANK, BRANCH: GOREGAON (WEST), CURRENT A/C NO: 643405052590, IFSC: ICIC0006434";
+
+    // Static Payment Instructions
+    document.getElementById('previewPaymentInstructions').textContent = "MAKE PAYMENT STRICTLY AS PER MENTIONED PAYMENT INSTRUCTIONS AND EXACT COMPANY NAME AS MENTIONED IN ORIGINAL ATTESTED INVOICE ONLY";
+
+    // Static Terms & Conditions
+    document.getElementById('previewTermsConditions').textContent = "1) The diamonds herein invoiced have been purchased from a legitimate source that is not involved in funding conflict and is in compliance with United Nations Resolutions.\n2) The diamonds herein invoiced are exclusively of natural origin and untreated based on personal knowledge and/or written guarantees provided by the supplier.\n3) The acceptance of goods herein invoiced will be as per the WFDB guidelines.\n4) To the best of our knowledge and/or written assurance from our suppliers, these diamonds have not been obtained in violation of applicable laws and are not organized from Mbada and Mrange Resources of Zimbabwe.\n5) I/We certify that our Registration Certificate under the GST Act, 2017 is valid on the date of sale and that this invoice is duly certified.\n6) Subject to Mumbai Jurisdiction.\n7) Provision for TCS under Section 206C (1H) will be charged separately through a debit note.";
+
     // Item Details
     const previewItemRows = document.getElementById('previewItemRows');
     previewItemRows.innerHTML = '';

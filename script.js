@@ -596,8 +596,3 @@ function calculateAmountInWords(amount) {
 }
 
 
-const previewInvoiceButton = document.getElementById('previewInvoiceButton');
-
-const invoicePreview = document.getElementById('invoicePreview');
-
-

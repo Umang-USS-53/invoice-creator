@@ -147,26 +147,31 @@ addItemButton.addEventListener('click', () => {
 });
 
 function addEventListenerToRow(row) {
+    console.log("addEventListenerToRow called");
     const descriptionSelect = row.querySelector('.description');
     const quantityInput = row.querySelector('.quantity');
     const rateInput = row.querySelector('.rate');
 
     descriptionSelect.addEventListener('change', () => {
+        console.log("Description changed");
         updateItemDetails(row);
         calculateAmount(row);
         calculateTotals();
     });
     quantityInput.addEventListener('input', () => {
+        console.log("Quantity changed");
         calculateAmount(row);
         calculateTotals();
     });
     rateInput.addEventListener('input', () => {
+        console.log("Rate changed");
         calculateAmount(row);
         calculateTotals();
     });
 }
 
 function updateItemDetails(row) {
+    console.log("updateItemDetails called");
     const description = row.querySelector('.description').value;
     const hsnCodeCell = row.querySelector('.hsnCode');
     const unitCell = row.querySelector('.unit');
@@ -204,14 +209,13 @@ function updateItemDetails(row) {
     unitCell.textContent = unit;
     cgstRateCell.textContent = cgstRate;
     sgstRateCell.textContent = sgstRate;
-    // script.js (continued)
-
     igstRateCell.textContent = igstRate;
 
     calculateAmount(row); // Recalculate amount after description change
 }
 
 function calculateAmount(row) {
+    console.log("calculateAmount called");
     const quantity = parseFloat(row.querySelector('.quantity').value);
     const rate = parseFloat(row.querySelector('.rate').value);
     const amountCell = row.querySelector('.amount');
@@ -220,9 +224,8 @@ function calculateAmount(row) {
     calculateTotals();
 }
 
-// script.js (continued)
-
 function calculateTotals() {
+    console.log("calculateTotals called");
     const quantityInputs = document.querySelectorAll('.quantity');
     const amountCells = document.querySelectorAll('.amount');
     const buyerGST = document.getElementById('buyerGST').textContent;
@@ -339,30 +342,6 @@ function calculateAmountInWords(amount) {
 
 // Part 3: previewInvoice function and event listener
 
-
-
-function updateItemDetails(row) {
-    // ... (updateItemDetails function remains the same)
-}
-
-function calculateAmount(row) {
-    // ... (calculateAmount function remains the same)
-}
-
-function calculateTotals() {
-    // ... (calculateTotals function remains the same)
-}
-
-function calculateGST(taxableValue, buyerGST) {
-    // ... (calculateGST function remains the same)
-}
-
-function calculateAmountInWords(amount) {
-    // ... (calculateAmountInWords function remains the same)
-}
-
-// Part 3: previewInvoice function and event listener
-
 document.addEventListener('DOMContentLoaded', () => {
 
     const previewInvoiceButton = document.getElementById('previewInvoiceButton');
@@ -387,17 +366,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
 
             previewRow.innerHTML = `
-                <td>${row.cells[0].textContent}</td>
-                <td>${descriptionText}</td>
-                <td>${row.cells[2].textContent}</td>
-                <td>${row.cells[3].textContent}</td>
-                <td>${row.cells[4].querySelector('input').value}</td>
-                <td>${row.cells[5].querySelector('input').value}</td>
-                <td>${row.cells[6].textContent}</td>
-                <td>${row.cells[7].textContent}</td>
-                <td>${row.cells[8].textContent}</td>
-                <td>${row.cells[9].textContent}</td>
+                <td><span class="math-inline">\{row\.cells\[0\]\.textContent\}</td\>
+<td\></span>{descriptionText}</td>
+                <td><span class="math-inline">\{row\.cells\[2\]\.textContent\}</td\>
+<td\></span>{row.cells[3].textContent}</td>
+                <td><span class="math-inline">\{row\.cells\[4\]\.querySelector\('input'\)\.value\}</td\>
+<td\></span>{row.cells[5].querySelector('input').value}</td>
+                <td><span class="math-inline">\{row\.cells\[6\]\.textContent\}</td\>
+<td\></span>{row.cells[7].textContent}</td>
+                <td><span class="math-inline">\{row\.cells\[8\]\.textContent\}</td\>
+<td\></span>{row.cells[9].textContent}</td>
             `;
+
+            console.log("Preview Row:", previewRow.innerHTML);
 
             previewItemRows.appendChild(previewRow);
         });

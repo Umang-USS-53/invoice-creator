@@ -17,15 +17,21 @@ const db = firebase.firestore();
 
 const buyerDropdown = document.getElementById('buyerName');
 
-db.collection('buyers').get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-        const buyer = doc.data();
-        const option = document.createElement('option');
-        option.value = doc.id; // Use the document ID as the value
-        option.textContent = `${buyer.name} - ${buyer.gstin}`;
-        buyerDropdown.appendChild(option);
+function populateBuyerDropdown() {
+    buyerDropdown.innerHTML = '<option value="">Select Buyer</option>'; // Reset dropdown
+
+    db.collection('buyers').get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            const buyer = doc.data();
+            const option = document.createElement('option');
+            option.value = doc.id;
+            option.textContent = `${buyer.name} - ${buyer.gstin}`;
+            buyerDropdown.appendChild(option);
+        });
     });
-});
+}
+
+populateBuyerDropdown(); // Call the function to populate the dropdown initially
 
 // script.js (continued)
 
@@ -91,21 +97,9 @@ saveBuyerButton.addEventListener('click', () => {
         pin: newBuyerPIN,
         gstin: newBuyerGST,
         pan: newBuyerPAN,
-    }).then((docRef) => {
-        console.log('Document written with ID: ', docRef.id);
+    }).then(() => { // Removed docRef
         newBuyerForm.style.display = 'none';
-        // Refresh the buyer dropdown
-        buyerDropdown.innerHTML = '<option value="">Select Buyer</option>';
-        db.collection('buyers').get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                const buyer = doc.data();
-                const option = document.createElement('option');
-                option.value = doc.id;
-                option.textContent = `${buyer.name} - ${buyer.gstin}`;
-                buyerDropdown.appendChild(option);
-            });
-        });
-
+        populateBuyerDropdown(); // Call the function to refresh the dropdown
     }).catch((error) => {
         console.error('Error adding document: ', error);
     });

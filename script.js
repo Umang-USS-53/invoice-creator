@@ -348,6 +348,10 @@ document.addEventListener('DOMContentLoaded', () => {
     previewInvoiceButton.addEventListener('click', previewInvoice);
 
    function previewInvoice() {
+    // Invoice Details
+    document.getElementById('previewInvoiceNumber').textContent = document.getElementById('invoiceNumber').value;
+    document.getElementById('previewInvoiceDate').textContent = document.getElementById('invoiceDate').value;
+
     // Buyer Details
     document.getElementById('previewBuyerName').textContent = document.getElementById('buyerName').options[document.getElementById('buyerName').selectedIndex].text;
     document.getElementById('previewBuyerAddress').textContent = document.getElementById('buyerAddress').textContent;

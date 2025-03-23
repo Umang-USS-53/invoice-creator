@@ -349,6 +349,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function previewInvoice() {
     // Buyer Details
+    function previewInvoice() {
+    // Buyer Details
     document.getElementById('previewBuyerName').textContent = document.getElementById('buyerName').options[document.getElementById('buyerName').selectedIndex].text;
     document.getElementById('previewBuyerAddress').textContent = document.getElementById('buyerAddress').textContent;
     document.getElementById('previewBuyerCity').textContent = document.getElementById('buyerCity').textContent;
@@ -356,7 +358,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('previewBuyerPIN').textContent = document.getElementById('buyerPIN').textContent;
     document.getElementById('previewBuyerGST').textContent = document.getElementById('buyerGST').textContent;
     document.getElementById('previewBuyerPAN').textContent = document.getElementById('buyerPAN').textContent;
-    document.getElementById('previewTermsOfPayment').textContent = document.getElementById('termsOfPayment').value;
+    if (document.getElementById('previewTermsOfPayment')) { // Check if the element exists
+        document.getElementById('previewTermsOfPayment').textContent = document.getElementById('termsOfPayment').value;
+    }
     document.getElementById('previewPlaceOfSupply').textContent = document.getElementById('placeOfSupply').textContent;
 
     // Item Details

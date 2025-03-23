@@ -392,6 +392,16 @@ document.addEventListener('DOMContentLoaded', () => {
     previewItemRows.innerHTML = '';
 
     const itemRowsData = document.querySelectorAll('#itemRows tr');
+    let cgstRate = 0;
+    let sgstRate = 0;
+    let igstRate = 0;
+
+    if (itemRowsData.length > 0) {
+        cgstRate = itemRowsData[0].cells[7].textContent;
+        sgstRate = itemRowsData[0].cells[8].textContent;
+        igstRate = itemRowsData[0].cells[9].textContent;
+    }
+
     itemRowsData.forEach(row => {
         const previewRow = document.createElement('tr');
         const descriptionSelect = row.querySelector('.description');
@@ -405,12 +415,30 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>${row.cells[4].querySelector('input').value}</td>
             <td>${row.cells[5].querySelector('input').value}</td>
             <td>${row.cells[6].textContent}</td>
-            <td>${row.cells[7].textContent}</td>
-            <td>${row.cells[8].textContent}</td>
-            <td>${row.cells[9].textContent}</td>
         `;
 
         previewItemRows.appendChild(previewRow);
+        const cgstRow = document.createElement('tr');
+        cgstRow.innerHTML = `
+            <td colspan="5"></td>
+            <td>CGST</td>
+            <td>${cgstRate}</td>
+        `;
+        previewItemRows.appendChild(cgstRow);
+        const sgstRow = document.createElement('tr');
+        sgstRow.innerHTML = `
+            <td colspan="5"></td>
+            <td>SGST</td>
+            <td>${sgstRate}</td>
+        `;
+        previewItemRows.appendChild(sgstRow);
+        const igstRow = document.createElement('tr');
+        igstRow.innerHTML = `
+            <td colspan="5"></td>
+            <td>IGST</td>
+            <td>${igstRate}</td>
+        `;
+        previewItemRows.appendChild(igstRow);
     });
 
     // Totals

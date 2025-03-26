@@ -836,41 +836,47 @@ function generatePDF() {
     currentY += 10;
 
     // Seller Details
-    addStyledText('Seller Details', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
+    const sellerDetailsHeadingSize = 14 * 0.7; // Reduced by 30%
+    const sellerDetailsTextSize = 12 * 0.7; // Reduced by 30%
+
+    addStyledText('Seller Details', margin, currentY, { font: 'helvetica', size: sellerDetailsHeadingSize, fontStyle: 'bold' });
     currentY += 7;
-    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin, currentY, { size: 12 });
+    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin, currentY, { size: sellerDetailsTextSize });
     currentY += 5;
-    addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin, currentY, { size: 12 });
+    addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin, currentY, { size: sellerDetailsTextSize });
     currentY += 5;
-    addStyledText(`State: ${document.getElementById('sellerState').textContent}`, margin, currentY, { size: 12 });
+    addStyledText(`State: ${document.getElementById('sellerState').textContent}`, margin, currentY, { size: sellerDetailsTextSize });
     currentY += 5;
-    addStyledText(`Email: ${document.getElementById('sellerEmail').textContent}`, margin, currentY, { size: 12 });
+    addStyledText(`Email: ${document.getElementById('sellerEmail').textContent}`, margin, currentY, { size: sellerDetailsTextSize });
     currentY += 5;
-    addStyledText(`GST: ${document.getElementById('sellerGST').textContent}`, margin, currentY, { size: 12 });
+    addStyledText(`GST: ${document.getElementById('sellerGST').textContent}`, margin, currentY, { size: sellerDetailsTextSize });
     currentY += 5;
-    addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY, { size: 12 });
+    addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY, { size: sellerDetailsTextSize });
     currentY += 10;
 
     // Buyer Details
-    addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
+    const buyerDetailsHeadingSize = 14 * 0.7; // Reduced by 30%
+    const buyerDetailsTextSize = 12 * 0.7; // Reduced by 30%
+
+    addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: buyerDetailsHeadingSize, fontStyle: 'bold' });
     currentY += 7;
-    addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin, currentY, { size: 12 });
+    addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin, currentY, { size: buyerDetailsTextSize });
     currentY += 5;
-    addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin, currentY, { size: 12 });
+    addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin, currentY, { size: buyerDetailsTextSize });
     currentY += 5;
-    addStyledText(`City: ${document.getElementById('previewBuyerCity').textContent}`, margin, currentY);
+    addStyledText(`City: ${document.getElementById('previewBuyerCity').textContent}`, margin, currentY, { size: buyerDetailsTextSize });
     currentY += 5;
-    addStyledText(`State: ${document.getElementById('previewBuyerState').textContent}`, margin, currentY);
+    addStyledText(`State: ${document.getElementById('previewBuyerState').textContent}`, margin, currentY, { size: buyerDetailsTextSize });
     currentY += 5;
-    addStyledText(`PIN: ${document.getElementById('previewBuyerPIN').textContent}`, margin, currentY);
+    addStyledText(`PIN: ${document.getElementById('previewBuyerPIN').textContent}`, margin, currentY, { size: buyerDetailsTextSize });
     currentY += 5;
-    addStyledText(`GSTIN: ${document.getElementById('previewBuyerGST').textContent}`, margin, currentY);
+    addStyledText(`GSTIN: ${document.getElementById('previewBuyerGST').textContent}`, margin, currentY, { size: buyerDetailsTextSize });
     currentY += 5;
-    addStyledText(`PAN: ${document.getElementById('previewBuyerPAN').textContent}`, margin, currentY);
+    addStyledText(`PAN: ${document.getElementById('previewBuyerPAN').textContent}`, margin, currentY, { size: buyerDetailsTextSize });
     currentY += 5;
-    addStyledText(`Place of Supply: ${document.getElementById('previewPlaceOfSupply').textContent}`, margin, currentY);
+    addStyledText(`Place of Supply: ${document.getElementById('previewPlaceOfSupply').textContent}`, margin, currentY, { size: buyerDetailsTextSize });
     currentY += 5;
-    addStyledText(`Terms of Payment: ${document.getElementById('previewTermsOfPayment').textContent}`, margin, currentY);
+    addStyledText(`Terms of Payment: ${document.getElementById('previewTermsOfPayment').textContent}`, margin, currentY, { size: buyerDetailsTextSize });
     currentY += 10;
 
     // Item Details Table

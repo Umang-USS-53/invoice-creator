@@ -740,7 +740,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('saveInvoiceButton').style.display = 'block';
 
 }
- function generateTotalsTable(doc, startY) {
+ 
+    function generateTotalsTable(doc, startY) {
     const margin = 10;
 
     // Totals data
@@ -748,7 +749,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: 'Total Quantity', value: document.getElementById('previewTotalQuantity').textContent },
         { label: 'Taxable Value', value: document.getElementById('previewTaxableValue').textContent },
         { label: 'CGST', value: document.getElementById('previewCgstValue').textContent },
-        { label: 'SGST', value: documentgetElementById('previewSgstValue').textContent },
+        { label: 'SGST', value: document.getElementById('previewSgstValue').textContent },
         { label: 'IGST', value: document.getElementById('previewIgstValue').textContent },
         { label: 'Invoice Value', value: document.getElementById('previewInvoiceValue').textContent },
     ];

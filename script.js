@@ -730,19 +730,22 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('previewAmountInWords').textContent = document.getElementById('amountInWords').textContent;
 
     invoicePreview.style.display = 'block';
+       
     document.getElementById('saveInvoiceButton').style.display = 'block'; // Make the Save Invoice button visible
 }
 
-async function saveInvoice() {
-    try {
-        generatePDF(); // Generate PDF after clicking "Save Invoice" button
-    } catch (error) {
-        console.error('Error generating PDF: ', error);
-        alert('Error generating PDF.');
+// Invoice Saving and PDF Generation
+    async function saveInvoice() {
+        try {
+            generatePDF(); // Generate PDF after clicking "Save Invoice" button
+        } catch (error) {
+            console.error('Error generating PDF: ', error);
+            alert('Error generating PDF.');
+        }
     }
-}
 
 function generatePDF() {
+    // Generates a PDF invoice.
     const { jsPDF } = window.jspdf; // Access jsPDF from the window object
     const doc = new jsPDF();
 

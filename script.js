@@ -149,31 +149,26 @@ addItemButton.addEventListener('click', () => {
 });
 
 function addEventListenerToRow(row) {
-    console.log("addEventListenerToRow called");
     const descriptionSelect = row.querySelector('.description');
     const quantityInput = row.querySelector('.quantity');
     const rateInput = row.querySelector('.rate');
 
     descriptionSelect.addEventListener('change', () => {
-        console.log("Description changed");
         updateItemDetails(row);
         calculateAmount(row);
         calculateTotals();
     });
     quantityInput.addEventListener('input', () => {
-        console.log("Quantity changed");
         calculateAmount(row);
         calculateTotals();
     });
     rateInput.addEventListener('input', () => {
-        console.log("Rate changed");
         calculateAmount(row);
         calculateTotals();
     });
 }
 
 function updateItemDetails(row) {
-    console.log("updateItemDetails called");
     const description = row.querySelector('.description').value;
     const hsnCodeCell = row.querySelector('.hsnCode');
     const unitCell = row.querySelector('.unit');
@@ -217,7 +212,6 @@ function updateItemDetails(row) {
 }
 
 function calculateAmount(row) {
-    console.log("calculateAmount called");
     const quantity = parseFloat(row.querySelector('.quantity').value);
     const rate = parseFloat(row.querySelector('.rate').value);
     const amountCell = row.querySelector('.amount');
@@ -227,7 +221,6 @@ function calculateAmount(row) {
 }
 
 function calculateTotals() {
-    console.log("calculateTotals called");
     const quantityInputs = document.querySelectorAll('.quantity');
     const amountCells = document.querySelectorAll('.amount');
     const buyerGST = document.getElementById('buyerGST').textContent;
@@ -257,8 +250,6 @@ function calculateGST(taxableValue, buyerGST) {
     const cgstRates = document.querySelectorAll('.cgstRate');
     const sgstRates = document.querySelectorAll('.sgstRate');
     const igstRates = document.querySelectorAll('.igstRate');
-
-    console.log("Buyer GST:", buyerGST);
 
     if (buyerGST.startsWith('27')) {
         let totalCgst = 0;

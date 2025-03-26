@@ -740,7 +740,44 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('saveInvoiceButton').style.display = 'block';
 
 }
- function generatePDF() {
+ function generateTotalsTable(doc, startY) {
+    const margin = 10;
+
+    // Totals data
+    const totals = [
+        { label: 'Total Quantity', value: document.getElementById('previewTotalQuantity').textContent },
+        { label: 'Taxable Value', value: document.getElementById('previewTaxableValue').textContent },
+        { label: 'CGST', value: document.getElementById('previewCgstValue').textContent },
+        { label: 'SGST', value: documentgetElementById('previewSgstValue').textContent },
+        { label: 'IGST', value: document.getElementById('previewIgstValue').textContent },
+        { label: 'Invoice Value', value: document.getElementById('previewInvoiceValue').textContent },
+    ];
+
+    // Prepare data for jsPDF-autotable
+    const tableHeaders = ['Description', 'Amount'];
+    const tableData = [];
+    totals.forEach(total => {
+        tableData.push([total.label, total.value]);
+    });
+
+    // jsPDF-autotable configuration
+    doc.autoTable({
+        head: [tableHeaders],
+        body: tableData,
+        startX: 80, // Align with item details table
+        startY: startY,
+        styles: {
+            headStyles: { fontStyle: 'bold' } // Bold header
+        },
+        columnStyles: {
+            0: { fontStyle: 'bold' } // Bold labels
+        }
+    });
+
+    return doc.previousAutoTable.finalY; // Return the Y position after the table
+}
+
+function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({
         orientation: 'portrait',
@@ -795,7 +832,7 @@ document.addEventListener('DOMContentLoaded', () => {
     currentY += 5;
     addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin, currentY, { size: 12 });
     currentY += 5;
-    addStyledText(`City: ${document.getElementById('previewBuyerCity').textContent}`, margin, currentY, { size: 12 });
+    addStyledText(`City: ${document.getElementById('previewBuyerCity').textContent}`, margin, currentY);
     currentY += 5;
     addStyledText(`State: ${document.getElementById('previewBuyerState').textContent}`, margin, currentY);
     currentY += 5;
@@ -812,7 +849,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Invoice Details (Right Aligned)
     const pageWidth = doc.internal.pageSize.getWidth();
-    addStyledText(`Invoice No.: ${document.getElementById('invoiceNumber').value}`, pageWidth - margin, currentY, {
+    addStyledText(`Invoice No.: ${document.getElementById('invoiceNumber').value}`, pageWidth - margin, margin, {
         align: 'right',
         size: 12,
         fontStyle: 'bold' // Bold Invoice No.
@@ -852,6 +889,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     currentY = doc.previousAutoTable.finalY; // Get the y-coordinate after the table
+
+    // Totals Table
+    currentY += 5; // Add some space between item table and total table
+    currentY = generateTotalsTable(doc, currentY); // Generate totals table
 
     // Amount In Words
     currentY += 10;

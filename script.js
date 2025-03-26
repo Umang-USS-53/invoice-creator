@@ -368,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ... (rest of the previewInvoice function remains unchanged)
 
     // Item Details
-    const previewItemRows = document.getElementById('previewItemRows');
+     const previewItemRows = document.getElementById('previewItemRows');
     previewItemRows.innerHTML = `
         <thead>
             <tr>
@@ -383,32 +383,67 @@ document.addEventListener('DOMContentLoaded', () => {
         </thead>
         <tbody>
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="1"></td>
+                <td>Total Quantity</td>
+                <td colspan="4"></td>
+                <td colspan="1"><span id="previewTotalQuantity"></span></td>
+            </tr>
+            <tr>
+                <td colspan="1"></td>
+                <td>Taxable Value</td>
+                <td colspan="4"></td>
+                <td colspan="1"><span id="previewTaxableValue"></span></td>
+            </tr>
+            <tr>
+                <td colspan="1"></td>
+                <td>CGST</td>
+                <td colspan="4"></td>
+                <td colspan="1"><span id="previewCgstValue"></span></td>
+            </tr>
+            <tr>
+                <td colspan="1"></td>
+                <td>SGST</td>
+                <td colspan="4"></td>
+                <td colspan="1"><span id="previewSgstValue"></span></td>
+            </tr>
+            <tr>
+                <td colspan="1"></td>
+                <td>IGST</td>
+                <td colspan="4"></td>
+                <td colspan="1"><span id="previewIgstValue"></span></td>
+            </tr>
+            <tr>
+                <td colspan="1"></td>
+                <td>Invoice Value</td>
+                <td colspan="4"></td>
+                <td colspan="1"><span id="previewInvoiceValue"></span></td>
+            </tr>
+        </tfoot>
     `;
 
-    // Delay the querySelector until after the innerHTML is set.
-    setTimeout(() => {
-        const previewItemRowsBody = previewItemRows.querySelector('tbody');
+    const previewItemRowsBody = previewItemRows.querySelector('tbody');
 
-        const itemRowsData = document.querySelectorAll('#itemRows tr');
-        itemRowsData.forEach(row => {
-            const previewRow = document.createElement('tr');
-            const descriptionSelect = row.querySelector('.description');
-            const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
+    const itemRowsData = document.querySelectorAll('#itemRows tr');
+    itemRowsData.forEach(row => {
+        const previewRow = document.createElement('tr');
+        const descriptionSelect = row.querySelector('.description');
+        const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
 
-            previewRow.innerHTML = `
-                <td>${row.cells[0].textContent}</td>
-                <td>${descriptionText}</td>
-                <td>${row.cells[2].textContent}</td>
-                <td>${row.cells[3].textContent}</td>
-                <td>${row.cells[4].querySelector('input').value}</td>
-                <td>${row.cells[5].querySelector('input').value}</td>
-                <td>${row.cells[6].textContent}</td>
-            `;
+        previewRow.innerHTML = `
+            <td>${row.cells[0].textContent}</td>
+            <td>${descriptionText}</td>
+            <td>${row.cells[2].textContent}</td>
+            <td>${row.cells[3].textContent}</td>
+            <td>${row.cells[4].querySelector('input').value}</td>
+            <td>${row.cells[5].querySelector('input').value}</td>
+            <td>${row.cells[6].textContent}</td>
+        `;
 
-            previewItemRowsBody.appendChild(previewRow);
-        });
-    }, 0); // Execute immediately after the current event loop.
-
+        previewItemRowsBody.appendChild(previewRow);
+    });
+    
     // Totals
     // ... (rest of the previewInvoice function remains unchanged)
 }

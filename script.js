@@ -854,64 +854,60 @@ function generatePDF() {
     addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY, { size: sellerDetailsTextSize });
     currentY += 10;
 
-    // Buyer Details - Two Column Layout
+    // Buyer Details - Two Column Layout (Corrected)
     const buyerDetailsHeadingSize = 14 * 0.7;
     const buyerDetailsTextSize = 12 * 0.7;
-    const buyerColumnWidth = (pageWidth - 2 * margin) / 2; // Divide the page width into two columns
+    const buyerColumnWidth = (pageWidth - 2 * margin) / 2;
 
     addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: buyerDetailsHeadingSize, fontStyle: 'bold' });
     currentY += 7;
 
     // Column 1: Name, Address, City, State, PIN
-    let buyerLeftX = margin;
-    let buyerRightX = margin + buyerColumnWidth;
+    let leftColumnX = margin;
+    let rightColumnX = margin + buyerColumnWidth;
+    let labelWidth = 30; // Width reserved for labels
 
-    addStyledText('Name:', buyerLeftX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    let buyerName = document.getElementById('previewBuyerName').textContent;
-    let nameLines = doc.splitTextToSize(buyerName, buyerColumnWidth - 5); // Adjust width for label
-    for (let i = 0; i < nameLines.length; i++) {
-        addStyledText(nameLines[i], buyerLeftX, currentY + 5 + i * 5, { size: buyerDetailsTextSize });
-    }
-    currentY = currentY + 5 + nameLines.length * 5;
+    addStyledText('Name:', leftColumnX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
+    addStyledText(document.getElementById('previewBuyerName').textContent, leftColumnX + labelWidth, currentY, { size: buyerDetailsTextSize });
+    currentY += 5;
 
-    addStyledText('Address:', buyerLeftX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    let buyerAddress = document.getElementById('previewBuyerAddress').textContent;
-    let addressLines = doc.splitTextToSize(buyerAddress, buyerColumnWidth - 5);
+    addStyledText('Address:', leftColumnX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
+    let addressLines = doc.splitTextToSize(document.getElementById('previewBuyerAddress').textContent, buyerColumnWidth - labelWidth);
     for (let i = 0; i < addressLines.length; i++) {
-        addStyledText(addressLines[i], buyerLeftX, currentY + 5 + i * 5, { size: buyerDetailsTextSize });
+        addStyledText(addressLines[i], leftColumnX + labelWidth, currentY + 5 * i, { size: buyerDetailsTextSize });
     }
-    currentY = currentY + 5 + addressLines.length * 5;
+    currentY += 5 * addressLines.length;
 
-    addStyledText('City:', buyerLeftX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    addStyledText(document.getElementById('previewBuyerCity').textContent, buyerLeftX, currentY + 5, { size: buyerDetailsTextSize });
+    addStyledText('City:', leftColumnX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
+    addStyledText(document.getElementById('previewBuyerCity').textContent, leftColumnX + labelWidth, currentY, { size: buyerDetailsTextSize });
     currentY += 5;
 
-    addStyledText('State:', buyerLeftX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    addStyledText(document.getElementById('previewBuyerState').textContent, buyerLeftX, currentY + 5, { size: buyerDetailsTextSize });
+    addStyledText('State:', leftColumnX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
+    addStyledText(document.getElementById('previewBuyerState').textContent, leftColumnX + labelWidth, currentY, { size: buyerDetailsTextSize });
     currentY += 5;
 
-    addStyledText('PIN:', buyerLeftX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    addStyledText(document.getElementById('previewBuyerPIN').textContent, buyerLeftX, currentY + 5, { size: buyerDetailsTextSize });
+    addStyledText('PIN:', leftColumnX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
+    addStyledText(document.getElementById('previewBuyerPIN').textContent, leftColumnX + labelWidth, currentY, { size: buyerDetailsTextSize });
     currentY += 10;
 
     // Reset currentY for right column
-    currentY = 36 + 7 + 10 + 5; // Reset to the starting Y position of Buyer Details, taking into account the heading and spacing
+    currentY = 36 + 7 + 10 + 5;
 
-    // Column 2: GST (renamed), PAN, Place of Supply, Terms of Payment
-    addStyledText('GST:', buyerRightX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    addStyledText(document.getElementById('previewBuyerGST').textContent, buyerRightX, currentY + 5, { size: buyerDetailsTextSize });
+    // Column 2: GST, PAN, Place of Supply, Terms of Payment
+    addStyledText('GST:', rightColumnX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
+    addStyledText(document.getElementById('previewBuyerGST').textContent, rightColumnX + labelWidth, currentY, { size: buyerDetailsTextSize });
     currentY += 10;
 
-    addStyledText('PAN:', buyerRightX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    addStyledText(document.getElementById('previewBuyerPAN').textContent, buyerRightX, currentY + 5, { size: buyerDetailsTextSize });
+    addStyledText('PAN:', rightColumnX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
+    addStyledText(document.getElementById('previewBuyerPAN').textContent, rightColumnX + labelWidth, currentY, { size: buyerDetailsTextSize });
     currentY += 10;
 
-    addStyledText('Place of Supply:', buyerRightX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    addStyledText(document.getElementById('previewPlaceOfSupply').textContent, buyerRightX, currentY + 5, { size: buyerDetailsTextSize });
+    addStyledText('Place of Supply:', rightColumnX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
+    addStyledText(document.getElementById('previewPlaceOfSupply').textContent, rightColumnX + labelWidth, currentY, { size: buyerDetailsTextSize });
     currentY += 10;
 
-    addStyledText('Terms of Payment:', buyerRightX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    addStyledText(document.getElementById('previewTermsOfPayment').textContent, buyerRightX, currentY + 5, { size: buyerDetailsTextSize });
+    addStyledText('Terms of Payment:', rightColumnX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
+    addStyledText(document.getElementById('previewTermsOfPayment').textContent, rightColumnX + labelWidth, currentY, { size: buyerDetailsTextSize });
     currentY += 10;
 
     // Item Details Table

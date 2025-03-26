@@ -247,36 +247,21 @@ function calculateGST(taxableValue, buyerGST) {
     let sgstValue = 0;
     let igstValue = 0;
 
-    const cgstRates = document.querySelectorAll('.cgstRate');
-    const sgstRates = document.querySelectorAll('.sgstRate');
-    const igstRates = document.querySelectorAll('.igstRate');
+    const itemRowsData = document.querySelectorAll('#itemRows tr'); // Get all item rows
 
-    if (buyerGST.startsWith('27')) {
-        let totalCgst = 0;
-        let totalSgst = 0;
-        cgstRates.forEach(rate => {
-            totalCgst += taxableValue * (parseFloat(rate.textContent.replace('%', '')) / 100);
-        });
-        sgstRates.forEach(rate => {
-            totalSgst += taxableValue * (parseFloat(rate.textContent.replace('%', '')) / 100);
-        });
-        cgstValue = totalCgst;
-        sgstValue = totalSgst;
-    } else {
-        let totalIgst = 0;
-        igstRates.forEach(rate => {
-            totalIgst += taxableValue * (parseFloat(rate.textContent.replace('%', '')) / 100);
-        });
-        igstValue = totalIgst;
-    }
+    itemRowsData.forEach(row => {
+        const amount = parseFloat(row.querySelector('.amount').textContent);
+        const cgstRate = parseFloat(row.querySelector('.cgstRate').textContent.replace('%', '')) / 100;
+        const sgstRate = parseFloat(row.querySelector('.sgstRate').textContent.replace('%', '')) / 100;
+        const igstRate = parseFloat(row.querySelector('.igstRate').textContent.replace('%', '')) / 100;
 
-    // Reset the values to zero if they are not being used.
-    if (!buyerGST.startsWith('27')) {
-        cgstValue = 0;
-        sgstValue = 0;
-    } else {
-        igstValue = 0;
-    }
+        if (buyerGST.startsWith('27')) {
+            cgstValue += amount * cgstRate;
+            sgstValue += amount * sgstRate;
+        } else {
+            igstValue += amount * igstRate;
+        }
+    });
 
     document.getElementById('cgstValue').textContent = cgstValue.toFixed(2);
     document.getElementById('sgstValue').textContent = sgstValue.toFixed(2);

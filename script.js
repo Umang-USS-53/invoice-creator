@@ -1,4 +1,4 @@
-// script.js (version00005)
+// script.js
 
 
 // Initialize Firebase

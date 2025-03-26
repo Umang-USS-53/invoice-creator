@@ -744,10 +744,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    const margin = 10;
+    const margin = 10; // Margin for the entire document
     let currentY = margin;
 
-    // Function to add styled text (reused)
+    // Function to add a styled text
     function addStyledText(text, x, y, style = {}) {
         doc.setFont(style.font || 'helvetica');
         doc.setFontSize(style.size || 12);
@@ -755,34 +755,55 @@ document.addEventListener('DOMContentLoaded', () => {
         doc.text(text, x, y, { align: style.align || 'left' });
     }
 
+    // Function to add a cell to the table
+    function addTableCell(text, x, y, width, style = {}) {
+    doc.setFont(style.font || 'helvetica');
+    doc.setFontSize(style.size || 10);
+    doc.setFont(style.font, style.fontStyle || 'normal');
+    doc.text(text, x, y, { align: style.align || 'left' });
+
+    const rectX = x - 1;
+    const rectY = y - 5;
+    let rectWidth = width;
+    const rectHeight = 10;
+
+    // Check if rectWidth is undefined and provide a default value
+    if (rectWidth === undefined) {
+        rectWidth = 20; // Or any default width you find suitable
+        console.warn("rectWidth is undefined. Using default width:", rectWidth);
+    }
+
+    doc.rect(rectX, rectY, rectWidth, rectHeight, 'D');
+}
+
     // Invoice Header
-    addStyledText('TAX INVOICE', doc.internal.pageSize.getWidth() / 2, currentY, { font: 'helvetica', size: 16, fontStyle: 'bold', align: 'center' });
+    addStyledText('LOCAL TAX INVOICE', margin, currentY, { font: 'helvetica', size: 16, fontStyle: 'bold', align: 'center' });
     currentY += 10;
 
     // Seller Details
     addStyledText('Seller Details', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
     currentY += 5;
-    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin, currentY, { size: 10 }); // Reduced font size
+    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin, currentY);
     currentY += 5;
     addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin, currentY, { size: 10 });
     currentY += 5;
-    addStyledText(`State: ${document.getElementById('sellerState').textContent}`, margin, currentY, { size: 10 });
+    addStyledText(`State: ${document.getElementById('sellerState').textContent}`, margin, currentY);
     currentY += 5;
-    addStyledText(`Email: ${document.getElementById('sellerEmail').textContent}`, margin, currentY, { size: 10 });
+    addStyledText(`Email: ${document.getElementById('sellerEmail').textContent}`, margin, currentY);
     currentY += 5;
-    addStyledText(`GST: ${document.getElementById('sellerGST').textContent}`, margin, currentY, { size: 10 });
+    addStyledText(`GST: ${document.getElementById('sellerGST').textContent}`, margin, currentY);
     currentY += 5;
-    addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY, { size: 10 });
+    addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY);
     currentY += 10;
 
     // Buyer Details
     addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
     currentY += 5;
-    addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin, currentY, { size: 10 }); // Reduced font size
+    addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin, currentY);
     currentY += 5;
     addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin, currentY, { size: 10 });
     currentY += 5;
-    addStyledText(`City: ${document.getElementById('previewBuyerCity').textContent}`, margin, currentY, { size: 10 });
+    addStyledText(`City: ${document.getElementById('previewBuyerCity').textContent}`, margin, currentY);
     currentY += 5;
     addStyledText(`State: ${document.getElementById('previewBuyerState').textContent}`, margin, currentY);
     currentY += 5;
@@ -799,8 +820,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Invoice Details (Right Aligned)
     const pageWidth = doc.internal.pageSize.getWidth();
-    addStyledText(`Invoice No.: ${document.getElementById('invoiceNumber').value}`, pageWidth - margin, margin, { align: 'right', size: 10 }); // Reduced font size
-    addStyledText(`Date: ${document.getElementById('invoiceDate').value}`, pageWidth - margin, margin + 10, { align: 'right', size: 10 }); // Reduced font size
+    addStyledText(`Invoice No.: ${document.getElementById('invoiceNumber').value}`, pageWidth - margin, margin, { align: 'right' });
+    addStyledText(`Date: ${document.getElementById('invoiceDate').value}`, pageWidth - margin, margin + 10, { align: 'right' });
 
     // Item Details Table
     currentY += 10;
@@ -830,12 +851,11 @@ document.addEventListener('DOMContentLoaded', () => {
         currentY += 5;
     });
 
-    // Totals
+    // Totals Table
     currentY += 10;
     addStyledText('Totals', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
     currentY += 5;
 
-    // Totals Table
     const totals = [
         { label: 'Total Quantity', value: document.getElementById('previewTotalQuantity').textContent },
         { label: 'Taxable Value', value: document.getElementById('previewTaxableValue').textContent },
@@ -846,8 +866,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     totals.forEach(total => {
-        addStyledText(total.label, margin + 70, currentY, { size: 10 });
-        addStyledText(total.value, margin + 100, currentY, { align: 'right', size: 10 });
+        addStyledText(total.label, margin + 70, currentY);
+        addStyledText(total.value, margin + 100, currentY, { align: 'right' });
         currentY += 5;
     });
 
@@ -857,7 +877,7 @@ document.addEventListener('DOMContentLoaded', () => {
     currentY += 5;
     addStyledText(document.getElementById('previewAmountInWords').textContent, margin, currentY, { size: 10 });
 
-    // Payment Instructions
+    // Payment Details
     currentY += 10;
     addStyledText('Payment Instructions', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
     currentY += 5;

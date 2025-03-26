@@ -743,113 +743,57 @@ document.addEventListener('DOMContentLoaded', () => {
 function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+    const invoicePreview = document.getElementById('invoicePreview');
 
-    // Define initial Y position after the 1-inch margin (72 points)
-    let currentY = 72;
-    const leftMargin = 36;
-    const contentWidth = 523;
-
-    // 1. Invoice Header (Near Top, Centered)
-    addText(doc, "LOCAL TAX INVOICE", 0, currentY, {
-        fontSize: 16,
-        fontWeight: 'bold',
-        align: 'center'
-    });
-    addText(doc, "Invoice No.: " + invoiceNumber, contentWidth, currentY, {
-        fontSize: 12,
-        align: 'right'
-    });
-    currentY += 15; // Move down
-    addText(doc, "Date: " + invoiceDate, contentWidth, currentY, {
-        fontSize: 12,
-        align: 'right'
-    });
-    currentY += 20; // Move down
-
-    // 2. Seller Details (Below Header, Left-Aligned)
-    addSectionHeader(doc, "Seller", leftMargin, currentY);
-    currentY += 10; // Move down
-    addText(doc, sellerName, leftMargin, currentY);
-    currentY += 5; // Move down
-    addText(doc, sellerAddress, leftMargin, currentY);
-    currentY += 5; // Move down
-    addText(doc, sellerEmail, leftMargin, currentY);
-    currentY += 5; // Move down
-    addText(doc, "GSTIN: " + sellerGST, leftMargin, currentY);
-    currentY += 5; // Move down
-    addText(doc, "PAN: " + sellerPAN, leftMargin, currentY);
-    currentY += 15; // Move down
-
-    // 3. Buyer Details (Below Seller Details, Left-Aligned)
-    addSectionHeader(doc, "Buyer", leftMargin, currentY);
-    currentY += 10; // Move down
-    addText(doc, buyerName, leftMargin, currentY);
-    currentY += 5; // Move down
-    addText(doc, buyerAddress, leftMargin, currentY);
-    currentY += 5; // Move down
-    addText(doc, buyerCity + ", " + buyerState + ", " + buyerPIN, leftMargin, currentY);
-    currentY += 5; // Move down
-    addText(doc, "GSTIN: " + buyerGST, leftMargin, currentY);
-    currentY += 5; // Move down
-    addText(doc, "PAN: " + buyerPAN, leftMargin, currentY);
-    currentY += 5; // Move down
-    addText(doc, "Place of Supply: " + placeOfSupply, leftMargin, currentY);
-    currentY += 15; // Move down
-
-    // 4. Item Details Table (Below Buyer Details)
-    const itemHeaders = ["LOT", "DESCRIPTION", "HSN CODE", "UNIT", "QTY", "RATE", "AMOUNT"];
-    const itemColumnWidths = [30, 150, 80, 40, 50, 70, 70];
-    const itemTableData =;
-
-    // Populate item table data from the 'items' array
-    for (let i = 0; i < items.length; i++) {
-        itemTableData.push([
-            i + 1, // LOT (auto-incrementing)
-            items[i].description,
-            items[i].hsnCode,
-            items[i].unit,
-            items[i].quantity,
-            items[i].rate,
-            items[i].amountQxR
-        ]);
+    // Function to add text to the PDF, handling line breaks
+    function addTextWithLineBreaks(text, x, y, maxWidth) {
+        const lines = doc.splitTextToSize(text, maxWidth);
+        lines.forEach((line, index) => {
+            doc.text(line, x, y + (index * 10)); // Adjust line spacing (10) as needed
+        });
     }
 
-    addTable(doc, itemHeaders, itemTableData, leftMargin, currentY, itemColumnWidths);
-    currentY = currentY + (itemTableData.length * 5) + 10; // Adjust currentY after table
+    // Function to add a table to the PDF
+    function addTableToPDF(tableId, startX, startY) {
+        const table = document.getElementById(tableId);
+        if (!table) return;
 
-    // 5. Totals (Below Item Details Table, Right-Aligned)
-    addText(doc, "TOTAL AMOUNT: " + taxableValue, contentWidth, currentY, { align: 'right' });
-    currentY += 5;
-    addText(doc, "CGST: " + cgstValue, contentWidth, currentY, { align: 'right' });
-    currentY += 5;
-    addText(doc, "SGST: " + sgstValue, contentWidth, currentY, { align: 'right' });
-    currentY += 5;
-    addText(doc, "IGST: " + igstValue, contentWidth, currentY, { align: 'right' });
-    currentY += 5;
-    addText(doc, "GRAND TOTAL: " + invoiceValue, contentWidth, currentY, { align: 'right', fontWeight: 'bold' });
-    currentY += 10;
-    addText(doc, "Amount in Words: " + amountInWords, leftMargin, currentY, { align: 'left' });
-    currentY += 15;
+        let currentY = startY;
+        const cellWidth = 40; // Adjust cell width as needed
 
-    // 6. Terms and Conditions (Near Bottom, Left-Aligned)
-    addText(doc, "Terms of Delivery & Payment: " + termsOfPayment, leftMargin, currentY, { align: 'left' });
-    currentY += 5;
-    addText(doc, previewPaymentInstructions, leftMargin, currentY, { align: 'left' });
-    currentY += 5;
-    addText(doc, previewBankDetails, leftMargin, currentY, { align: 'left' });
-    currentY += 10;
-    addSectionHeader(doc, "TERMS & CONDITIONS:", leftMargin, currentY);
-    currentY += 5;
-    const termsConditions = previewTermsConditions.split('\n'); // Split into lines
-    for (let i = 0; i < termsConditions.length; i++) {
-        addText(doc, termsConditions[i], leftMargin, currentY, { align: 'left' });
-        currentY += 5;
+        // Add table headers
+        const headers = table.querySelectorAll('thead th');
+        headers.forEach((header, index) => {
+            doc.text(header.textContent, startX + (index * cellWidth), currentY);
+        });
+        currentY += 10; // Move down for data rows
+
+        // Add table data rows
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            cells.forEach((cell, index) => {
+                doc.text(cell.textContent, startX + (index * cellWidth), currentY);
+            });
+            currentY += 10; // Move down for next row
+        });
+
+        // Add table footer if exists
+        const footers = table.querySelectorAll('tfoot tr');
+        footers.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            cells.forEach((cell, index) => {
+                doc.text(cell.textContent, startX + (index * cellWidth), currentY);
+            });
+            currentY += 10;
+        });
     }
-    currentY += 15;
 
-    // 7. Signatures (Bottom, Centered)
-    addText(doc, "RECEIVER'S STAMP & SIGNATURE", 0, 800, { align: 'center' }); // Adjust Y position as needed
-    addText(doc, "FOR HK & SONS PARTNER/AUTHORISED SIGNATORY", 0, 820, { align: 'center' }); // Adjust Y position as needed
+    // Add main invoice data
+    addTextWithLineBreaks(invoicePreview.textContent, 10, 10, 190); // 190 is the width of the page.
+
+    // Add items table
+    addTableToPDF('itemsPreview', 10, 100); // Adjust startY as needed
 
     doc.save("invoice.pdf");
 }

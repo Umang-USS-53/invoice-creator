@@ -369,61 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Item Details
      const previewItemRows = document.getElementById('previewItemRows');
-    previewItemRows.innerHTML = `
-        <thead>
-            <tr>
-                <th>Lot No.</th>
-                <th>Description</th>
-                <th>HSN/SAC</th>
-                <th>Unit</th>
-                <th>Quantity</th>
-                <th>Rate</th>
-                <th>Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="1"></td>
-                <td>Total Quantity</td>
-                <td colspan="4"></td>
-                <td colspan="1"><span id="previewTotalQuantity"></span></td>
-            </tr>
-            <tr>
-                <td colspan="1"></td>
-                <td>Taxable Value</td>
-                <td colspan="4"></td>
-                <td colspan="1"><span id="previewTaxableValue"></span></td>
-            </tr>
-            <tr>
-                <td colspan="1"></td>
-                <td>CGST</td>
-                <td colspan="4"></td>
-                <td colspan="1"><span id="previewCgstValue"></span></td>
-            </tr>
-            <tr>
-                <td colspan="1"></td>
-                <td>SGST</td>
-                <td colspan="4"></td>
-                <td colspan="1"><span id="previewSgstValue"></span></td>
-            </tr>
-            <tr>
-                <td colspan="1"></td>
-                <td>IGST</td>
-                <td colspan="4"></td>
-                <td colspan="1"><span id="previewIgstValue"></span></td>
-            </tr>
-            <tr>
-                <td colspan="1"></td>
-                <td>Invoice Value</td>
-                <td colspan="4"></td>
-                <td colspan="1"><span id="previewInvoiceValue"></span></td>
-            </tr>
-        </tfoot>
-    `;
-
-    const previewItemRowsBody = previewItemRows.querySelector('tbody');
+    previewItemRows.innerHTML = '';
 
     const itemRowsData = document.querySelectorAll('#itemRows tr');
     itemRowsData.forEach(row => {
@@ -439,9 +385,12 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>${row.cells[4].querySelector('input').value}</td>
             <td>${row.cells[5].querySelector('input').value}</td>
             <td>${row.cells[6].textContent}</td>
+            <td>${row.cells[7].textContent}</td>
+            <td>${row.cells[8].textContent}</td>
+            <td>${row.cells[9].textContent}</td>
         `;
 
-        previewItemRowsBody.appendChild(previewRow);
+        previewItemRows.appendChild(previewRow);
     });
     
     // Totals

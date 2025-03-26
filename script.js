@@ -857,6 +857,7 @@ function generatePDF() {
     // Buyer Details - Two Column Layout (Revised)
     const buyerDetailsHeadingSize = 14 * 0.7;
     const buyerDetailsTextSize = 12 * 0.7;
+    const buyerAddressTextSize = 12 * 0.7 * 0.8; // Reduced by 20%
     const buyerColumnWidth = (pageWidth - 2 * margin) / 2;
     const labelWidth = 35; // Width for labels
 
@@ -869,13 +870,17 @@ function generatePDF() {
     let startY = currentY; // Store the starting Y for the column
 
     addStyledText('Name:', leftX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    addStyledText(document.getElementById('previewBuyerName').textContent, leftX + labelWidth, currentY, { size: buyerDetailsTextSize });
-    currentY += 5;
+    // Wrap Buyer's Name
+    let nameLines = doc.splitTextToSize(document.getElementById('previewBuyerName').textContent, buyerColumnWidth - labelWidth);
+    for (let i = 0; i < nameLines.length; i++) {
+        addStyledText(nameLines[i], leftX + labelWidth, currentY + 5 * i, { size: buyerDetailsTextSize });
+    }
+    currentY += 5 * nameLines.length;
 
     addStyledText('Address:', leftX, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
     let addressLines = doc.splitTextToSize(document.getElementById('previewBuyerAddress').textContent, buyerColumnWidth - labelWidth);
     for (let i = 0; i < addressLines.length; i++) {
-        addStyledText(addressLines[i], leftX + labelWidth, currentY + 5 * i, { size: buyerDetailsTextSize });
+        addStyledText(addressLines[i], leftX + labelWidth, currentY + 5 * i, { size: buyerAddressTextSize }); // Reduced font size
     }
     currentY += 5 * addressLines.length;
 

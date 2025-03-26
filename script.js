@@ -739,36 +739,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('saveInvoiceButton').style.display = 'block';
 
-       const invoiceData = {
-        invoiceNumber: document.getElementById('previewInvoiceNumber').textContent,
-        invoiceDate: document.getElementById('previewInvoiceDate').textContent,
-        buyerName: document.getElementById('previewBuyerName').textContent,
-        buyerAddress: document.getElementById('previewBuyerAddress').textContent,
-        buyerCity: document.getElementById('previewBuyerCity').textContent,
-        buyerState: document.getElementById('previewBuyerState').textContent,
-        buyerPIN: document.getElementById('previewBuyerPIN').textContent,
-        buyerGST: document.getElementById('previewBuyerGST').textContent,
-        buyerPAN: document.getElementById('previewBuyerPAN').textContent,
-        termsOfPayment: document.getElementById('previewTermsOfPayment').textContent,
-        placeOfSupply: document.getElementById('previewPlaceOfSupply').textContent,
-        sellerName: document.getElementById('previewSellerName').textContent,
-        sellerAddress: document.getElementById('previewSellerAddress').textContent,
-        sellerState: document.getElementById('previewSellerState').textContent,
-        sellerEmail: document.getElementById('previewSellerEmail').textContent,
-        sellerGST: document.getElementById('previewSellerGST').textContent,
-        sellerPAN: document.getElementById('previewSellerPAN').textContent,
-        bankDetails: document.getElementById('previewBankDetails').textContent,
-        paymentInstructions: document.getElementById('previewPaymentInstructions').textContent,
-        termsConditions: document.getElementById('previewTermsConditions').textContent,
-        items:, // We'll populate this with item data
-        totalQuantity: document.getElementById('previewTotalQuantity').textContent,
-        taxableValue: document.getElementById('previewTaxableValue').textContent,
-        cgstValue: document.getElementById('cgstValue').textContent,
-        sgstValue: document.getElementById('previewSgstValue').textContent,
-        igstValue: document.getElementById('igstValue').textContent,
-        invoiceValue: document.getElementById('previewInvoiceValue').textContent,
-        amountInWords: document.getElementById('previewAmountInWords').textContent,
-    };
+     const invoiceData = {
+    invoiceNumber: document.getElementById('previewInvoiceNumber').textContent,
+    invoiceDate: document.getElementById('previewInvoiceDate').textContent,
+    buyerName: document.getElementById('previewBuyerName').textContent,
+    buyerAddress: document.getElementById('previewBuyerAddress').textContent,
+    buyerCity: document.getElementById('previewBuyerCity').textContent,
+    buyerState: document.getElementById('previewBuyerState').textContent,
+    buyerPIN: document.getElementById('previewBuyerPIN').textContent,
+    buyerGST: document.getElementById('previewBuyerGST').textContent,
+    buyerPAN: document.getElementById('previewBuyerPAN').textContent,
+    termsOfPayment: document.getElementById('previewTermsOfPayment').textContent,
+    placeOfSupply: document.getElementById('previewPlaceOfSupply').textContent,
+    sellerName: document.getElementById('previewSellerName').textContent,
+    sellerAddress: document.getElementById('previewSellerAddress').textContent,
+    sellerState: document.getElementById('previewSellerState').textContent,
+    sellerEmail: document.getElementById('previewSellerEmail').textContent,
+    sellerGST: document.getElementById('previewSellerGST').textContent,
+    sellerPAN: document.getElementById('previewSellerPAN').textContent,
+    bankDetails: document.getElementById('previewBankDetails').textContent,
+    paymentInstructions: document.getElementById('previewPaymentInstructions').textContent,
+    termsConditions: document.getElementById('previewTermsConditions').textContent,
+    items:,  // Corrected: Initialized as an empty array
+    totalQuantity: document.getElementById('previewTotalQuantity').textContent,
+    taxableValue: document.getElementById('previewTaxableValue').textContent,
+    cgstValue: document.getElementById('cgstValue').textContent,
+    sgstValue: document.getElementById('previewSgstValue').textContent,
+    invoiceValue: document.getElementById('invoiceValue').textContent,
+    amountInWords: document.getElementById('previewAmountInWords').textContent,
+};
 
     // Collect item data
     const previewItemRows = document.getElementById('previewItemRows');

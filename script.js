@@ -588,9 +588,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const invoicePreview = document.getElementById('invoicePreview');
 
+    const saveInvoiceButton = document.getElementById('saveInvoiceButton');
 
+    
     previewInvoiceButton.addEventListener('click', previewInvoice);
 
+    saveInvoiceButton.addEventListener('click', () => {
+        generatePDF();
+ });
 
    function previewInvoice() {
 
@@ -735,5 +740,62 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('saveInvoiceButton').style.display = 'block';
 
 }
+function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const invoicePreview = document.getElementById('invoicePreview');
 
+    // Function to add text to the PDF, handling line breaks
+    function addTextWithLineBreaks(text, x, y, maxWidth) {
+        const lines = doc.splitTextToSize(text, maxWidth);
+        lines.forEach((line, index) => {
+            doc.text(line, x, y + (index * 10)); // Adjust line spacing (10) as needed
+        });
+    }
+
+    // Function to add a table to the PDF
+    function addTableToPDF(tableId, startX, startY) {
+        const table = document.getElementById(tableId);
+        if (!table) return;
+
+        let currentY = startY;
+        const cellWidth = 40; // Adjust cell width as needed
+
+        // Add table headers
+        const headers = table.querySelectorAll('thead th');
+        headers.forEach((header, index) => {
+            doc.text(header.textContent, startX + (index * cellWidth), currentY);
+        });
+        currentY += 10; // Move down for data rows
+
+        // Add table data rows
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            cells.forEach((cell, index) => {
+                doc.text(cell.textContent, startX + (index * cellWidth), currentY);
+            });
+            currentY += 10; // Move down for next row
+        });
+
+        // Add table footer if exists
+        const footers = table.querySelectorAll('tfoot tr');
+        footers.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            cells.forEach((cell, index) => {
+                doc.text(cell.textContent, startX + (index * cellWidth), currentY);
+            });
+            currentY += 10;
+        });
+    }
+
+    // Add main invoice data
+    addTextWithLineBreaks(invoicePreview.textContent, 10, 10, 190); // 190 is the width of the page.
+
+    // Add items table
+    addTableToPDF('itemsPreview', 10, 100); // Adjust startY as needed
+
+    doc.save("invoice.pdf");
+}
+    
 }); 

@@ -835,45 +835,62 @@ function generatePDF() {
     });
     currentY += 10;
 
-    // Seller Details
+    // Seller Details - Combined Display
     const sellerDetailsHeadingSize = 14 * 0.7;
     const sellerDetailsTextSize = 12 * 0.7;
+    const sellerLabelWidth = 35; // Consistent label width
 
     addStyledText('Seller Details', margin, currentY, { font: 'helvetica', size: sellerDetailsHeadingSize, fontStyle: 'bold' });
     currentY += 7;
-    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin, currentY, { size: sellerDetailsTextSize });
+
+    // Seller Name
+    addStyledText('Name:', margin, currentY, { fontStyle: 'bold', size: sellerDetailsTextSize });
+    addStyledText(document.getElementById('sellerName').textContent, margin + sellerLabelWidth, currentY, { size: sellerDetailsTextSize });
     currentY += 5;
-    addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin, currentY, { size: sellerDetailsTextSize });
+
+    // Seller Address
+    addStyledText('Address:', margin, currentY, { fontStyle: 'bold', size: sellerDetailsTextSize });
+    addStyledText(document.getElementById('sellerAddress').textContent, margin + sellerLabelWidth, currentY, { size: sellerDetailsTextSize });
     currentY += 5;
-    addStyledText(`State: ${document.getElementById('sellerState').textContent}`, margin, currentY, { size: sellerDetailsTextSize });
+
+    // Seller State and Email
+    addStyledText('State:', margin, currentY, { fontStyle: 'bold', size: sellerDetailsTextSize });
+    addStyledText(document.getElementById('sellerState').textContent, margin + sellerLabelWidth, currentY, { size: sellerDetailsTextSize });
+    addStyledText('  Email:', margin + 70, currentY, { fontStyle: 'bold', size: sellerDetailsTextSize });
+    addStyledText(document.getElementById('sellerEmail').textContent, margin + 105, currentY, { size: sellerDetailsTextSize });
     currentY += 5;
-    addStyledText(`Email: ${document.getElementById('sellerEmail').textContent}`, margin, currentY, { size: sellerDetailsTextSize });
-    currentY += 5;
-    addStyledText(`GST: ${document.getElementById('sellerGST').textContent}`, margin, currentY, { size: sellerDetailsTextSize });
-    currentY += 5;
-    addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY, { size: sellerDetailsTextSize });
+
+    // Seller GST and PAN
+    addStyledText('GST:', margin, currentY, { fontStyle: 'bold', size: sellerDetailsTextSize });
+    addStyledText(document.getElementById('sellerGST').textContent, margin + sellerLabelWidth, currentY, { size: sellerDetailsTextSize });
+    addStyledText('  PAN:', margin + 70, currentY, { fontStyle: 'bold', size: sellerDetailsTextSize });
+    addStyledText(document.getElementById('sellerPAN').textContent, margin + 105, currentY, { size: sellerDetailsTextSize });
     currentY += 10;
 
-    // Buyer Details - Combined Layout
+    // Buyer Details - Combined Layout with Place of Supply
     const buyerDetailsHeadingSize = 14 * 0.7;
     const buyerDetailsTextSize = 12 * 0.7;
+    let buyerLabelWidth = 0; // Initialize label width
 
     addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: buyerDetailsHeadingSize, fontStyle: 'bold' });
     currentY += 7;
 
     // Buyer Name
     addStyledText('Name:', margin, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    addStyledText(document.getElementById('previewBuyerName').textContent, margin + 35, currentY, { size: buyerDetailsTextSize });
+    buyerLabelWidth = doc.getTextWidth('Name:') + 2; // Calculate label width + small padding
+    addStyledText(document.getElementById('previewBuyerName').textContent, margin + buyerLabelWidth, currentY, { size: buyerDetailsTextSize });
     currentY += 5;
 
     // Buyer Address
     addStyledText('Address:', margin, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    addStyledText(document.getElementById('previewBuyerAddress').textContent, margin + 35, currentY, { size: buyerDetailsTextSize });
+    buyerLabelWidth = doc.getTextWidth('Address:') + 2;
+    addStyledText(document.getElementById('previewBuyerAddress').textContent, margin + buyerLabelWidth, currentY, { size: buyerDetailsTextSize });
     currentY += 5;
 
     // City, State, PIN
     addStyledText('City:', margin, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    addStyledText(document.getElementById('previewBuyerCity').textContent, margin + 35, currentY, { size: buyerDetailsTextSize });
+    buyerLabelWidth = doc.getTextWidth('City:') + 2;
+    addStyledText(document.getElementById('previewBuyerCity').textContent, margin + buyerLabelWidth, currentY, { size: buyerDetailsTextSize });
     addStyledText('  State:', margin + 70, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
     addStyledText(document.getElementById('previewBuyerState').textContent, margin + 115, currentY, { size: buyerDetailsTextSize });
     addStyledText('  PIN:', margin + 150, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
@@ -882,18 +899,22 @@ function generatePDF() {
 
     // GST and PAN
     addStyledText('GST:', margin, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    addStyledText(document.getElementById('previewBuyerGST').textContent, margin + 35, currentY, { size: buyerDetailsTextSize });
+    buyerLabelWidth = doc.getTextWidth('GST:') + 2;
+    addStyledText(document.getElementById('previewBuyerGST').textContent, margin + buyerLabelWidth, currentY, { size: buyerDetailsTextSize });
     addStyledText('  PAN:', margin + 70, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
     addStyledText(document.getElementById('previewBuyerPAN').textContent, margin + 105, currentY, { size: buyerDetailsTextSize });
     currentY += 5;
 
-    // Terms of Payment
+    // Terms of Payment and Place of Supply (Combined)
     addStyledText('Terms of Payment:', margin, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
-    addStyledText(document.getElementById('previewTermsOfPayment').textContent, margin + 35, currentY, { size: buyerDetailsTextSize });
+    buyerLabelWidth = doc.getTextWidth('Terms of Payment:') + 2;
+    addStyledText(document.getElementById('previewTermsOfPayment').textContent, margin + buyerLabelWidth, currentY, { size: buyerDetailsTextSize });
+    addStyledText('  Place of Supply:', margin + 70, currentY, { fontStyle: 'bold', size: buyerDetailsTextSize });
+    addStyledText(document.getElementById('previewPlaceOfSupply').textContent, margin + 105, currentY, { size: buyerDetailsTextSize });
     currentY += 10;
 
-    // Item Details Table
-    currentY += 10;
+    // Item Details Table - Adjusted Y Position
+    currentY += 5; // Reduced spacing before Item Details
     addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
     currentY += 5;
 
@@ -922,30 +943,30 @@ function generatePDF() {
 
     currentY = doc.previousAutoTable.finalY; // Get the y-coordinate after the table
 
-    // Totals Table
-    currentY += 5; // Add some space between item table and total table
+    // Totals Table - Adjusted Y Position
+    currentY += 5; // Reduced spacing before Totals table
     currentY = generateTotalsTable(doc, currentY); // Generate totals table
 
-    // Amount In Words
-    currentY += 10;
+    // Amount In Words - Adjusted Y Position
+    currentY += 5; // Reduced spacing
     addStyledText('Amount in Words:', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewAmountInWords').textContent, margin, currentY, { size: 12 });
 
-    // Payment Instructions
-    currentY += 10;
+    // Payment Instructions - Adjusted Y Position
+    currentY += 5; // Reduced spacing
     addStyledText('Payment Instructions', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewPaymentInstructions').textContent, margin, currentY, { size: 12 });
 
-    // Bank Details
-    currentY += 10;
+    // Bank Details - Adjusted Y Position
+    currentY += 5; // Reduced spacing
     addStyledText('Bank Details', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewBankDetails').textContent, margin, currentY, { size: 12 });
 
-    // Terms and Conditions
-    currentY += 10;
+    // Terms and Conditions - Adjusted Y Position
+    currentY += 5; // Reduced spacing
     addStyledText('Terms & Conditions', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewTermsConditions').textContent, margin, currentY, { size: 10 });

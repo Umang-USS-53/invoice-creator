@@ -830,7 +830,7 @@ function generatePDF() {
     let formattedDate;
     if (invoiceDate) {
         const dateParts = invoiceDate.split('-');
-        formattedDate = `<span class="math-inline">\{dateParts\[2\]\}/</span>{dateParts[1]}/${dateParts[0]}`;
+        formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
     } else {
         formattedDate = "";
     }
@@ -954,6 +954,26 @@ function generatePDF() {
     addStyledText(document.getElementById('previewPaymentInstructions').textContent, margin, currentY, { size: detailsTextSize });
 
     // Bank Details
-    currentY += 10
+    currentY += 10;
+    addStyledText('Bank Details', margin, currentY, {
+        font: 'helvetica',
+        size: sectionHeadingSize,
+        fontStyle: 'bold'
+    });
+    currentY += 5;
+    addStyledText(document.getElementById('previewBankDetails').textContent, margin, currentY, { size: detailsTextSize });
+
+    // Terms and Conditions
+    currentY += 10;
+    addStyledText('Terms & Conditions', margin, currentY, {
+        font: 'helvetica',
+        size: sectionHeadingSize,
+        fontStyle: 'bold'
+    });
+    currentY += 5;
+    addStyledText(document.getElementById('previewTermsConditions').textContent, margin, currentY, { size: termsAndConditionsSize });
+
+    doc.save('invoice.pdf');
+}
     
 }); 

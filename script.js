@@ -764,10 +764,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const rectX = x - 1;
     const rectY = y - 5;
-    const rectWidth = width;
+    let rectWidth = width;
     const rectHeight = 10;
 
-    console.log("rectX:", rectX, "rectY:", rectY, "rectWidth:", rectWidth, "rectHeight:", rectHeight);
+    // Check if rectWidth is undefined and provide a default value
+    if (rectWidth === undefined) {
+        rectWidth = 20; // Or any default width you find suitable
+        console.warn("rectWidth is undefined. Using default width:", rectWidth);
+    }
 
     doc.rect(rectX, rectY, rectWidth, rectHeight, 'D');
 }

@@ -786,20 +786,13 @@ function generatePDF() {
     });
 
     const margin = 10;
-    let currentY = 36;
-
-    // --- FONT SIZE ADJUSTMENT ---
-    const baseFontSize = 9;
-    const invoiceHeadingSize = 14;
-    const sectionHeadingSize = 10;
-    const detailsTextSize = 9;
-    const buyerAddressTextSize = 9;
-    const termsAndConditionsSize = 7;
+    let currentY = 36; // 0.5-inch top margin (0.5 inch = ~36 points)
 
     // Function to add styled text (reused)
     function addStyledText(text, x, y, style = {}) {
         doc.setFont(style.font || 'helvetica');
-        doc.setFontSize(style.size || baseFontSize); // Use baseFontSize as default
+        doc.setFontSize(style.size || 12);
+        doc.setFont(style.font, style.fontStyle || 'normal');
         doc.setFont(style.font, style.fontStyle || 'normal');
         doc.text(text, x, y, { align: style.align || 'left' });
     }
@@ -807,13 +800,13 @@ function generatePDF() {
     // Invoice Header
     addStyledText('TAX INVOICE', doc.internal.pageSize.getWidth() / 2, currentY, {
         font: 'helvetica',
-        size: invoiceHeadingSize,
+        size: 16,
         fontStyle: 'bold',
         align: 'center'
     });
     currentY += 10;
 
-    // Horizontal line after header
+    // Horizontal line after header (moved slightly upwards)
     doc.line(margin, currentY - 5, doc.internal.pageSize.getWidth() - margin, currentY - 5);
     currentY += 5;
 
@@ -821,7 +814,7 @@ function generatePDF() {
     const pageWidth = doc.internal.pageSize.getWidth();
     addStyledText(`Invoice No.: ${document.getElementById('invoiceNumber').value}`, margin, currentY, {
         align: 'left',
-        size: detailsTextSize,
+        size: 12,
         fontStyle: 'bold'
     });
 
@@ -832,76 +825,57 @@ function generatePDF() {
         const dateParts = invoiceDate.split('-');
         formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
     } else {
-        formattedDate = "";
+        formattedDate = ""; // Or some default value if the date is not available
     }
 
     addStyledText(`Date: ${formattedDate}`, pageWidth - margin, currentY, {
         align: 'right',
-        size: detailsTextSize,
+        size: 12,
         fontStyle: 'bold'
     });
     currentY += 10;
 
     // Seller Details
-    addStyledText('Seller Details', margin, currentY, {
-        font: 'helvetica',
-        size: sectionHeadingSize,
-        fontStyle: 'bold'
-    });
+    addStyledText('Seller Details', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
     currentY += 7;
-    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin, currentY, { size: detailsTextSize });
+    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin, currentY, { size: 12 });
     currentY += 5;
-    addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin, currentY, { size: detailsTextSize });
+    addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin, currentY, { size: 12 });
     currentY += 5;
-    addStyledText(`State: ${document.getElementById('sellerState').textContent}`, margin, currentY, { size: detailsTextSize });
+    addStyledText(`State: ${document.getElementById('sellerState').textContent}`, margin, currentY, { size: 12 });
     currentY += 5;
-    addStyledText(`Email: ${document.getElementById('sellerEmail').textContent}`, margin, currentY, { size: detailsTextSize });
+    addStyledText(`Email: ${document.getElementById('sellerEmail').textContent}`, margin, currentY, { size: 12 });
     currentY += 5;
-    addStyledText(`GST: ${document.getElementById('sellerGST').textContent}`, margin, currentY, { size: detailsTextSize });
+    addStyledText(`GST: ${document.getElementById('sellerGST').textContent}`, margin, currentY, { size: 12 });
     currentY += 5;
-    addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY, { size: detailsTextSize });
+    addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY, { size: 12 });
     currentY += 10;
 
     // Buyer Details
-    addStyledText('Buyer Details', margin, currentY, {
-        font: 'helvetica',
-        size: sectionHeadingSize,
-        fontStyle: 'bold'
-    });
+    addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
     currentY += 7;
-
-    // Buyer's Name
-    addStyledText("Name:", margin, currentY, { fontStyle: 'bold', size: detailsTextSize });
-    addStyledText(document.getElementById('previewBuyerName').textContent, margin + 35, currentY, { size: detailsTextSize });
+    addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin, currentY, { size: 12 });
     currentY += 5;
-
-    // Buyer's Address
-    addStyledText("Address:", margin, currentY, { fontStyle: 'bold', size: detailsTextSize });
-    addStyledText(document.getElementById('previewBuyerAddress').textContent, margin + 35, currentY, { size: buyerAddressTextSize });
+    addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin, currentY, { size: 12 });
     currentY += 5;
-
-    addStyledText(`City: ${document.getElementById('previewBuyerCity').textContent}`, margin, currentY, { size: detailsTextSize });
+    addStyledText(`City: ${document.getElementById('previewBuyerCity').textContent}`, margin, currentY);
     currentY += 5;
-    addStyledText(`State: ${document.getElementById('previewBuyerState').textContent}`, margin, currentY, { size: detailsTextSize });
+    addStyledText(`State: ${document.getElementById('previewBuyerState').textContent}`, margin, currentY);
     currentY += 5;
-    addStyledText(`PIN: ${document.getElementById('previewBuyerPIN').textContent}`, margin, currentY, { size: detailsTextSize });
+    addStyledText(`PIN: ${document.getElementById('previewBuyerPIN').textContent}`, margin, currentY);
     currentY += 5;
-    addStyledText(`GSTIN: ${document.getElementById('previewBuyerGST').textContent}`, margin, currentY, { size: detailsTextSize });
+    addStyledText(`GSTIN: ${document.getElementById('previewBuyerGST').textContent}`, margin, currentY);
     currentY += 5;
-    addStyledText(`PAN: ${document.getElementById('previewBuyerPAN').textContent}`, margin, currentY, { size: detailsTextSize });
+    addStyledText(`PAN: ${document.getElementById('previewBuyerPAN').textContent}`, margin, currentY);
     currentY += 5;
-    addStyledText(`Place of Supply: ${document.getElementById('previewPlaceOfSupply').textContent}`, margin, currentY, { size: detailsTextSize });
+    addStyledText(`Place of Supply: ${document.getElementById('previewPlaceOfSupply').textContent}`, margin, currentY);
     currentY += 5;
-    addStyledText(`Terms of Payment: ${document.getElementById('previewTermsOfPayment').textContent}`, margin, currentY, { size: detailsTextSize });
+    addStyledText(`Terms of Payment: ${document.getElementById('previewTermsOfPayment').textContent}`, margin, currentY);
     currentY += 10;
 
     // Item Details Table
     currentY += 10;
-    addStyledText('Item Details', margin, currentY, {
-        font: 'helvetica',
-        size: sectionHeadingSize,
-        fontStyle: 'bold'
-    });
+    addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
     currentY += 5;
 
     // Prepare table headers and data for jsPDF-autotable
@@ -927,51 +901,35 @@ function generatePDF() {
         // You can add styling options here (e.g., columnWidths, styles)
     });
 
-    currentY = doc.previousAutoTable.finalY;
+    currentY = doc.previousAutoTable.finalY; // Get the y-coordinate after the table
 
     // Totals Table
-    currentY += 5;
-    currentY = generateTotalsTable(doc, currentY);
+    currentY += 5; // Add some space between item table and total table
+    currentY = generateTotalsTable(doc, currentY); // Generate totals table
 
     // Amount In Words
     currentY += 10;
-    addStyledText('Amount in Words:', margin, currentY, {
-        font: 'helvetica',
-        size: sectionHeadingSize,
-        fontStyle: 'bold'
-    });
+    addStyledText('Amount in Words:', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
     currentY += 5;
-    addStyledText(document.getElementById('previewAmountInWords').textContent, margin, currentY, { size: detailsTextSize });
+    addStyledText(document.getElementById('previewAmountInWords').textContent, margin, currentY, { size: 12 });
 
     // Payment Instructions
     currentY += 10;
-    addStyledText('Payment Instructions', margin, currentY, {
-        font: 'helvetica',
-        size: sectionHeadingSize,
-        fontStyle: 'bold'
-    });
+    addStyledText('Payment Instructions', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
     currentY += 5;
-    addStyledText(document.getElementById('previewPaymentInstructions').textContent, margin, currentY, { size: detailsTextSize });
+    addStyledText(document.getElementById('previewPaymentInstructions').textContent, margin, currentY, { size: 12 });
 
     // Bank Details
     currentY += 10;
-    addStyledText('Bank Details', margin, currentY, {
-        font: 'helvetica',
-        size: sectionHeadingSize,
-        fontStyle: 'bold'
-    });
+    addStyledText('Bank Details', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
     currentY += 5;
-    addStyledText(document.getElementById('previewBankDetails').textContent, margin, currentY, { size: detailsTextSize });
+    addStyledText(document.getElementById('previewBankDetails').textContent, margin, currentY, { size: 12 });
 
     // Terms and Conditions
     currentY += 10;
-    addStyledText('Terms & Conditions', margin, currentY, {
-        font: 'helvetica',
-        size: sectionHeadingSize,
-        fontStyle: 'bold'
-    });
+    addStyledText('Terms & Conditions', margin, currentY, { font: 'helvetica', size: 14, fontStyle: 'bold' });
     currentY += 5;
-    addStyledText(document.getElementById('previewTermsConditions').textContent, margin, currentY, { size: termsAndConditionsSize });
+    addStyledText(document.getElementById('previewTermsConditions').textContent, margin, currentY, { size: 10 });
 
     doc.save('invoice.pdf');
 }

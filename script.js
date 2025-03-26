@@ -740,62 +740,150 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('saveInvoiceButton').style.display = 'block';
 
 }
-function generatePDF() {
+ function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-    const invoicePreview = document.getElementById('invoicePreview');
 
-    // Function to add text to the PDF, handling line breaks
-    function addTextWithLineBreaks(text, x, y, maxWidth) {
-        const lines = doc.splitTextToSize(text, maxWidth);
-        lines.forEach((line, index) => {
-            doc.text(line, x, y + (index * 10)); // Adjust line spacing (10) as needed
-        });
+    const margin = 10; // Margin for the entire document
+    let currentY = margin;
+
+    // Function to add a styled text
+    function addStyledText(text, x, y, style = {}) {
+        doc.setFont(style.font || 'helvetica');
+        doc.setFontSize(style.size || 12);
+        doc.setFont(style.font, style.fontStyle || 'normal');
+        doc.text(text, x, y, { align: style.align || 'left' });
     }
 
-    // Function to add a table to the PDF
-    function addTableToPDF(tableId, startX, startY) {
-        const table = document.getElementById(tableId);
-        if (!table) return;
-
-        let currentY = startY;
-        const cellWidth = 40; // Adjust cell width as needed
-
-        // Add table headers
-        const headers = table.querySelectorAll('thead th');
-        headers.forEach((header, index) => {
-            doc.text(header.textContent, startX + (index * cellWidth), currentY);
-        });
-        currentY += 10; // Move down for data rows
-
-        // Add table data rows
-        const rows = table.querySelectorAll('tbody tr');
-        rows.forEach(row => {
-            const cells = row.querySelectorAll('td');
-            cells.forEach((cell, index) => {
-                doc.text(cell.textContent, startX + (index * cellWidth), currentY);
-            });
-            currentY += 10; // Move down for next row
-        });
-
-        // Add table footer if exists
-        const footers = table.querySelectorAll('tfoot tr');
-        footers.forEach(row => {
-            const cells = row.querySelectorAll('td');
-            cells.forEach((cell, index) => {
-                doc.text(cell.textContent, startX + (index * cellWidth), currentY);
-            });
-            currentY += 10;
-        });
+    // Function to add a cell to the table
+    function addTableCell(text, x, y, width, style = {}) {
+        doc.setFont(style.font || 'helvetica');
+        doc.setFontSize(style.size || 10);
+        doc.setFont(style.font, style.fontStyle || 'normal');
+        doc.text(text, x, y, { align: style.align || 'left' });
+        doc.rect(x - 1, y - 5, width, 10); // Add cell border
     }
 
-    // Add main invoice data
-    addTextWithLineBreaks(invoicePreview.textContent, 10, 10, 190); // 190 is the width of the page.
+    // Invoice Header
+    addStyledText('LOCAL TAX INVOICE', margin, currentY, { font: 'helvetica', size: 16, fontStyle: 'bold', align: 'center' });
+    currentY += 10;
 
-    // Add items table
-    addTableToPDF('itemsPreview', 10, 100); // Adjust startY as needed
+    // Seller Details
+    addStyledText('Seller Details', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
+    currentY += 5;
+    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin, currentY);
+    currentY += 5;
+    addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin, currentY, { size: 10 });
+    currentY += 5;
+    addStyledText(`State: ${document.getElementById('sellerState').textContent}`, margin, currentY);
+    currentY += 5;
+    addStyledText(`Email: ${document.getElementById('sellerEmail').textContent}`, margin, currentY);
+    currentY += 5;
+    addStyledText(`GST: ${document.getElementById('sellerGST').textContent}`, margin, currentY);
+    currentY += 5;
+    addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY);
+    currentY += 10;
 
-    doc.save("invoice.pdf");
+    // Buyer Details
+    addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
+    currentY += 5;
+    addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin, currentY);
+    currentY += 5;
+    addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin, currentY, { size: 10 });
+    currentY += 5;
+    addStyledText(`City: ${document.getElementById('previewBuyerCity').textContent}`, margin, currentY);
+    currentY += 5;
+    addStyledText(`State: ${document.getElementById('previewBuyerState').textContent}`, margin, currentY);
+    currentY += 5;
+    addStyledText(`PIN: ${document.getElementById('previewBuyerPIN').textContent}`, margin, currentY);
+    currentY += 5;
+    addStyledText(`GSTIN: ${document.getElementById('previewBuyerGST').textContent}`, margin, currentY);
+    currentY += 5;
+    addStyledText(`PAN: ${document.getElementById('previewBuyerPAN').textContent}`, margin, currentY);
+    currentY += 5;
+    addStyledText(`Place of Supply: ${document.getElementById('previewPlaceOfSupply').textContent}`, margin, currentY);
+    currentY += 5;
+    addStyledText(`Terms of Payment: ${document.getElementById('previewTermsOfPayment').textContent}`, margin, currentY);
+    currentY += 10;
+
+    // Invoice Details (Right Aligned)
+    const pageWidth = doc.internal.pageSize.getWidth();
+    addStyledText(`Invoice No.: ${document.getElementById('invoiceNumber').value}`, pageWidth - margin, margin, { align: 'right' });
+    addStyledText(`Date: ${document.getElementById('invoiceDate').value}`, pageWidth - margin, margin + 10, { align: 'right' });
+
+    // Item Details Table
+    currentY += 10;
+    addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
+    currentY += 5;
+
+    // Table Headers
+    const tableHeaders = ['Lot No.', 'Description', 'HSN/SAC', 'Unit', 'Quantity', 'Rate', 'Amount'];
+    const columnWidths = [10, 40, 20, 10, 15, 20, 20];
+    let currentX = margin;
+
+    for (let i = 0; i < tableHeaders.length; i++) {
+        addTableCell(tableHeaders[i], currentX, currentY, columnWidths[i], { fontStyle: 'bold' });
+        currentX += columnWidths[i];
+    }
+    currentY += 5;
+
+    // Table Rows
+    const itemRows = document.querySelectorAll('#previewItemRows tr');
+    itemRows.forEach(row => {
+        currentX = margin;
+        const cells = row.querySelectorAll('td');
+        cells.forEach((cell, index) => {
+            addTableCell(cell.textContent, currentX, currentY, columnWidths[index]);
+            currentX += columnWidths[index];
+        });
+        currentY += 5;
+    });
+
+    // Totals Table
+    currentY += 10;
+    addStyledText('Totals', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
+    currentY += 5;
+
+    const totals = [
+        { label: 'Total Quantity', value: document.getElementById('previewTotalQuantity').textContent },
+        { label: 'Taxable Value', value: document.getElementById('previewTaxableValue').textContent },
+        { label: 'CGST', value: document.getElementById('previewCgstValue').textContent },
+        { label: 'SGST', value: document.getElementById('previewSgstValue').textContent },
+        { label: 'IGST', value: document.getElementById('previewIgstValue').textContent },
+        { label: 'Invoice Value', value: document.getElementById('previewInvoiceValue').textContent },
+    ];
+
+    totals.forEach(total => {
+        addStyledText(total.label, margin + 70, currentY);
+        addStyledText(total.value, margin + 100, currentY, { align: 'right' });
+        currentY += 5;
+    });
+
+    // Amount In Words
+    currentY += 10;
+    addStyledText('Amount in Words:', margin, currentY, { fontStyle: 'bold' });
+    currentY += 5;
+    addStyledText(document.getElementById('previewAmountInWords').textContent, margin, currentY, { size: 10 });
+
+    // Payment Details
+    currentY += 10;
+    addStyledText('Payment Instructions', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
+    currentY += 5;
+    addStyledText(document.getElementById('previewPaymentInstructions').textContent, margin, currentY, { size: 10 });
+
+    // Bank Details
+    currentY += 10;
+    addStyledText('Bank Details', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
+    currentY += 5;
+    addStyledText(document.getElementById('previewBankDetails').textContent, margin, currentY, { size: 10 });
+
+    // Terms and Conditions
+    currentY += 10;
+    addStyledText('Terms & Conditions', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
+    currentY += 5;
+    addStyledText(document.getElementById('previewTermsConditions').textContent, margin, currentY, { size: 10 });
+
+    doc.save('invoice.pdf');
 }
     
 }); 

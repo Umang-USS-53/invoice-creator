@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('previewTermsConditions').textContent = "1) The diamonds herein invoiced have been purchased from a legitimate source that is not involved in funding conflict and is in compliance with United Nations Resolutions.\n2) The diamonds herein invoiced are exclusively of natural origin and untreated based on personal knowledge and/or written guarantees provided by the supplier.\n3) The acceptance of goods herein invoiced will be as per the WFDB guidelines.\n4) To the best of our knowledge and/or written assurance from our suppliers, these diamonds have not been obtained in violation of applicable laws and are not organized from Mbada and Mrange Resources of Zimbabwe.\n5) I/We certify that our Registration Certificate under the GST Act, 2017 is valid on the date of sale and that this invoice is duly certified.\n6) Subject to Mumbai Jurisdiction.\n7) Provision for TCS under Section 206C (1H) will be charged separately through a debit note.";
 
     // Item Details
-    const previewItemRows = document.getElementById('previewItemRows');
+   const previewItemRows = document.getElementById('previewItemRows');
     previewItemRows.innerHTML = '';
 
     const itemRowsData = document.querySelectorAll('#itemRows tr');
@@ -381,9 +381,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>${row.cells[4].querySelector('input').value}</td>
             <td>${row.cells[5].querySelector('input').value}</td>
             <td>${row.cells[6].textContent}</td>
-            <td>${row.cells[7].textContent}</td>
-            <td>${row.cells[8].textContent}</td>
-            <td>${row.cells[9].textContent}</td>
         `;
 
         previewItemRows.appendChild(previewRow);

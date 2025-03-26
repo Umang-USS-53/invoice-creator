@@ -711,7 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
         previewItemRows.appendChild(previewRow);
 
     });
-
+    
 
     // Totals
 
@@ -731,6 +731,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     invoicePreview.style.display = 'block';
+
+    document.getElementById('saveInvoiceButton').style.display = 'block';
 
 }
 

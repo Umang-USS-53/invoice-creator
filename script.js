@@ -365,7 +365,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Item Details
    const previewItemRows = document.getElementById('previewItemRows');
-    previewItemRows.innerHTML = '';
+    previewItemRows.innerHTML = `
+        <thead>
+            <tr>
+                <th>Lot No.</th>
+                <th>Description</th>
+                <th>HSN/SAC</th>
+                <th>Unit</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    `;
+
+    const previewItemRowsBody = previewItemRows.querySelector('tbody');
 
     const itemRowsData = document.querySelectorAll('#itemRows tr');
     itemRowsData.forEach(row => {
@@ -383,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>${row.cells[6].textContent}</td>
         `;
 
-        previewItemRows.appendChild(previewRow);
+        previewItemRowsBody.appendChild(previewRow);
     });
 
     // Totals

@@ -744,10 +744,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    const margin = 10; // Margin for the entire document
+    const margin = 10;
     let currentY = margin;
 
-    // Function to add a styled text
+    // Function to add styled text (reused)
     function addStyledText(text, x, y, style = {}) {
         doc.setFont(style.font || 'helvetica');
         doc.setFontSize(style.size || 12);
@@ -755,29 +755,8 @@ document.addEventListener('DOMContentLoaded', () => {
         doc.text(text, x, y, { align: style.align || 'left' });
     }
 
-    // Function to add a cell to the table
-    function addTableCell(text, x, y, width, style = {}) {
-    doc.setFont(style.font || 'helvetica');
-    doc.setFontSize(style.size || 10);
-    doc.setFont(style.font, style.fontStyle || 'normal');
-    doc.text(text, x, y, { align: style.align || 'left' });
-
-    const rectX = x - 1;
-    const rectY = y - 5;
-    let rectWidth = width;
-    const rectHeight = 10;
-
-    // Check if rectWidth is undefined and provide a default value
-    if (rectWidth === undefined) {
-        rectWidth = 20; // Or any default width you find suitable
-        console.warn("rectWidth is undefined. Using default width:", rectWidth);
-    }
-
-    doc.rect(rectX, rectY, rectWidth, rectHeight, 'D');
-}
-
     // Invoice Header
-    addStyledText('LOCAL TAX INVOICE', margin, currentY, { font: 'helvetica', size: 16, fontStyle: 'bold', align: 'center' });
+    addStyledText('TAX INVOICE', margin, currentY, { font: 'helvetica', size: 16, fontStyle: 'bold', align: 'center' });
     currentY += 10;
 
     // Seller Details
@@ -828,48 +807,14 @@ document.addEventListener('DOMContentLoaded', () => {
     addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
     currentY += 5;
 
-    // Table Headers (Conditional - without GST rates)
-    const tableHeadersPDF = ['Lot No.', 'Description', 'HSN/SAC', 'Unit', 'Quantity', 'Rate', 'Amount'];
-    const columnWidthsPDF = [10, 25, 15, 10, 15, 15, 20];
-    let currentX = margin;
+    // ... (Table generation code - will be modified later)
 
-    for (let i = 0; i < tableHeadersPDF.length; i++) {
-        addTableCell(tableHeadersPDF[i], currentX, currentY, columnWidthsPDF[i], { fontStyle: 'bold' });
-        currentX += columnWidthsPDF[i];
-    }
-    currentY += 5;
-
-    // Table Rows
-    const itemRows = document.querySelectorAll('#previewItemRows tr');
-    itemRows.forEach(row => {
-        currentX = margin;
-        const cells = row.querySelectorAll('td');
-        for (let i = 0; i < tableHeadersPDF.length; i++) {
-            addTableCell(cells[i].textContent, currentX, currentY, columnWidthsPDF[i]);
-            currentX += columnWidthsPDF[i];
-        }
-        currentY += 5;
-    });
-
-    // Totals Table
+    // Totals
     currentY += 10;
     addStyledText('Totals', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
     currentY += 5;
 
-    const totals = [
-        { label: 'Total Quantity', value: document.getElementById('previewTotalQuantity').textContent },
-        { label: 'Taxable Value', value: document.getElementById('previewTaxableValue').textContent },
-        { label: 'CGST', value: document.getElementById('previewCgstValue').textContent },
-        { label: 'SGST', value: document.getElementById('previewSgstValue').textContent },
-        { label: 'IGST', value: document.getElementById('previewIgstValue').textContent },
-        { label: 'Invoice Value', value: document.getElementById('previewInvoiceValue').textContent },
-    ];
-
-    totals.forEach(total => {
-        addStyledText(total.label, margin + 70, currentY);
-        addStyledText(total.value, margin + 100, currentY, { align: 'right' });
-        currentY += 5;
-    });
+    // ... (Totals display code - will be modified later)
 
     // Amount In Words
     currentY += 10;
@@ -877,7 +822,7 @@ document.addEventListener('DOMContentLoaded', () => {
     currentY += 5;
     addStyledText(document.getElementById('previewAmountInWords').textContent, margin, currentY, { size: 10 });
 
-    // Payment Details
+    // Payment Instructions
     currentY += 10;
     addStyledText('Payment Instructions', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
     currentY += 5;

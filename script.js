@@ -757,12 +757,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to add a cell to the table
     function addTableCell(text, x, y, width, style = {}) {
-        doc.setFont(style.font || 'helvetica');
-        doc.setFontSize(style.size || 10);
-        doc.setFont(style.font, style.fontStyle || 'normal');
-        doc.text(text, x, y, { align: style.align || 'left' });
-        doc.rect(x - 1, y - 5, width, 10); // Add cell border
-    }
+    doc.setFont(style.font || 'helvetica');
+    doc.setFontSize(style.size || 10);
+    doc.setFont(style.font, style.fontStyle || 'normal');
+    doc.text(text, x, y, { align: style.align || 'left' });
+    doc.rect(x - 1, y - 5, width, 10, 'D'); // Added 'D' for stroke
+}
 
     // Invoice Header
     addStyledText('LOCAL TAX INVOICE', margin, currentY, { font: 'helvetica', size: 16, fontStyle: 'bold', align: 'center' });

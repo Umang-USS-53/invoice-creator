@@ -364,7 +364,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('previewTermsConditions').textContent = "1) The diamonds herein invoiced have been purchased from a legitimate source that is not involved in funding conflict and is in compliance with United Nations Resolutions.\n2) The diamonds herein invoiced are exclusively of natural origin and untreated based on personal knowledge and/or written guarantees provided by the supplier.\n3) The acceptance of goods herein invoiced will be as per the WFDB guidelines.\n4) To the best of our knowledge and/or written assurance from our suppliers, these diamonds have not been obtained in violation of applicable laws and are not organized from Mbada and Mrange Resources of Zimbabwe.\n5) I/We certify that our Registration Certificate under the GST Act, 2017 is valid on the date of sale and that this invoice is duly certified.\n6) Subject to Mumbai Jurisdiction.\n7) Provision for TCS under Section 206C (1H) will be charged separately through a debit note.";
 
     // Item Details
-   const previewItemRows = document.getElementById('previewItemRows');
+   function previewInvoice() {
+    // ... (rest of the previewInvoice function remains unchanged)
+
+    // Item Details
+    const previewItemRows = document.getElementById('previewItemRows');
     previewItemRows.innerHTML = `
         <thead>
             <tr>
@@ -381,26 +385,33 @@ document.addEventListener('DOMContentLoaded', () => {
         </tbody>
     `;
 
-    const previewItemRowsBody = previewItemRows.querySelector('tbody');
+    // Delay the querySelector until after the innerHTML is set.
+    setTimeout(() => {
+        const previewItemRowsBody = previewItemRows.querySelector('tbody');
 
-    const itemRowsData = document.querySelectorAll('#itemRows tr');
-    itemRowsData.forEach(row => {
-        const previewRow = document.createElement('tr');
-        const descriptionSelect = row.querySelector('.description');
-        const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
+        const itemRowsData = document.querySelectorAll('#itemRows tr');
+        itemRowsData.forEach(row => {
+            const previewRow = document.createElement('tr');
+            const descriptionSelect = row.querySelector('.description');
+            const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
 
-        previewRow.innerHTML = `
-            <td>${row.cells[0].textContent}</td>
-            <td>${descriptionText}</td>
-            <td>${row.cells[2].textContent}</td>
-            <td>${row.cells[3].textContent}</td>
-            <td>${row.cells[4].querySelector('input').value}</td>
-            <td>${row.cells[5].querySelector('input').value}</td>
-            <td>${row.cells[6].textContent}</td>
-        `;
+            previewRow.innerHTML = `
+                <td>${row.cells[0].textContent}</td>
+                <td>${descriptionText}</td>
+                <td>${row.cells[2].textContent}</td>
+                <td>${row.cells[3].textContent}</td>
+                <td>${row.cells[4].querySelector('input').value}</td>
+                <td>${row.cells[5].querySelector('input').value}</td>
+                <td>${row.cells[6].textContent}</td>
+            `;
 
-        previewItemRowsBody.appendChild(previewRow);
-    });
+            previewItemRowsBody.appendChild(previewRow);
+        });
+    }, 0); // Execute immediately after the current event loop.
+
+    // Totals
+    // ... (rest of the previewInvoice function remains unchanged)
+}
 
     // Totals
     document.getElementById('previewTotalQuantity').textContent = document.getElementById('totalQuantity').textContent;

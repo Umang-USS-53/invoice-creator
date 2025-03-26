@@ -761,7 +761,15 @@ document.addEventListener('DOMContentLoaded', () => {
     doc.setFontSize(style.size || 10);
     doc.setFont(style.font, style.fontStyle || 'normal');
     doc.text(text, x, y, { align: style.align || 'left' });
-    doc.rect(x - 1, y - 5, width, 10, 'D'); // Added 'D' for stroke
+
+    const rectX = x - 1;
+    const rectY = y - 5;
+    const rectWidth = width;
+    const rectHeight = 10;
+
+    console.log("rectX:", rectX, "rectY:", rectY, "rectWidth:", rectWidth, "rectHeight:", rectHeight);
+
+    doc.rect(rectX, rectY, rectWidth, rectHeight, 'D');
 }
 
     // Invoice Header

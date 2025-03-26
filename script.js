@@ -828,14 +828,14 @@ document.addEventListener('DOMContentLoaded', () => {
     addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 12, fontStyle: 'bold' });
     currentY += 5;
 
-    // Table Headers
-    const tableHeaders = ['Lot No.', 'Description', 'HSN/SAC', 'Unit', 'Quantity', 'Rate', 'Amount'];
-    const columnWidths = [10, 40, 20, 10, 15, 20, 20];
+    // Table Headers (Conditional - without GST rates)
+    const tableHeadersPDF = ['Lot No.', 'Description', 'HSN/SAC', 'Unit', 'Quantity', 'Rate', 'Amount'];
+    const columnWidthsPDF = [10, 25, 15, 10, 15, 15, 20];
     let currentX = margin;
 
-    for (let i = 0; i < tableHeaders.length; i++) {
-        addTableCell(tableHeaders[i], currentX, currentY, columnWidths[i], { fontStyle: 'bold' });
-        currentX += columnWidths[i];
+    for (let i = 0; i < tableHeadersPDF.length; i++) {
+        addTableCell(tableHeadersPDF[i], currentX, currentY, columnWidthsPDF[i], { fontStyle: 'bold' });
+        currentX += columnWidthsPDF[i];
     }
     currentY += 5;
 
@@ -844,10 +844,10 @@ document.addEventListener('DOMContentLoaded', () => {
     itemRows.forEach(row => {
         currentX = margin;
         const cells = row.querySelectorAll('td');
-        cells.forEach((cell, index) => {
-            addTableCell(cell.textContent, currentX, currentY, columnWidths[index]);
-            currentX += columnWidths[index];
-        });
+        for (let i = 0; i < tableHeadersPDF.length; i++) {
+            addTableCell(cells[i].textContent, currentX, currentY, columnWidthsPDF[i]);
+            currentX += columnWidthsPDF[i];
+        }
         currentY += 5;
     });
 

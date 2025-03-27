@@ -743,7 +743,7 @@ document.addEventListener('DOMContentLoaded', () => {
  
     function generateTotalsTable(doc, startY) {
     const margin = 10;
-    let totalTableStartX = 120; // Initial trial value (changed from 115)
+    const pageWidth = doc.internal.pageSize.getWidth();
 
     // Totals data
     const totals = [
@@ -766,17 +766,24 @@ document.addEventListener('DOMContentLoaded', () => {
     doc.autoTable({
         head: [tableHeaders],
         body: tableData,
-        startX: totalTableStartX,
         startY: startY,
         styles: {
-            headStyles: { fontStyle: 'bold' } // Bold header
+            headStyles: { fontStyle: 'bold' },
         },
         columnStyles: {
-            0: { fontStyle: 'bold' } // Bold labels
-        }
+            0: { fontStyle: 'bold' },
+        },
+        margin: { right: margin }, // Right margin
+        horizontalPageBreak: true,
+        tableWidth: 'auto', // Auto-adjust table width
+        didParseCell: function(data) {
+            if (data.column.index === 1) { //Amount column.
+                data.cell.styles.halign = 'right'; // align amount to the right.
+            }
+        },
     });
 
-    return doc.previousAutoTable.finalY; // Return the Y position after the table
+    return doc.previousAutoTable.finalY;
 }
 
 function generatePDF() {

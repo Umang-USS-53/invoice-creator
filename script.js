@@ -743,7 +743,6 @@ document.addEventListener('DOMContentLoaded', () => {
  
     function generateTotalsTable(doc, startY) {
     const margin = 10;
-    const pageWidth = doc.internal.pageSize.getWidth();
 
     // Totals data
     const totals = [
@@ -772,17 +771,11 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         columnStyles: {
             0: { fontStyle: 'bold' },
+            1: { halign: 'right' } // Right align amount column.
         },
         margin: { right: margin }, // Right margin
         horizontalPageBreak: true,
-        tableWidth: 'auto', // Auto-adjust table width
-        didParseCell: function(data) {
-            if (data.column.index === 1) { //Amount column.
-                data.cell.styles.halign = 'right'; // align amount to the right.
-            } else if (data.column.index === 0) { // Description Column
-                data.cell.styles.halign = 'left'; // align description to the left.
-            }
-        },
+        tableWidth: 'auto' // Auto-adjust table width
     });
 
     return doc.previousAutoTable.finalY;

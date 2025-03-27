@@ -743,6 +743,7 @@ document.addEventListener('DOMContentLoaded', () => {
  
     function generateTotalsTable(doc, startY) {
     const margin = 10;
+    let totalTableStartX = 115; //trial and error value, please change this.
 
     // Totals data
     const totals = [
@@ -765,7 +766,7 @@ document.addEventListener('DOMContentLoaded', () => {
     doc.autoTable({
         head: [tableHeaders],
         body: tableData,
-        startX: 80, // Align with item details table
+        startX: totalTableStartX,
         startY: startY,
         styles: {
             headStyles: { fontStyle: 'bold' } // Bold header

@@ -766,15 +766,15 @@ document.addEventListener('DOMContentLoaded', () => {
         body: tableData,
         startY: startY,
         columnStyles: {
-            0: { halign: 'right' }, // Right align description column data
-            1: { halign: 'right' }  // Right align amount column data
+            0: { halign: 'right' },
+            1: { halign: 'right' }
         },
         horizontalPageBreak: true,
-        tableWidth: 'auto' // Auto-adjust table width
+        tableWidth: 'auto'
     });
 
     return doc.previousAutoTable.finalY;
-}}
+}
 
 function generatePDF() {
     const { jsPDF } = window.jspdf;

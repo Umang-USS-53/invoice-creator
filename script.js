@@ -767,11 +767,11 @@ document.addEventListener('DOMContentLoaded', () => {
         body: tableData,
         startY: startY,
         styles: {
-            headStyles: { fontStyle: 'bold' },
+            headStyles: { fontStyle: 'bold', halign: 'left' }, // Left align headers
         },
         columnStyles: {
-            0: { halign: 'right' }, // Right align description column
-            1: { halign: 'right' }  // Right align amount column
+            0: { halign: 'right' }, // Right align description column data
+            1: { halign: 'right' }  // Right align amount column data
         },
         horizontalPageBreak: true,
         tableWidth: 'auto' // Auto-adjust table width

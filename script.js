@@ -921,9 +921,10 @@ function generatePDF() {
 
     // Payment Instructions
     currentY += 7;
+    // Final "Payment Instructions"
     addStyledText('Payment Instructions', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
-    addStyledText(document.getElementById('previewPaymentInstructions').textContent, margin, currentY, { size: 9 });
+    addStyledText("Make payment strictly as per instructions and exact company name as mentioned in original attested invoice only", margin, currentY, { size: 9 });
 
     // Bank Details
     currentY += 7;
@@ -935,8 +936,21 @@ function generatePDF() {
     currentY += 7;
     addStyledText('Terms & Conditions', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
-    addStyledText(document.getElementById('previewTermsConditions').textContent, margin, currentY, { size: 7 });
+    // Final "Terms & Conditions"
+    addStyledText("1. The diamonds herein invoiced have been purchased from a legitimate source that is not involved in funding conflict and is in compliance with United Nations Resolutions.", margin, currentY, { size: 7 });
+    currentY += 3;
+    addStyledText("2. The diamonds herein invoiced are exclusively of natural origin and untreated based on personal knowledge and/or written guarantees provided by the supplier.", margin, currentY, { size: 7 });
+    currentY += 3;
+    addStyledText("3. The acceptance of goods herein invoiced will be as per the WFDB guidelines.", margin, currentY, { size: 7 });
+    currentY += 3;
+    addStyledText("4. To the best of our knowledge and/or written assurance from suppliers, these diamonds have not been obtained in violation of applicable laws and are not organized from Mbada.", margin, currentY, { size: 7 });
+    currentY += 3;
+    addStyledText("5. I/We certify that our Registration Certificate under the GST Act, 2017 is valid on the date of sale and that this invoice is duly certified.", margin, currentY, { size: 7 });
+    currentY += 3;
+    addStyledText("6. Subject to Mumbai Jurisdiction.", margin, currentY, { size: 7 });
+    currentY += 3;
+    addStyledText("7. E&OE", margin, currentY, { size: 7 });
 
     doc.save('invoice.pdf');
-}    
+}   
 }); 

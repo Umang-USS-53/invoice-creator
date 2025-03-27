@@ -841,14 +841,17 @@ function generatePDF() {
     currentY += 5;
     addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin, currentY, { size: 9 });
     currentY += 5;
-    addStyledText(`State: ${document.getElementById('sellerState').textContent}`, margin, currentY, { size: 9 });
-    currentY += 5;
-    addStyledText(`Email: ${document.getElementById('sellerEmail').textContent}`, margin, currentY, { size: 9 });
-    currentY += 5;
-    addStyledText(`GST: ${document.getElementById('sellerGST').textContent}`, margin, currentY, { size: 9 });
-    currentY += 5;
-    addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY, { size: 9 });
-    currentY += 8;
+
+    // Concatenate Seller Details
+    const sellerState = document.getElementById('sellerState').textContent;
+    const sellerEmail = document.getElementById('sellerEmail').textContent;
+    const sellerGST = document.getElementById('sellerGST').textContent;
+    const sellerPAN = document.getElementById('sellerPAN').textContent;
+
+    const sellerDetailsLine = `State: ${sellerState}, Email: ${sellerEmail}, GST: ${sellerGST}, PAN: ${sellerPAN}`;
+    addStyledText(sellerDetailsLine, margin, currentY, { size: 9 });
+
+    currentY += 10;
 
     // Buyer Details
     addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
@@ -906,42 +909,29 @@ function generatePDF() {
     currentY = generateTotalsTable(doc, currentY);
 
     // Amount In Words
-    // Original spacing: 8
-    // Reduction: 8 * 0.25 = 2
-    // New spacing: 8 - 2 = 6
-    currentY += 6; // Reduced spacing for Gap 5
+    currentY += 6;
     addStyledText('Amount in Words:', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewAmountInWords').textContent, margin, currentY, { size: 9 });
 
     // Payment Instructions
-    // Original spacing: 9
-    // Reduction: 9 * 0.25 = 2.25 (round to 2)
-    // New spacing: 9 - 2 = 7
-    currentY += 7; // Reduced spacing for Gap 6
+    currentY += 7;
     addStyledText('Payment Instructions', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewPaymentInstructions').textContent, margin, currentY, { size: 9 });
 
     // Bank Details
-    // Original spacing: 10
-    // Reduction: 10 * 0.25 = 2.5 (round to 3)
-    // New spacing: 10 - 3 = 7
-    currentY += 7; // Reduced spacing for Gap 7
+    currentY += 7;
     addStyledText('Bank Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewBankDetails').textContent, margin, currentY, { size: 9 });
 
     // Terms and Conditions
-    // Original spacing: 10
-    // Reduction: 10 * 0.25 = 2.5 (round to 3)
-    // New spacing: 10 - 3 = 7
-    currentY += 7; // Reduced spacing for Gap 8
+    currentY += 7;
     addStyledText('Terms & Conditions', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewTermsConditions').textContent, margin, currentY, { size: 7 });
 
     doc.save('invoice.pdf');
-}
-    
+}    
 }); 

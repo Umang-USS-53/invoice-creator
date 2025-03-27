@@ -803,7 +803,7 @@ function generatePDF() {
         fontStyle: 'bold',
         align: 'center'
     });
-    currentY += 15; // Adjusted spacing for Gap 1 (15 points)
+    currentY += 5; // Reduced spacing for Gap 1
 
     // Horizontal line after header
     doc.line(margin, currentY - 5, doc.internal.pageSize.getWidth() - margin, currentY - 5);
@@ -832,7 +832,7 @@ function generatePDF() {
         size: 9,
         fontStyle: 'bold'
     });
-    currentY += 12; // Adjusted spacing for Gap 2 (12 points)
+    currentY += 7; // Reduced spacing for Gap 2
 
     // Seller Details
     addStyledText('Seller Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
@@ -848,7 +848,7 @@ function generatePDF() {
     addStyledText(`GST: ${document.getElementById('sellerGST').textContent}`, margin, currentY, { size: 9 });
     currentY += 5;
     addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY, { size: 9 });
-    currentY += 18; // Adjusted spacing for Gap 3 (18 points)
+    currentY += 8; // Reduced spacing for Gap 3
 
     // Buyer Details
     addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
@@ -870,7 +870,7 @@ function generatePDF() {
     addStyledText(`Place of Supply: ${document.getElementById('previewPlaceOfSupply').textContent}`, margin, currentY, { size: 9 });
     currentY += 5;
     addStyledText(`Terms of Payment: ${document.getElementById('previewTermsOfPayment').textContent}`, margin, currentY, { size: 9 });
-    currentY += 20; // Adjusted spacing for Gap 4 (20 points)
+    currentY += 10; // Reduced spacing for Gap 4
 
     // Item Details Table
     addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
@@ -906,18 +906,18 @@ function generatePDF() {
     currentY = generateTotalsTable(doc, currentY);
 
     // Amount In Words
-    currentY += 15; // Adjusted spacing for Gap 5 (15 points)
+    currentY += 8; // Reduced spacing for Gap 5
     addStyledText('Amount in Words:', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewAmountInWords').textContent, margin, currentY, { size: 9 });
 
-    currentY += 18; // Adjusted spacing for Gap 6 (18 points)
+    currentY += 9; // Reduced spacing for Gap 6
     // Payment Instructions
     addStyledText('Payment Instructions', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewPaymentInstructions').textContent, margin, currentY, { size: 9 });
 
-    currentY += 20; // Adjusted spacing for Gap 7 (20 points)
+    currentY += 10; // Reduced spacing for Gap 7
     // Bank Details
     addStyledText('Bank Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;

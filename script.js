@@ -860,19 +860,24 @@ function generatePDF() {
     currentY += 5;
     addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin, currentY, { size: 9 });
     currentY += 5;
-    addStyledText(`City: ${document.getElementById('previewBuyerCity').textContent}`, margin, currentY, { size: 9 });
+
+    // Concatenate Buyer Details - City, State, PIN, PAN
+    const buyerCity = document.getElementById('previewBuyerCity').textContent;
+    const buyerState = document.getElementById('previewBuyerState').textContent;
+    const buyerPIN = document.getElementById('previewBuyerPIN').textContent;
+    const buyerPAN = document.getElementById('previewBuyerPAN').textContent;
+
+    const buyerCityDetailsLine = `City: ${buyerCity}, State: ${buyerState}, PIN: ${buyerPIN}, PAN: ${buyerPAN}`;
+    addStyledText(buyerCityDetailsLine, margin, currentY, { size: 9 });
     currentY += 5;
-    addStyledText(`State: ${document.getElementById('previewBuyerState').textContent}`, margin, currentY, { size: 9 });
-    currentY += 5;
-    addStyledText(`PIN: ${document.getElementById('previewBuyerPIN').textContent}`, margin, currentY, { size: 9 });
-    currentY += 5;
-    addStyledText(`GSTIN: ${document.getElementById('previewBuyerGST').textContent}`, margin, currentY, { size: 9 });
-    currentY += 5;
-    addStyledText(`PAN: ${document.getElementById('previewBuyerPAN').textContent}`, margin, currentY, { size: 9 });
-    currentY += 5;
-    addStyledText(`Place of Supply: ${document.getElementById('previewPlaceOfSupply').textContent}`, margin, currentY, { size: 9 });
-    currentY += 5;
-    addStyledText(`Terms of Payment: ${document.getElementById('previewTermsOfPayment').textContent}`, margin, currentY, { size: 9 });
+
+    // Concatenate Buyer Details - GSTIN, Place of Supply, Terms of Payment
+    const buyerGSTIN = document.getElementById('previewBuyerGST').textContent;
+    const buyerPlaceOfSupply = document.getElementById('previewPlaceOfSupply').textContent;
+    const buyerTermsOfPayment = document.getElementById('previewTermsOfPayment').textContent;
+
+    const buyerGSTDetailsLine = `GSTIN: ${buyerGSTIN}, Place of Supply: ${buyerPlaceOfSupply}, Terms of Payment: ${buyerTermsOfPayment}`;
+    addStyledText(buyerGSTDetailsLine, margin, currentY, { size: 9 });
     currentY += 10;
 
     // Item Details Table

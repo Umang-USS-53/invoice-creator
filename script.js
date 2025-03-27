@@ -820,20 +820,20 @@ function generatePDF() {
     });
 
     // Date formatting to DD/MM/YYYY
-    let invoiceDate = document.getElementById('invoiceDate').value;
-    let formattedDate;
-    if (invoiceDate) {
-        const dateParts = invoiceDate.split('-');
-        formattedDate = `<span class="math-inline">\{dateParts\[2\]\}/</span>{dateParts[1]}/${dateParts[0]}`;
-    } else {
-        formattedDate = "";
-    }
+let invoiceDate = document.getElementById('invoiceDate').value;
+let formattedDate;
+if (invoiceDate) {
+    const dateParts = invoiceDate.split('-');
+    formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+} else {
+    formattedDate = "";
+}
 
-    addStyledText(`Date: ${formattedDate}`, pageWidth - margin, currentY, {
-        align: 'right',
-        size: 9,
-        fontStyle: 'bold'
-    });
+addStyledText(`Date: ${formattedDate}`, pageWidth - margin, currentY, {
+    align: 'right',
+    size: 9,
+    fontStyle: 'bold'
+});
     currentY += 7;
 
     // Seller Details

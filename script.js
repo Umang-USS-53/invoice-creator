@@ -743,7 +743,7 @@ document.addEventListener('DOMContentLoaded', () => {
  
     function generateTotalsTable(doc, startY) {
     const margin = 10;
-    let totalTableStartX = 115; //trial and error value, please change this.
+    let totalTableStartX = 120; // Initial trial value (changed from 115)
 
     // Totals data
     const totals = [

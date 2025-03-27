@@ -770,7 +770,11 @@ document.addEventListener('DOMContentLoaded', () => {
             1: { halign: 'right' }
         },
         horizontalPageBreak: true,
-        tableWidth: 'auto'
+        tableWidth: 'auto',
+        styles: {
+            cellPadding: 0,
+            fontSize: 12,
+        }
     });
 
     return doc.previousAutoTable.finalY;
@@ -820,7 +824,7 @@ function generatePDF() {
     let formattedDate;
     if (invoiceDate) {
         const dateParts = invoiceDate.split('-');
-        formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+        formattedDate = `<span class="math-inline">\{dateParts\[2\]\}/</span>{dateParts[1]}/${dateParts[0]}`;
     } else {
         formattedDate = "";
     }
@@ -896,13 +900,16 @@ function generatePDF() {
         tableData.push(rowData);
     });
 
-    // jsPDF-autotable configuration
+    // jsPDF-autotable configuration for Item details table, with row height adjustment
     doc.autoTable({
         head: [tableHeadersPDF],
         body: tableData,
         startX: margin,
         startY: currentY,
-        // You can add styling options here (e.g., columnWidths, styles)
+        styles: {
+            cellPadding: 0,
+            fontSize: 12,
+        },
     });
 
     currentY = doc.previousAutoTable.finalY;
@@ -950,5 +957,5 @@ function generatePDF() {
     addStyledText("7. E&OE", margin, currentY, { size: 7 });
 
     doc.save('invoice.pdf');
-}   
+}
 }); 

@@ -779,6 +779,8 @@ document.addEventListener('DOMContentLoaded', () => {
         didParseCell: function(data) {
             if (data.column.index === 1) { //Amount column.
                 data.cell.styles.halign = 'right'; // align amount to the right.
+            } else if (data.column.index === 0) { // Description Column
+                data.cell.styles.halign = 'left'; // align description to the left.
             }
         },
     });

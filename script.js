@@ -773,7 +773,7 @@ document.addEventListener('DOMContentLoaded', () => {
         horizontalPageBreak: true,
         tableWidth: 'auto', // Auto-adjust table width
         didParseCell: function(data) {
-            if (data.row.index === 0) { // Check if it's the header row
+            if (data.row.index === 0 && (data.column.index === 0 || data.column.index === 1)) {
                 data.cell.styles.halign = 'left'; // Left align header cells
             }
         }

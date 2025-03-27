@@ -755,7 +755,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // Prepare data for jsPDF-autotable
-    const tableHeaders = ['Description', 'Amount'];
     const tableData = [];
     totals.forEach(total => {
         tableData.push([total.label, total.value]);
@@ -763,7 +762,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // jsPDF-autotable configuration
     doc.autoTable({
-        head: [tableHeaders],
+        head: [], // Empty array to remove headers
         body: tableData,
         startY: startY,
         columnStyles: {
@@ -771,16 +770,11 @@ document.addEventListener('DOMContentLoaded', () => {
             1: { halign: 'right' }  // Right align amount column data
         },
         horizontalPageBreak: true,
-        tableWidth: 'auto', // Auto-adjust table width
-        didParseCell: function(data) {
-            if (data.row.index === 0 && (data.column.index === 0 || data.column.index === 1)) {
-                data.cell.styles.halign = 'left'; // Left align header cells
-            }
-        }
+        tableWidth: 'auto' // Auto-adjust table width
     });
 
     return doc.previousAutoTable.finalY;
-}
+}}
 
 function generatePDF() {
     const { jsPDF } = window.jspdf;

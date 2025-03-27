@@ -786,13 +786,13 @@ function generatePDF() {
     });
 
     const margin = 10;
-    let currentY = 36;
+    let currentY = 36; // Initial Y position
+    const lineHeight = 20; // Standardized line height (0.7cm in points)
 
     // Function to add styled text (reused)
     function addStyledText(text, x, y, style = {}) {
         doc.setFont(style.font || 'helvetica');
-        doc.setFontSize(style.size || 9); // Default size is now 9
-        doc.setFont(style.font, style.fontStyle || 'normal');
+        doc.setFontSize(style.size || 9);
         doc.setFont(style.font, style.fontStyle || 'normal');
         doc.text(text, x, y, { align: style.align || 'left' });
     }
@@ -800,21 +800,21 @@ function generatePDF() {
     // Invoice Header
     addStyledText('TAX INVOICE', doc.internal.pageSize.getWidth() / 2, currentY, {
         font: 'helvetica',
-        size: 14, // Invoice header is 14
+        size: 14,
         fontStyle: 'bold',
         align: 'center'
     });
-    currentY += 10;
+    currentY += lineHeight;
 
-    // Horizontal line after header (moved slightly upwards)
-    doc.line(margin, currentY - 5, doc.internal.pageSize.getWidth() - margin, currentY - 5);
-    currentY += 5;
+    // Horizontal line after header
+    doc.line(margin, currentY, doc.internal.pageSize.getWidth() - margin, currentY);
+    currentY += lineHeight;
 
     // Invoice Number (Left) and Date (Right)
     const pageWidth = doc.internal.pageSize.getWidth();
     addStyledText(`Invoice No.: ${document.getElementById('invoiceNumber').value}`, margin, currentY, {
         align: 'left',
-        size: 9, // 9 points
+        size: 9,
         fontStyle: 'bold'
     });
 
@@ -825,58 +825,57 @@ function generatePDF() {
         const dateParts = invoiceDate.split('-');
         formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
     } else {
-        formattedDate = ""; // Or some default value if the date is not available
+        formattedDate = "";
     }
 
     addStyledText(`Date: ${formattedDate}`, pageWidth - margin, currentY, {
         align: 'right',
-        size: 9, // 9 points
+        size: 9,
         fontStyle: 'bold'
     });
-    currentY += 10;
+    currentY += lineHeight;
 
     // Seller Details
-    addStyledText('Seller Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' }); // 9 points
-    currentY += 7;
-    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 5;
-    addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 5;
-    addStyledText(`State: ${document.getElementById('sellerState').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 5;
-    addStyledText(`Email: ${document.getElementById('sellerEmail').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 5;
-    addStyledText(`GST: ${document.getElementById('sellerGST').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 5;
-    addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 10;
+    addStyledText('Seller Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += lineHeight;
+    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
+    addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
+    addStyledText(`State: ${document.getElementById('sellerState').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
+    addStyledText(`Email: ${document.getElementById('sellerEmail').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
+    addStyledText(`GST: ${document.getElementById('sellerGST').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
+    addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
 
     // Buyer Details
-    addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' }); // 9 points
-    currentY += 7;
-    addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 5;
-    addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 5;
-    addStyledText(`City: ${document.getElementById('previewBuyerCity').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 5;
-    addStyledText(`State: ${document.getElementById('previewBuyerState').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 5;
-    addStyledText(`PIN: ${document.getElementById('previewBuyerPIN').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 5;
-    addStyledText(`GSTIN: ${document.getElementById('previewBuyerGST').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 5;
-    addStyledText(`PAN: ${document.getElementById('previewBuyerPAN').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 5;
-    addStyledText(`Place of Supply: ${document.getElementById('previewPlaceOfSupply').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 5;
-    addStyledText(`Terms of Payment: ${document.getElementById('previewTermsOfPayment').textContent}`, margin, currentY, { size: 9 }); // 9 points
-    currentY += 10;
+    addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += lineHeight;
+    addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
+    addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
+    addStyledText(`City: ${document.getElementById('previewBuyerCity').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
+    addStyledText(`State: ${document.getElementById('previewBuyerState').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
+    addStyledText(`PIN: ${document.getElementById('previewBuyerPIN').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
+    addStyledText(`GSTIN: ${document.getElementById('previewBuyerGST').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
+    addStyledText(`PAN: ${document.getElementById('previewBuyerPAN').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
+    addStyledText(`Place of Supply: ${document.getElementById('previewPlaceOfSupply').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
+    addStyledText(`Terms of Payment: ${document.getElementById('previewTermsOfPayment').textContent}`, margin, currentY, { size: 9 });
+    currentY += lineHeight;
 
     // Item Details Table
-    currentY += 10;
-    addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' }); // 9 points
-    currentY += 5;
+    addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += lineHeight;
 
     // Prepare table headers and data for jsPDF-autotable
     const tableHeadersPDF = ['Lot No.', 'Description', 'HSN/SAC', 'Unit', 'Quantity', 'Rate', 'Amount'];
@@ -901,35 +900,35 @@ function generatePDF() {
         // You can add styling options here (e.g., columnWidths, styles)
     });
 
-    currentY = doc.previousAutoTable.finalY; // Get the y-coordinate after the table
+    currentY = doc.previousAutoTable.finalY;
 
     // Totals Table
-    currentY += 5; // Add some space between item table and total table
-    currentY = generateTotalsTable(doc, currentY); // Generate totals table
+    currentY += lineHeight;
+    currentY = generateTotalsTable(doc, currentY);
 
     // Amount In Words
-    currentY += 10;
-    addStyledText('Amount in Words:', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' }); // 9 points
-    currentY += 5;
-    addStyledText(document.getElementById('previewAmountInWords').textContent, margin, currentY, { size: 9 }); // 9 points
+    currentY += lineHeight;
+    addStyledText('Amount in Words:', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += lineHeight;
+    addStyledText(document.getElementById('previewAmountInWords').textContent, margin, currentY, { size: 9 });
 
     // Payment Instructions
-    currentY += 10;
-    addStyledText('Payment Instructions', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' }); // 9 points
-    currentY += 5;
-    addStyledText(document.getElementById('previewPaymentInstructions').textContent, margin, currentY, { size: 9 }); // 9 points
+    currentY += lineHeight;
+    addStyledText('Payment Instructions', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += lineHeight;
+    addStyledText(document.getElementById('previewPaymentInstructions').textContent, margin, currentY, { size: 9 });
 
     // Bank Details
-    currentY += 10;
-    addStyledText('Bank Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' }); // 9 points
-    currentY += 5;
-    addStyledText(document.getElementById('previewBankDetails').textContent, margin, currentY, { size: 9 }); // 9 points
+    currentY += lineHeight;
+    addStyledText('Bank Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += lineHeight;
+    addStyledText(document.getElementById('previewBankDetails').textContent, margin, currentY, { size: 9 });
 
     // Terms and Conditions
-    currentY += 10;
-    addStyledText('Terms & Conditions', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' }); // 9 points
-    currentY += 5;
-    addStyledText(document.getElementById('previewTermsConditions').textContent, margin, currentY, { size: 7 }); // 7 points
+    currentY += lineHeight;
+    addStyledText('Terms & Conditions', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += lineHeight;
+    addStyledText(document.getElementById('previewTermsConditions').textContent, margin, currentY, { size: 7 });
 
     doc.save('invoice.pdf');
 }

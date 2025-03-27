@@ -766,15 +766,17 @@ document.addEventListener('DOMContentLoaded', () => {
         head: [tableHeaders],
         body: tableData,
         startY: startY,
-        styles: {
-            headStyles: { fontStyle: 'bold', halign: 'left' }, // Left align headers
-        },
         columnStyles: {
             0: { halign: 'right' }, // Right align description column data
             1: { halign: 'right' }  // Right align amount column data
         },
         horizontalPageBreak: true,
-        tableWidth: 'auto' // Auto-adjust table width
+        tableWidth: 'auto', // Auto-adjust table width
+        didParseCell: function(data) {
+            if (data.row.index === 0) { // Check if it's the header row
+                data.cell.styles.halign = 'left'; // Left align header cells
+            }
+        }
     });
 
     return doc.previousAutoTable.finalY;

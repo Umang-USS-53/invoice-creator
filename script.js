@@ -786,8 +786,7 @@ function generatePDF() {
     });
 
     const margin = 10;
-    let currentY = 36;
-    const lineHeight = 20; // Standardized line height (0.7cm in points)
+    let currentY = 36; // Initial Y position
 
     // Function to add styled text (reused)
     function addStyledText(text, x, y, style = {}) {
@@ -804,7 +803,7 @@ function generatePDF() {
         fontStyle: 'bold',
         align: 'center'
     });
-    currentY += 10; // Original value: 10. Adjusted to 20 for 0.7cm spacing
+    currentY += 15; // Adjusted spacing for Gap 1 (15 points)
 
     // Horizontal line after header
     doc.line(margin, currentY - 5, doc.internal.pageSize.getWidth() - margin, currentY - 5);
@@ -833,7 +832,7 @@ function generatePDF() {
         size: 9,
         fontStyle: 'bold'
     });
-    currentY += 10;
+    currentY += 12; // Adjusted spacing for Gap 2 (12 points)
 
     // Seller Details
     addStyledText('Seller Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
@@ -849,7 +848,7 @@ function generatePDF() {
     addStyledText(`GST: ${document.getElementById('sellerGST').textContent}`, margin, currentY, { size: 9 });
     currentY += 5;
     addStyledText(`PAN: ${document.getElementById('sellerPAN').textContent}`, margin, currentY, { size: 9 });
-    currentY += 10;
+    currentY += 18; // Adjusted spacing for Gap 3 (18 points)
 
     // Buyer Details
     addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
@@ -871,10 +870,9 @@ function generatePDF() {
     addStyledText(`Place of Supply: ${document.getElementById('previewPlaceOfSupply').textContent}`, margin, currentY, { size: 9 });
     currentY += 5;
     addStyledText(`Terms of Payment: ${document.getElementById('previewTermsOfPayment').textContent}`, margin, currentY, { size: 9 });
-    currentY += 10;
+    currentY += 20; // Adjusted spacing for Gap 4 (20 points)
 
     // Item Details Table
-    currentY += 10;
     addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
 
@@ -908,19 +906,19 @@ function generatePDF() {
     currentY = generateTotalsTable(doc, currentY);
 
     // Amount In Words
-    currentY += 10;
+    currentY += 15; // Adjusted spacing for Gap 5 (15 points)
     addStyledText('Amount in Words:', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewAmountInWords').textContent, margin, currentY, { size: 9 });
 
+    currentY += 18; // Adjusted spacing for Gap 6 (18 points)
     // Payment Instructions
-    currentY += 10;
     addStyledText('Payment Instructions', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewPaymentInstructions').textContent, margin, currentY, { size: 9 });
 
+    currentY += 20; // Adjusted spacing for Gap 7 (20 points)
     // Bank Details
-    currentY += 10;
     addStyledText('Bank Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewBankDetails').textContent, margin, currentY, { size: 9 });

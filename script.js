@@ -744,6 +744,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function generateTotalsTable(doc, startY) {
     const margin = 10;
     const pageWidth = doc.internal.pageSize.getWidth();
+    const middleX = pageWidth / 2; // Calculate the middle of the page
 
     // Totals data
     const totals = [
@@ -774,29 +775,9 @@ document.addEventListener('DOMContentLoaded', () => {
             0: { fontStyle: 'bold' },
             1: { halign: 'right' } // Right align amount column.
         },
-        margin: { right: margin }, // Right margin
+        startX: middleX, // Start the table from the middle of the page
         horizontalPageBreak: true,
-        tableWidth: 'auto', // Auto-adjust table width.
-        didDrawPage: function(data) {
-            const tableWidth = data.table.width;
-            const startX = pageWidth - tableWidth - margin;
-            doc.autoTable({
-                head: [tableHeaders],
-                body: tableData,
-                startY: startY,
-                styles: {
-                    headStyles: { fontStyle: 'bold' },
-                },
-                columnStyles: {
-                    0: { fontStyle: 'bold' },
-                    1: { halign: 'right' }
-                },
-                startX: startX,
-                margin: { right: margin },
-                horizontalPageBreak: true,
-                tableWidth: 'auto'
-            });
-        }
+        tableWidth: 'auto' // Auto-adjust table width
     });
 
     return doc.previousAutoTable.finalY;

@@ -743,6 +743,10 @@ document.addEventListener('DOMContentLoaded', () => {
  
     function generateTotalsTable(doc, startY) {
     const margin = 10;
+    const cellHeight = 10; // Adjust as needed
+    const col1Width = 100; // Adjust as needed
+    const col2Width = 50; // Adjust as needed
+    let currentY = startY;
 
     // Get Item Details from the first line item
     const itemRows = document.querySelectorAll('#previewItemRows tr');
@@ -771,30 +775,17 @@ document.addEventListener('DOMContentLoaded', () => {
         { label: 'Invoice Value (INR)', value: document.getElementById('previewInvoiceValue').textContent },
     ];
 
-    // Prepare data for jsPDF-autotable
-    const tableData = [];
     totals.forEach(total => {
-        tableData.push([total.label, total.value]);
+        doc.text(total.label, margin, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 });
+        doc.text(total.value, margin + col1Width + 5, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 });
+
+        // Draw horizontal line
+        doc.line(margin, currentY + cellHeight, margin + col1Width + col2Width + 10, currentY + cellHeight);
+
+        currentY += cellHeight;
     });
 
-    // jsPDF-autotable configuration
-    doc.autoTable({
-        head: [],
-        body: tableData,
-        startY: startY,
-        columnStyles: {
-            0: { halign: 'right' },
-            1: { halign: 'right' }
-        },
-        horizontalPageBreak: true,
-        tableWidth: 'auto',
-        styles: {
-            fontSize: 10,
-            // fontStyle: 'bold', // Removed bold styling
-        }
-    });
-
-    return doc.previousAutoTable.finalY;
+    return currentY;
 }
 
 function generatePDF() {

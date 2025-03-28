@@ -744,14 +744,31 @@ document.addEventListener('DOMContentLoaded', () => {
     function generateTotalsTable(doc, startY) {
     const margin = 10;
 
-    // Totals data
+    // Get Item Details from the first line item
+    const itemRows = document.querySelectorAll('#previewItemRows tr');
+    let unit = '';
+    let cgstRate = '';
+    let sgstRate = '';
+    let igstRate = '';
+
+    if (itemRows.length > 0) {
+        const cells = itemRows[0].querySelectorAll('td');
+        if (cells.length >= 7) { // Ensure enough columns
+            unit = cells[3].textContent; // Unit is the 4th column
+            cgstRate = cells[7] ? cells[7].textContent : ''; // CGST Rate is the 8th column
+            sgstRate = cells[8] ? cells[8].textContent : ''; // SGST Rate is the 9th column
+            igstRate = cells[9] ? cells[9].textContent : ''; // IGST Rate is the 10th column
+        }
+    }
+
+    // Totals data with modified labels
     const totals = [
-        { label: 'Total Quantity', value: document.getElementById('previewTotalQuantity').textContent },
-        { label: 'Taxable Value', value: document.getElementById('previewTaxableValue').textContent },
-        { label: 'CGST', value: document.getElementById('previewCgstValue').textContent },
-        { label: 'SGST', value: document.getElementById('previewSgstValue').textContent },
-        { label: 'IGST', value: document.getElementById('previewIgstValue').textContent },
-        { label: 'Invoice Value', value: document.getElementById('previewInvoiceValue').textContent },
+        { label: `Total Quantity (${unit})`, value: document.getElementById('previewTotalQuantity').textContent },
+        { label: 'Taxable Value (INR)', value: document.getElementById('previewTaxableValue').textContent },
+        { label: `CGST (${cgstRate})`, value: document.getElementById('previewCgstValue').textContent },
+        { label: `SGST (${sgstRate})`, value: document.getElementById('previewSgstValue').textContent },
+        { label: `IGST (${igstRate})`, value: document.getElementById('previewIgstValue').textContent },
+        { label: 'Invoice Value (INR)', value: document.getElementById('previewInvoiceValue').textContent },
     ];
 
     // Prepare data for jsPDF-autotable
@@ -772,8 +789,8 @@ document.addEventListener('DOMContentLoaded', () => {
         horizontalPageBreak: true,
         tableWidth: 'auto',
         styles: {
-            cellPadding: 0,
             fontSize: 10,
+            fontStyle: 'bold'
         }
     });
 

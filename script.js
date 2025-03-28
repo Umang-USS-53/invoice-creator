@@ -792,7 +792,7 @@ document.addEventListener('DOMContentLoaded', () => {
         styles: {
             fontSize: 9,
             fontStyle: 'bold',
-            rowHeight: 7, // Experiment with row height
+            rowHeight: 3, // Experiment with row height
         }
     });
 

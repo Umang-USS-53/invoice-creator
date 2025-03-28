@@ -844,7 +844,7 @@ function generatePDF() {
         size: 9,
         fontStyle: 'bold'
     });
-    currentY += 7;
+    currentY += 5;
 
      // Seller Details Rectangle
     const sellerRectStartY = currentY;
@@ -958,26 +958,26 @@ function generatePDF() {
     currentY = generateTotalsTable(doc, currentY);
 
     // Amount In Words
-    currentY += 6;
+    currentY += 4;
     addStyledText('Amount in Words:', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewAmountInWords').textContent, margin, currentY, { size: 9 });
 
     // Payment Instructions
-    currentY += 7;
+    currentY += 5;
     // Final "Payment Instructions"
     addStyledText('Payment Instructions', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
     addStyledText("Make payment strictly as per instructions and exact company name as mentioned in original attested invoice only", margin, currentY, { size: 9 });
 
     // Bank Details
-    currentY += 7;
+    currentY += 5;
     addStyledText('Bank Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
     addStyledText(document.getElementById('previewBankDetails').textContent, margin, currentY, { size: 9 });
 
     // Terms and Conditions
-    currentY += 7;
+    currentY += 5;
     addStyledText('Terms & Conditions', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
     // Final "Terms & Conditions"

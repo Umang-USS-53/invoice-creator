@@ -791,7 +791,7 @@ function generatePDF() {
     let currentY = 36;
     const pageWidth = doc.internal.pageSize.getWidth();
     const rectWidth = pageWidth - (margin * 2);
-    const rectBorderThickness = 1; // Adjust border thickness as needed
+    const rectBorderThickness = 1;
 
     // Function to add styled text (reused)
     function addStyledText(text, x, y, style = {}) {
@@ -885,6 +885,9 @@ function generatePDF() {
     currentY += 10;
     const buyerRectHeight = currentY - buyerRectStartY;
     doc.rect(margin, buyerRectStartY, rectWidth, buyerRectHeight);
+
+    // Adjust currentY for Item Details
+    currentY += 5;
 
     // Item Details Table
     addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });

@@ -773,7 +773,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tableWidth: 'auto',
         styles: {
             cellPadding: 0,
-            fontSize: 12,
+            fontSize: 10,
         }
     });
 
@@ -939,7 +939,7 @@ function generatePDF() {
         startY: currentY,
         styles: {
             cellPadding: 0,
-            fontSize: 12,
+            fontSize: 10,
         },
     });
 

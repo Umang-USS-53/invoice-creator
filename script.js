@@ -766,16 +766,16 @@ document.addEventListener('DOMContentLoaded', () => {
         body: tableData,
         startY: startY,
         columnStyles: {
-            0: { halign: 'right', padding: { right: 2 } }, // Reduced right padding for labels
-            1: { halign: 'right', padding: { left: 2 } } // Reduced left padding for values
+            0: { halign: 'right' },
+            1: { halign: 'right' }
         },
         horizontalPageBreak: true,
         tableWidth: 'auto',
         styles: {
-            cellPadding: 2,
+            cellPadding: 2, // Added cellPadding
             fontSize: 10,
-            fontStyle: 'bold',
-            minCellHeight: 12
+            fontStyle: 'bold', // Make entire table bold
+            minCellHeight: 12 // Added minCellHeight
         }
     });
 

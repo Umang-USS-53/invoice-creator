@@ -779,7 +779,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     totals.forEach(total => {
         doc.text(total.label, margin + col1Width, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 }); // Right align label
-        doc.text(total.value, margin + col1Width + 5 + col2Width, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 }); // Right align value
+        doc.text(total.value, margin + col1Width + col2Width-5, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 }); // Right align value
 
        
         currentY += cellHeight;

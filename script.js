@@ -772,10 +772,8 @@ document.addEventListener('DOMContentLoaded', () => {
         horizontalPageBreak: true,
         tableWidth: 'auto',
         styles: {
-            cellPadding: 2, // Added cellPadding
-            fontSize: 10,
-            fontStyle: 'bold', // Make entire table bold
-            minCellHeight: 12 // Added minCellHeight
+            cellPadding: 0,
+            fontSize: 12,
         }
     });
 
@@ -941,7 +939,7 @@ function generatePDF() {
         startY: currentY,
         styles: {
             cellPadding: 0,
-            fontSize: 10,
+            fontSize: 12,
         },
     });
 

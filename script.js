@@ -789,7 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
         horizontalPageBreak: true,
         tableWidth: 'auto',
         styles: {
-            cellPadding: 2,
+            cellPadding: 1,
             fontSize: 10,
             fontStyle: 'bold',
             minCellHeight: 12

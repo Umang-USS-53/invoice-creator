@@ -788,7 +788,7 @@ function generatePDF() {
     });
 
     const margin = 10;
-    let currentY = 36;
+    let currentY = 41; // Increase top margin by 5 points.
     const pageWidth = doc.internal.pageSize.getWidth();
     const rectWidth = pageWidth - (margin * 2);
     const rectBorderThickness = 1;
@@ -838,7 +838,7 @@ function generatePDF() {
     });
     currentY += 7;
 
-    // Seller Details Rectangle
+     // Seller Details Rectangle
     const sellerRectStartY = currentY;
     addStyledText('Seller Details', margin + rectBorderThickness, currentY + 7, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 7;
@@ -852,8 +852,12 @@ function generatePDF() {
     const sellerGST = document.getElementById('sellerGST').textContent;
     const sellerPAN = document.getElementById('sellerPAN').textContent;
 
-    const sellerDetailsLine = `State: ${sellerState}, Email: ${sellerEmail}, GST: ${sellerGST}, PAN: ${sellerPAN}`;
+    // Bold Seller GST
+    const sellerDetailsLine = `State: ${sellerState}, Email: ${sellerEmail}, GST: `;
     addStyledText(sellerDetailsLine, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    addStyledText(sellerGST, margin + rectBorderThickness + doc.getTextWidth(sellerDetailsLine), currentY + 5, { size: 9, fontStyle: 'bold' });
+    addStyledText(`, PAN: ${sellerPAN}`, margin + rectBorderThickness + doc.getTextWidth(sellerDetailsLine + sellerGST), currentY + 5, { size: 9 });
+
     currentY += 10;
     const sellerRectHeight = currentY - sellerRectStartY;
     doc.rect(margin, sellerRectStartY, rectWidth, sellerRectHeight);
@@ -872,16 +876,16 @@ function generatePDF() {
     const buyerPIN = document.getElementById('previewBuyerPIN').textContent;
     const buyerPAN = document.getElementById('previewBuyerPAN').textContent;
 
-    const buyerCityDetailsLine = `City: ${buyerCity}, State: ${buyerState}, PIN: ${buyerPIN}, PAN: ${buyerPAN}`;
+    const buyerCityDetailsLine = `City: ${buyerCity}, State: ${buyerState}, PIN: ${buyerPIN}, `;
     addStyledText(buyerCityDetailsLine, margin + rectBorderThickness, currentY + 5, { size: 9 });
-    currentY += 5;
 
+    // Bold Buyer GST
     const buyerGSTIN = document.getElementById('previewBuyerGST').textContent;
-    const buyerPlaceOfSupply = document.getElementById('previewPlaceOfSupply').textContent;
-    const buyerTermsOfPayment = document.getElementById('previewTermsOfPayment').textContent;
+    const buyerGSTDetailsLine = `GST: `;
+    addStyledText(buyerGSTDetailsLine, margin + rectBorderThickness + doc.getTextWidth(buyerCityDetailsLine), currentY + 5, { size: 9 });
+    addStyledText(buyerGSTIN, margin + rectBorderThickness + doc.getTextWidth(buyerCityDetailsLine + buyerGSTDetailsLine), currentY + 5, { size: 9, fontStyle: 'bold' });
+    addStyledText(`, PAN: ${buyerPAN}`, margin + rectBorderThickness + doc.getTextWidth(buyerCityDetailsLine + buyerGSTDetailsLine + buyerGSTIN), currentY + 5, { size: 9 });
 
-    const buyerGSTDetailsLine = `GST: ${buyerGSTIN}, Place of Supply: ${buyerPlaceOfSupply}, Terms of Payment: ${buyerTermsOfPayment}`;
-    addStyledText(buyerGSTDetailsLine, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 10;
     const buyerRectHeight = currentY - buyerRectStartY;
     doc.rect(margin, buyerRectStartY, rectWidth, buyerRectHeight);

@@ -892,9 +892,9 @@ function generatePDF() {
     doc.rect(margin, buyerRectStartY, rectWidth, buyerRectHeight);
 
     // Other Details Rectangle
-    const otherDetailsRectStartY = currentY + 5; // Add some spacing
-    addStyledText('Other Details', margin + rectBorderThickness, currentY + 12, { font: 'helvetica', size: 9, fontStyle: 'bold' });
-    currentY += 12;
+    const otherDetailsRectStartY = currentY; // Set to currentY after Buyer Details
+    addStyledText('Other Details', margin + rectBorderThickness, currentY + 7, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += 7;
 
     const placeOfSupply = document.getElementById('previewPlaceOfSupply').textContent;
     const termsOfPayment = document.getElementById('previewTermsOfPayment').textContent;

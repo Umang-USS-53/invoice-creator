@@ -874,17 +874,18 @@ function generatePDF() {
     const buyerCity = document.getElementById('previewBuyerCity').textContent;
     const buyerState = document.getElementById('previewBuyerState').textContent;
     const buyerPIN = document.getElementById('previewBuyerPIN').textContent;
-    const buyerPAN = document.getElementById('previewBuyerPAN').textContent;
 
-    const buyerCityDetailsLine = `City: ${buyerCity}, State: ${buyerState}, PIN: ${buyerPIN}, `;
+    const buyerCityDetailsLine = `City: ${buyerCity}, State: ${buyerState}, PIN: ${buyerPIN}`;
     addStyledText(buyerCityDetailsLine, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 5; // Move to the next line
 
     // Bold Buyer GST
     const buyerGSTIN = document.getElementById('previewBuyerGST').textContent;
+    const buyerPAN = document.getElementById('previewBuyerPAN').textContent;
     const buyerGSTDetailsLine = `GST: `;
-    addStyledText(buyerGSTDetailsLine, margin + rectBorderThickness + doc.getTextWidth(buyerCityDetailsLine), currentY + 5, { size: 9 });
-    addStyledText(buyerGSTIN, margin + rectBorderThickness + doc.getTextWidth(buyerCityDetailsLine + buyerGSTDetailsLine), currentY + 5, { size: 9, fontStyle: 'bold' });
-    addStyledText(`, PAN: ${buyerPAN}`, margin + rectBorderThickness + doc.getTextWidth(buyerCityDetailsLine + buyerGSTDetailsLine + buyerGSTIN), currentY + 5, { size: 9 });
+    addStyledText(buyerGSTDetailsLine, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    addStyledText(buyerGSTIN, margin + rectBorderThickness + doc.getTextWidth(buyerGSTDetailsLine), currentY + 5, { size: 9, fontStyle: 'bold' });
+    addStyledText(`, PAN: ${buyerPAN}`, margin + rectBorderThickness + doc.getTextWidth(buyerGSTDetailsLine + buyerGSTIN), currentY + 5, { size: 9 });
 
     currentY += 10;
     const buyerRectHeight = currentY - buyerRectStartY;

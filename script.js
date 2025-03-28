@@ -744,36 +744,54 @@ document.addEventListener('DOMContentLoaded', () => {
     function generateTotalsTable(doc, startY) {
     const margin = 10;
 
-    // Totals data
+    // Get Item Details from the first line item
+    const itemRows = document.querySelectorAll('#previewItemRows tr');
+    let unit = '';
+    let cgstRate = '';
+    let sgstRate = '';
+    let igstRate = '';
+
+    if (itemRows.length > 0) {
+        const cells = itemRows[0].querySelectorAll('td');
+        if (cells.length >= 7) {
+            unit = cells[3].textContent;
+            cgstRate = cells[7] ? cells[7].textContent : '';
+            sgstRate = cells[8] ? cells[8].textContent : '';
+            igstRate = cells[9] ? cells[9].textContent : '';
+        }
+    }
+
+    // Totals data with modified labels and details
     const totals = [
-        { label: 'Total Quantity', value: document.getElementById('previewTotalQuantity').textContent },
-        { label: 'Taxable Value', value: document.getElementById('previewTaxableValue').textContent },
-        { label: 'CGST', value: document.getElementById('previewCgstValue').textContent },
-        { label: 'SGST', value: document.getElementById('previewSgstValue').textContent },
-        { label: 'IGST', value: document.getElementById('previewIgstValue').textContent },
-        { label: 'Invoice Value', value: document.getElementById('previewInvoiceValue').textContent },
+        { label: 'Total Quantity', details: `(${unit})`, value: document.getElementById('previewTotalQuantity').textContent },
+        { label: 'Taxable Value', details: '(INR)', value: document.getElementById('previewTaxableValue').textContent },
+        { label: 'CGST', details: `(${cgstRate})`, value: document.getElementById('previewCgstValue').textContent },
+        { label: 'SGST', details: `(${sgstRate})`, value: document.getElementById('previewSgstValue').textContent },
+        { label: 'IGST', details: `(${igstRate})`, value: document.getElementById('previewIgstValue').textContent },
+        { label: 'Invoice Value', details: '(INR)', value: document.getElementById('previewInvoiceValue').textContent },
     ];
 
     // Prepare data for jsPDF-autotable
     const tableData = [];
     totals.forEach(total => {
-        tableData.push([total.label, total.value]);
+        tableData.push([total.label, total.details, total.value]);
     });
 
     // jsPDF-autotable configuration
     doc.autoTable({
-        head: [], // Empty array to remove headers
+        head: [],
         body: tableData,
         startY: startY,
         columnStyles: {
             0: { halign: 'right' },
-            1: { halign: 'right' }
+            1: { halign: 'right' }, // Details column right aligned
+            2: { halign: 'right' } // Amount column right aligned
         },
         horizontalPageBreak: true,
         tableWidth: 'auto',
         styles: {
-            cellPadding: 0,
             fontSize: 10,
+            fontStyle: 'bold'
         }
     });
 

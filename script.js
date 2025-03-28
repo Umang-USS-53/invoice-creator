@@ -792,7 +792,7 @@ document.addEventListener('DOMContentLoaded', () => {
         styles: {
             fontSize: 10,
             fontStyle: 'bold',
-            minCellHeight: 7, // Attempt to reduce row height
+            minCellHeight: 5.5, // Attempt to reduce row height
         }
     });
 

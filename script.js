@@ -766,14 +766,16 @@ document.addEventListener('DOMContentLoaded', () => {
         body: tableData,
         startY: startY,
         columnStyles: {
-            0: { halign: 'right' },
-            1: { halign: 'right' }
+            0: { halign: 'right', cellWidth: 40 }, // Adjusted column width for labels
+            1: { halign: 'right', cellWidth: 'auto' } // Adjusted column width for values
         },
         horizontalPageBreak: true,
         tableWidth: 'auto',
         styles: {
-            cellPadding: 0,
+            cellPadding: 2,
             fontSize: 10,
+            fontStyle: 'bold',
+            minCellHeight: 12
         }
     });
 

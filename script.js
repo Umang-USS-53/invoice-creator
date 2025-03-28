@@ -747,7 +747,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const availableWidth = pageWidth - margin * 2; // Available width within margins
     const col1Width = availableWidth * 0.6; // Adjust percentage as needed
     const col2Width = availableWidth * 0.4; // Adjust percentage as needed
-    const cellHeight = 8; // Adjust as needed
+    const cellHeight = 6; // Adjust as needed
     let currentY = startY;
 
     // Get Item Details from the first line item

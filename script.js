@@ -790,7 +790,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tableWidth: 'auto',
         styles: {
             fontSize: 10,
-            fontStyle: 'bold'
+            // fontStyle: 'bold' // Removed bolding
         }
     });
 

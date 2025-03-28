@@ -763,18 +763,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Totals data with modified labels and details
     const totals = [
-        { label: 'Total Quantity', details: `(${unit})`, value: document.getElementById('previewTotalQuantity').textContent },
-        { label: 'Taxable Value', details: '(INR)', value: document.getElementById('previewTaxableValue').textContent },
-        { label: 'CGST', details: `(${cgstRate})`, value: document.getElementById('previewCgstValue').textContent },
-        { label: 'SGST', details: `(${sgstRate})`, value: document.getElementById('previewSgstValue').textContent },
-        { label: 'IGST', details: `(${igstRate})`, value: document.getElementById('previewIgstValue').textContent },
-        { label: 'Invoice Value', details: '(INR)', value: document.getElementById('previewInvoiceValue').textContent },
+        { label: `Total Quantity (${unit})`, value: document.getElementById('previewTotalQuantity').textContent },
+        { label: 'Taxable Value (INR)', value: document.getElementById('previewTaxableValue').textContent },
+        { label: `CGST (${cgstRate})`, value: document.getElementById('previewCgstValue').textContent },
+        { label: `SGST (${sgstRate})`, value: document.getElementById('previewSgstValue').textContent },
+        { label: `IGST (${igstRate})`, value: document.getElementById('previewIgstValue').textContent },
+        { label: 'Invoice Value (INR)', value: document.getElementById('previewInvoiceValue').textContent },
     ];
 
     // Prepare data for jsPDF-autotable
     const tableData = [];
     totals.forEach(total => {
-        tableData.push([total.label, total.details, total.value]);
+        tableData.push([total.label, total.value]);
     });
 
     // jsPDF-autotable configuration
@@ -784,14 +784,13 @@ document.addEventListener('DOMContentLoaded', () => {
         startY: startY,
         columnStyles: {
             0: { halign: 'right' },
-            1: { halign: 'right' }, // Details column right aligned
-            2: { halign: 'right' } // Amount column right aligned
+            1: { halign: 'right' }
         },
         horizontalPageBreak: true,
         tableWidth: 'auto',
         styles: {
-            fontSize: 9,
-            rowHeight: 7, // Experiment with row height
+            fontSize: 10,
+            // fontStyle: 'bold', // Removed bold styling
         }
     });
 

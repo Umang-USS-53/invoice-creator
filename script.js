@@ -745,8 +745,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const margin = 10;
     const pageWidth = doc.internal.pageSize.getWidth();
     const availableWidth = pageWidth - margin * 2; // Available width within margins
-    const col1Width = availableWidth * 0.6; // Adjust percentage as needed
-    const col2Width = availableWidth * 0.4; // Adjust percentage as needed
+    const col1Width = availableWidth * 0.7; // Adjust percentage as needed
+    const col2Width = availableWidth * 0.3; // Adjust percentage as needed
     const cellHeight = 5; // Adjust as needed
     let currentY = startY;
 

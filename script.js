@@ -891,6 +891,25 @@ function generatePDF() {
     const buyerRectHeight = currentY - buyerRectStartY;
     doc.rect(margin, buyerRectStartY, rectWidth, buyerRectHeight);
 
+    // Other Details Rectangle
+    const otherDetailsRectStartY = currentY + 5; // Add some spacing
+    addStyledText('Other Details', margin + rectBorderThickness, currentY + 12, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += 12;
+
+    const placeOfSupply = document.getElementById('previewPlaceOfSupply').textContent;
+    const termsOfPayment = document.getElementById('previewTermsOfPayment').textContent;
+    const modeOfDelivery = document.getElementById('modeOfDelivery').value; // Retrieve mode of delivery
+
+    addStyledText(`Place of Supply: ${placeOfSupply}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 5;
+    addStyledText(`Terms of Payment: ${termsOfPayment}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 5;
+    addStyledText(`Mode of Delivery: ${modeOfDelivery}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 10;
+
+    const otherDetailsRectHeight = currentY - otherDetailsRectStartY;
+    doc.rect(margin, otherDetailsRectStartY, rectWidth, otherDetailsRectHeight);
+
     // Adjust currentY for Item Details
     currentY += 5;
 

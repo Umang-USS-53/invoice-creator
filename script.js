@@ -790,9 +790,9 @@ document.addEventListener('DOMContentLoaded', () => {
         horizontalPageBreak: true,
         tableWidth: 'auto',
         styles: {
-            fontSize: 10,
+            fontSize: 9,
             fontStyle: 'bold',
-            minCellHeight: 5.5, // Attempt to reduce row height
+            minCellHeight: 6, // Attempt to reduce row height
         }
     });
 

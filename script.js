@@ -766,8 +766,8 @@ document.addEventListener('DOMContentLoaded', () => {
         body: tableData,
         startY: startY,
         columnStyles: {
-            0: { halign: 'right', cellWidth: 40 }, // Adjusted column width for labels
-            1: { halign: 'right', cellWidth: 'auto' } // Adjusted column width for values
+            0: { halign: 'right', padding: { right: 2 } }, // Reduced right padding for labels
+            1: { halign: 'right', padding: { left: 2 } } // Reduced left padding for values
         },
         horizontalPageBreak: true,
         tableWidth: 'auto',

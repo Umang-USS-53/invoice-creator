@@ -791,7 +791,8 @@ document.addEventListener('DOMContentLoaded', () => {
         tableWidth: 'auto',
         styles: {
             fontSize: 10,
-            fontStyle: 'bold'
+            fontStyle: 'bold',
+            minCellHeight: 9, // Attempt to reduce row height
         }
     });
 

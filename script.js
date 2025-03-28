@@ -747,7 +747,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const availableWidth = pageWidth - margin * 2; // Available width within margins
     const col1Width = availableWidth * 0.6; // Adjust percentage as needed
     const col2Width = availableWidth * 0.4; // Adjust percentage as needed
-    const cellHeight = 10; // Adjust as needed
+    const cellHeight = 8; // Adjust as needed
     let currentY = startY;
 
     // Get Item Details from the first line item
@@ -781,9 +781,7 @@ document.addEventListener('DOMContentLoaded', () => {
         doc.text(total.label, margin + col1Width, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 }); // Right align label
         doc.text(total.value, margin + col1Width + 5 + col2Width, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 }); // Right align value
 
-        // Draw horizontal line
-        doc.line(margin, currentY + cellHeight, margin + availableWidth, currentY + cellHeight);
-
+       
         currentY += cellHeight;
     });
 

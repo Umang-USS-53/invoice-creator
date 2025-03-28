@@ -819,27 +819,27 @@ function generatePDF() {
         fontStyle: 'bold'
     });
 
-    // Date formatting to DD/MM/YYYY (Version 00026)
-    let invoiceDate = document.getElementById('invoiceDate').value;
-    let formattedDate;
-    if (invoiceDate) {
-        const dateParts = invoiceDate.split('-');
-        formattedDate = `<span class="math-inline">\{dateParts\[2\]\}/</span>{dateParts[1]}/${dateParts[0]}`;
-    } else {
-        formattedDate = "";
-    }
+    // Date formatting to DD/MM/YYYY
+let invoiceDate = document.getElementById('invoiceDate').value;
+let formattedDate;
+if (invoiceDate) {
+    const dateParts = invoiceDate.split('-');
+    formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+} else {
+    formattedDate = "";
+}
 
-    addStyledText(`Date: ${formattedDate}`, pageWidth - margin, currentY, {
-        align: 'right',
-        size: 9,
-        fontStyle: 'bold'
-    });
+addStyledText(`Date: ${formattedDate}`, pageWidth - margin, currentY, {
+    align: 'right',
+    size: 9,
+    fontStyle: 'bold'
+});
     currentY += 7;
 
     // Seller Details
     addStyledText('Seller Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 7;
-    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin, currentY, { size: 9, fontStyle: 'bold' }); // Seller name bold
+    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin, currentY, { size: 9 });
     currentY += 5;
     addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin, currentY, { size: 9 });
     currentY += 5;
@@ -858,7 +858,7 @@ function generatePDF() {
     // Buyer Details
     addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 7;
-    addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin, currentY, { size: 9, fontStyle: 'bold' }); // Buyer name bold
+    addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin, currentY, { size: 9 });
     currentY += 5;
     addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin, currentY, { size: 9 });
     currentY += 5;
@@ -878,11 +878,11 @@ function generatePDF() {
     const buyerPlaceOfSupply = document.getElementById('previewPlaceOfSupply').textContent;
     const buyerTermsOfPayment = document.getElementById('previewTermsOfPayment').textContent;
 
-    const buyerGSTDetailsLine = `GST: ${buyerGSTIN}, Place of Supply: ${buyerPlaceOfSupply}, Terms of Payment: ${buyerTermsOfPayment}`; //Renamed to GST
-    addStyledText(buyerGSTDetailsLine, margin, currentY, { size: 9, fontStyle: 'bold' }); //GST bold
+    const buyerGSTDetailsLine = `GSTIN: ${buyerGSTIN}, Place of Supply: ${buyerPlaceOfSupply}, Terms of Payment: ${buyerTermsOfPayment}`;
+    addStyledText(buyerGSTDetailsLine, margin, currentY, { size: 9 });
     currentY += 10;
 
-    // Item Details Table (Adjusted row height)
+    // Item Details Table
     addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
 
@@ -914,7 +914,7 @@ function generatePDF() {
 
     currentY = doc.previousAutoTable.finalY;
 
-    // Totals Table (Adjusted row height)
+    // Totals Table
     currentY += 5;
     currentY = generateTotalsTable(doc, currentY);
 
@@ -958,5 +958,4 @@ function generatePDF() {
 
     doc.save('invoice.pdf');
 }
-    
 }); 

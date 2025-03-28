@@ -743,9 +743,11 @@ document.addEventListener('DOMContentLoaded', () => {
  
     function generateTotalsTable(doc, startY) {
     const margin = 10;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const availableWidth = pageWidth - margin * 2; // Available width within margins
+    const col1Width = availableWidth * 0.6; // Adjust percentage as needed
+    const col2Width = availableWidth * 0.4; // Adjust percentage as needed
     const cellHeight = 10; // Adjust as needed
-    const col1Width = 100; // Adjust as needed
-    const col2Width = 50; // Adjust as needed
     let currentY = startY;
 
     // Get Item Details from the first line item
@@ -776,11 +778,11 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     totals.forEach(total => {
-        doc.text(total.label, margin, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 });
-        doc.text(total.value, margin + col1Width + 5, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 });
+        doc.text(total.label, margin + col1Width, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 }); // Right align label
+        doc.text(total.value, margin + col1Width + 5 + col2Width, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 }); // Right align value
 
         // Draw horizontal line
-        doc.line(margin, currentY + cellHeight, margin + col1Width + col2Width + 10, currentY + cellHeight);
+        doc.line(margin, currentY + cellHeight, margin + availableWidth, currentY + cellHeight);
 
         currentY += cellHeight;
     });

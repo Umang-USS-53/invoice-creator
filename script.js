@@ -788,7 +788,10 @@ function generatePDF() {
     });
 
     const margin = 10;
-    let currentY = 36; // Initial Y position
+    let currentY = 36;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const rectWidth = pageWidth - (margin * 2);
+    const rectBorderThickness = 1; // Adjust border thickness as needed
 
     // Function to add styled text (reused)
     function addStyledText(text, x, y, style = {}) {
@@ -799,7 +802,7 @@ function generatePDF() {
     }
 
     // Invoice Header
-    addStyledText('TAX INVOICE', doc.internal.pageSize.getWidth() / 2, currentY, {
+    addStyledText('TAX INVOICE', pageWidth / 2, currentY, {
         font: 'helvetica',
         size: 14,
         fontStyle: 'bold',
@@ -808,79 +811,80 @@ function generatePDF() {
     currentY += 5;
 
     // Horizontal line after header
-    doc.line(margin, currentY - 5, doc.internal.pageSize.getWidth() - margin, currentY - 5);
+    doc.line(margin, currentY - 5, pageWidth - margin, currentY - 5);
     currentY += 5;
 
     // Invoice Number (Left) and Date (Right)
-    const pageWidth = doc.internal.pageSize.getWidth();
     addStyledText(`Invoice No.: ${document.getElementById('invoiceNumber').value}`, margin, currentY, {
         align: 'left',
         size: 9,
         fontStyle: 'bold'
     });
 
-    // Date formatting to DD/MM/YYYY
-let invoiceDate = document.getElementById('invoiceDate').value;
-let formattedDate;
-if (invoiceDate) {
-    const dateParts = invoiceDate.split('-');
-    formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
-} else {
-    formattedDate = "";
-}
+    // Date formatting to DD/MM/YYYY (Version 00026)
+    let invoiceDate = document.getElementById('invoiceDate').value;
+    let formattedDate;
+    if (invoiceDate) {
+        const dateParts = invoiceDate.split('-');
+        formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+    } else {
+        formattedDate = "";
+    }
 
-addStyledText(`Date: ${formattedDate}`, pageWidth - margin, currentY, {
-    align: 'right',
-    size: 9,
-    fontStyle: 'bold'
-});
+    addStyledText(`Date: ${formattedDate}`, pageWidth - margin, currentY, {
+        align: 'right',
+        size: 9,
+        fontStyle: 'bold'
+    });
     currentY += 7;
 
-    // Seller Details
-    addStyledText('Seller Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    // Seller Details Rectangle
+    const sellerRectStartY = currentY;
+    addStyledText('Seller Details', margin + rectBorderThickness, currentY + 7, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 7;
-    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin, currentY, { size: 9 });
+    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 5;
-    addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin, currentY, { size: 9 });
+    addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 5;
 
-    // Concatenate Seller Details
     const sellerState = document.getElementById('sellerState').textContent;
     const sellerEmail = document.getElementById('sellerEmail').textContent;
     const sellerGST = document.getElementById('sellerGST').textContent;
     const sellerPAN = document.getElementById('sellerPAN').textContent;
 
     const sellerDetailsLine = `State: ${sellerState}, Email: ${sellerEmail}, GST: ${sellerGST}, PAN: ${sellerPAN}`;
-    addStyledText(sellerDetailsLine, margin, currentY, { size: 9 });
-
+    addStyledText(sellerDetailsLine, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 10;
+    const sellerRectHeight = currentY - sellerRectStartY;
+    doc.rect(margin, sellerRectStartY, rectWidth, sellerRectHeight);
 
-    // Buyer Details
-    addStyledText('Buyer Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    // Buyer Details Rectangle
+    const buyerRectStartY = currentY;
+    addStyledText('Buyer Details', margin + rectBorderThickness, currentY + 7, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 7;
-    addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin, currentY, { size: 9 });
+    addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 5;
-    addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin, currentY, { size: 9 });
+    addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 5;
 
-    // Concatenate Buyer Details - City, State, PIN, PAN
     const buyerCity = document.getElementById('previewBuyerCity').textContent;
     const buyerState = document.getElementById('previewBuyerState').textContent;
     const buyerPIN = document.getElementById('previewBuyerPIN').textContent;
     const buyerPAN = document.getElementById('previewBuyerPAN').textContent;
 
     const buyerCityDetailsLine = `City: ${buyerCity}, State: ${buyerState}, PIN: ${buyerPIN}, PAN: ${buyerPAN}`;
-    addStyledText(buyerCityDetailsLine, margin, currentY, { size: 9 });
+    addStyledText(buyerCityDetailsLine, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 5;
 
-    // Concatenate Buyer Details - GSTIN, Place of Supply, Terms of Payment
     const buyerGSTIN = document.getElementById('previewBuyerGST').textContent;
     const buyerPlaceOfSupply = document.getElementById('previewPlaceOfSupply').textContent;
     const buyerTermsOfPayment = document.getElementById('previewTermsOfPayment').textContent;
 
-    const buyerGSTDetailsLine = `GSTIN: ${buyerGSTIN}, Place of Supply: ${buyerPlaceOfSupply}, Terms of Payment: ${buyerTermsOfPayment}`;
-    addStyledText(buyerGSTDetailsLine, margin, currentY, { size: 9 });
+    const buyerGSTDetailsLine = `GST: ${buyerGSTIN}, Place of Supply: ${buyerPlaceOfSupply}, Terms of Payment: ${buyerTermsOfPayment}`;
+    addStyledText(buyerGSTDetailsLine, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 10;
+    const buyerRectHeight = currentY - buyerRectStartY;
+    doc.rect(margin, buyerRectStartY, rectWidth, buyerRectHeight);
 
     // Item Details Table
     addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });

@@ -1011,13 +1011,13 @@ function generatePDF() {
     currentY += 4; // Add space below lines
 
     // Buyer Sign (font size 6)
-    addStyledText("RECEIVER'S STAMP & SIGNATURE", leftLineX, currentY, { size: 9, align: 'left' });
+    addStyledText("RECEIVER'S STAMP & SIGNATURE", leftLineX, currentY, { size: 6, align: 'left' });
     currentY += 5;
     addStyledText("COMMON SEAL", leftLineX, currentY, { size: 6, align: 'left' });
 
     // Seller Sign (font size 6)
     addStyledText("FOR HK & SONS", rightLineX, currentY - 5, { size: 6, align: 'left' });
-    addStyledText("PARTNER / AUTHORISED SIGNATORY", rightLineX, currentY, { size: 9, align: 'left' });
+    addStyledText("PARTNER / AUTHORISED SIGNATORY", rightLineX, currentY, { size: 6, align: 'left' });
 
     doc.save('invoice.pdf');
     }

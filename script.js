@@ -919,11 +919,11 @@ function generatePDF() {
     doc.rect(margin, otherDetailsRectStartY, rectWidth, otherDetailsRectHeight);
 
     // Adjust currentY for Item Details
-    currentY += 5;
+    currentY += 3;
 
     // Item Details Table
     addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
-    currentY += 5;
+    currentY += 3;
 
     // Prepare table headers and data for jsPDF-autotable
     const tableHeadersPDF = ['Lot No.', 'Description', 'HSN/SAC', 'Unit', 'Quantity', 'Rate', 'Amount'];
@@ -1017,7 +1017,6 @@ function generatePDF() {
 
     // Seller Sign
     addStyledText("FOR HK & SONS", rightLineX, currentY - 5, { size: 6, align: 'left' });
-    currentY += 2;
     addStyledText("PARTNER / AUTHORISED SIGNATORY", rightLineX, currentY, { size: 6, align: 'left' });
 
     doc.save('invoice.pdf');

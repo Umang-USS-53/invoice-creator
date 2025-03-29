@@ -1033,7 +1033,8 @@ function generatePDF() {
 
 
 function saveInvoiceToFirestore() {
-    const invoiceNumber = `HK-${document.getElementById('invoiceNumber').value}/25-26`;
+    let invoiceNumber = `HK-${document.getElementById('invoiceNumber').value}/25-26`;
+    invoiceNumber = invoiceNumber.replace("/", "-"); // Replace "/" with "-"
     const invoiceDate = document.getElementById('invoiceDate').value;
     const buyerName = document.getElementById('buyerName').options[document.getElementById('buyerName').selectedIndex].text;
     const buyerGST = document.getElementById('buyerGST').textContent;

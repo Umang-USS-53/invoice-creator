@@ -1018,17 +1018,13 @@ function generatePDF() {
     addStyledText("FOR HK & SONS", rightLineX, currentY - 2, { size: 6, align: 'left' });
     addStyledText("PARTNER / AUTHORISED SIGNATORY", rightLineX, currentY, { size: 6, align: 'left' });
 
-    // Retrieve Buyer's Name and Invoice Number
-    const buyerName = document.getElementById('previewBuyerName').textContent;
+         // Retrieve Invoice Number
     const invoiceNumber = document.getElementById('invoiceNumber').value;
 
-    // Sanitize Buyer's Name (Remove spaces and special characters)
-    const sanitizedBuyerName = buyerName.replace(/[^a-zA-Z0-9]/g, '_');
-
     // Create the Filename
-    const filename = `${sanitizedBuyerName}_Invoice_${invoiceNumber}.pdf`;
+    const filename = `Invoice_${invoiceNumber}.pdf`;
 
     // Save the PDF with the dynamic filename
     doc.save(filename);
-}
+    }
 }); 

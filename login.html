@@ -64,12 +64,16 @@
                 return;
             }
 
-            const hashedPassword = sha256(password);
-
-            localStorage.setItem('username', username);
-            localStorage.setItem('hashedPassword', hashedPassword);
-
-            window.location.href = 'index.html';
+            // Hardcoded username and password for testing
+            if (username === "myuser" && password === "mypassword") { //change to your desired credentials.
+              const hashedPassword = sha256(password);
+              localStorage.setItem('username', username);
+              localStorage.setItem('hashedPassword', hashedPassword);
+              window.location.href = 'index.html';
+            } else {
+                errorMessage.textContent = "Invalid username or password.";
+                errorMessage.style.display = 'block';
+            }
         }
     </script>
 </body>

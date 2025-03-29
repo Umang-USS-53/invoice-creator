@@ -59,7 +59,7 @@
 
             // Hardcoded username and password
             if (username === "testuser" && password === "testpass") { // Replace with your credentials
-                window.location.href = 'index.html';
+                window.location.href = 'index.html?loggedIn=true'; // Add parameter here
             } else {
                 errorMessage.textContent = "Invalid username or password.";
                 errorMessage.style.display = 'block';

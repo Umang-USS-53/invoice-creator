@@ -237,6 +237,9 @@
             const urlParams = new URLSearchParams(window.location.search);
             if (!urlParams.get('loggedIn')) {
                 window.location.href = 'login.html';
+            } else {
+                // Attach the event listener here, after login
+                document.getElementById('logoutButton').addEventListener('click', logout);
             }
         };
 

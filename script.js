@@ -601,7 +601,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Invoice Details
 
-    document.getElementById('previewInvoiceNumber').textContent = document.getElementById('invoiceNumber').value;
+    const invoiceNumberInput = document.getElementById('invoiceNumber').value;
+    document.getElementById('previewInvoiceNumber').textContent = `HK-${invoiceNumberInput}/25-26`;
 
 
     // Format Invoice Date
@@ -823,7 +824,8 @@ function generatePDF() {
     currentY += 5;
 
     // Invoice Number (Left) and Date (Right)
-    addStyledText(`Invoice No.: ${document.getElementById('invoiceNumber').value}`, margin, currentY, {
+    const invoiceNumberInput = document.getElementById('invoiceNumber').value;
+    addStyledText(`Invoice No.: HK-${invoiceNumberInput}/25-26`, margin, currentY, {
         align: 'left',
         size: 11,
         fontStyle: 'bold'
@@ -1018,8 +1020,8 @@ function generatePDF() {
     addStyledText("FOR HK & SONS", rightLineX, currentY - 2, { size: 6, align: 'left' });
     addStyledText("PARTNER / AUTHORISED SIGNATORY", rightLineX, currentY, { size: 6, align: 'left' });
 
-         // Retrieve Invoice Number
-    const invoiceNumber = document.getElementById('invoiceNumber').value;
+    // Retrieve Invoice Number
+    const invoiceNumber = `HK-${invoiceNumberInput}/25-26`;
 
     // Create the Filename
     const filename = `Invoice_${invoiceNumber}.pdf`;

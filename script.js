@@ -996,7 +996,7 @@ function generatePDF() {
     addStyledText("7. E&OE", margin, currentY, { size: 7 });
 
      // Signature/Stamp Section
-    currentY += 15; // Add space after Terms & Conditions
+    currentY += 18; // Add space after Terms & Conditions
 
     // Calculate positions and line lengths
     const lineLength = (pageWidth - margin * 4) / 4; // Adjust as needed
@@ -1008,15 +1008,16 @@ function generatePDF() {
     doc.line(leftLineX, currentY, leftLineX + lineLength, currentY);
     doc.line(rightLineX, currentY, rightLineX + lineLength, currentY);
 
-    currentY += 5; // Add space below lines
+    currentY += 2; // Add space below lines
 
     // Buyer Sign
     addStyledText("RECEIVER'S STAMP & SIGNATURE", leftLineX, currentY, { size: 6, align: 'left' });
-    currentY += 5;
+    currentY += 2;
     addStyledText("COMMON SEAL", leftLineX, currentY, { size: 6, align: 'left' });
 
     // Seller Sign
     addStyledText("FOR HK & SONS", rightLineX, currentY - 5, { size: 6, align: 'left' });
+    currentY += 2;
     addStyledText("PARTNER / AUTHORISED SIGNATORY", rightLineX, currentY, { size: 6, align: 'left' });
 
     doc.save('invoice.pdf');

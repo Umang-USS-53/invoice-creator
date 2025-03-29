@@ -796,7 +796,7 @@ function generatePDF() {
     });
 
     const margin = 10;
-    let currentY = 41; // Increase top margin by 5 points.
+    let currentY = 48; // Increase top margin by 5 points.
     const pageWidth = doc.internal.pageSize.getWidth();
     const rectWidth = pageWidth - (margin * 2);
     const rectBorderThickness = 1;
@@ -825,7 +825,7 @@ function generatePDF() {
     // Invoice Number (Left) and Date (Right)
     addStyledText(`Invoice No.: ${document.getElementById('invoiceNumber').value}`, margin, currentY, {
         align: 'left',
-        size: 9,
+        size: 12,
         fontStyle: 'bold'
     });
 
@@ -841,7 +841,7 @@ function generatePDF() {
 
     addStyledText(`Date: ${formattedDate}`, pageWidth - margin, currentY, {
         align: 'right',
-        size: 9,
+        size: 12,
         fontStyle: 'bold'
     });
     currentY += 5;
@@ -851,6 +851,8 @@ function generatePDF() {
     addStyledText('Seller Details', margin + rectBorderThickness, currentY + 7, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 7;
     addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 5;
+    addStyledText(document.getElementById('sellerName').textContent, margin + rectBorderThickness + doc.getTextWidth('Name: '), currentY + 5, { size: 9, fontStyle: 'bold' }); // Bold value
     currentY += 5;
     addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 5;
@@ -875,6 +877,8 @@ function generatePDF() {
     addStyledText('Buyer Details', margin + rectBorderThickness, currentY + 7, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 7;
     addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 5;
+    addStyledText(document.getElementById('previewBuyerName').textContent, margin + rectBorderThickness + doc.getTextWidth('Name: '), currentY + 5, { size: 9, fontStyle: 'bold' }); // Bold value
     currentY += 5;
     addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 5;
@@ -911,6 +915,8 @@ function generatePDF() {
     addStyledText(`Place of Supply: ${placeOfSupply}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 5;
     addStyledText(`Terms of Payment: ${termsOfPayment}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 5;
+    addStyledText(termsOfPayment, margin + rectBorderThickness + doc.getTextWidth('Terms of Payment: '), currentY + 5, { size: 9, fontStyle: 'bold' }); // Bold value
     currentY += 5;
     addStyledText(`Mode of Delivery: ${modeOfDelivery}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 10;
@@ -974,7 +980,7 @@ function generatePDF() {
     currentY += 5;
     addStyledText('Bank Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 5;
-    addStyledText(document.getElementById('previewBankDetails').textContent, margin, currentY, { size: 9 });
+    addStyledText(document.getElementById('previewBankDetails').textContent, margin, currentY, { size: 9, fontStyle: 'bold' });
 
     // Terms and Conditions
     currentY += 5;

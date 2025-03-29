@@ -594,8 +594,9 @@ document.addEventListener('DOMContentLoaded', () => {
     previewInvoiceButton.addEventListener('click', previewInvoice);
 
     saveInvoiceButton.addEventListener('click', () => {
-        generatePDF();
- });
+    generatePDF();
+    saveInvoiceToFirestore();
+});
 
    function previewInvoice() {
 
@@ -1029,4 +1030,62 @@ function generatePDF() {
     // Save the PDF with the dynamic filename
     doc.save(filename);
     }
+
+
+function saveInvoiceToFirestore() {
+    const invoiceNumber = `HK-${document.getElementById('invoiceNumber').value}/25-26`;
+    const invoiceDate = document.getElementById('invoiceDate').value;
+    const buyerName = document.getElementById('buyerName').options[document.getElementById('buyerName').selectedIndex].text;
+    const buyerGST = document.getElementById('buyerGST').textContent;
+    const termsOfPayment = document.getElementById('termsOfPayment').value;
+    const totalQuantity = document.getElementById('totalQuantity').textContent;
+    const taxableValue = document.getElementById('taxableValue').textContent;
+    const cgstValue = document.getElementById('cgstValue').textContent;
+    const sgstValue = document.getElementById('sgstValue').textContent;
+    const igstValue = document.getElementById('igstValue').textContent;
+    const invoiceValue = document.getElementById('invoiceValue').textContent;
+    const amountInWords = document.getElementById('amountInWords').textContent;
+
+    const items = [];
+    const itemRowsData = document.querySelectorAll('#itemRows tr');
+    itemRowsData.forEach(row => {
+        const descriptionSelect = row.querySelector('.description');
+        const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
+
+        items.push({
+            lotNo: row.cells[0].textContent,
+            description: descriptionText,
+            hsnCode: row.cells[2].textContent,
+            unit: row.cells[3].textContent,
+            quantity: row.cells[4].querySelector('input').value,
+            rate: row.cells[5].querySelector('input').value,
+            amount: row.cells[6].textContent,
+            cgstRate: row.cells[7].textContent,
+            sgstRate: row.cells[8].textContent,
+            igstRate: row.cells[9].textContent,
+        });
+    });
+
+    db.collection('invoices').doc(invoiceNumber).set({
+        invoiceNumber: invoiceNumber,
+        invoiceDate: invoiceDate,
+        buyerName: buyerName,
+        buyerGST: buyerGST,
+        termsOfPayment: termsOfPayment,
+        items: items,
+        totalQuantity: totalQuantity,
+        taxableValue: taxableValue,
+        cgstValue: cgstValue,
+        sgstValue: sgstValue,
+        igstValue: igstValue,
+        invoiceValue: invoiceValue,
+        amountInWords: amountInWords,
+    }).then(() => {
+        alert('Invoice saved to Firestore!');
+    }).catch(error => {
+        console.error('Error saving invoice:', error);
+        alert('Failed to save invoice.');
+    });
+}
+    
 }); 

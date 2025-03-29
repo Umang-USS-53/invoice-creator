@@ -231,10 +231,13 @@
         <button type="button" id="saveInvoiceButton" style="display: none;">Save Invoice</button>
     </div>
 
-    <script>
-        // Redirect to login.html on page load
+   <script>
+        // Redirect to login.html on page load, unless loggedIn parameter is present
         window.onload = function() {
-            window.location.href = 'login.html';
+            const urlParams = new URLSearchParams(window.location.search);
+            if (!urlParams.get('loggedIn')) {
+                window.location.href = 'login.html';
+            }
         };
 
         function logout() {

@@ -236,31 +236,43 @@
             const storedUsername = localStorage.getItem('username');
             const storedHashedPassword = localStorage.getItem('hashedPassword');
 
-            if (!storedUsername || !storedHashedPassword) {
-                window.location.href = 'login.html';
-                return false;
-            }
+            function verifyLogin() {
+    const storedUsername = localStorage.getItem('username');
+    const storedHashedPassword = localStorage.getItem('hashedPassword');
 
-            const username = prompt("Enter Username", "");
-            const password = prompt("Enter Password", "");
+    if (!storedUsername || !storedHashedPassword) {
+        window.location.href = 'login.html';
+        return false;
+    }
 
-            if (!username || !password) {
-                alert("Please enter both username and password.");
-                return false;
-            }
+    // Skip prompt if already logged in (credentials in local storage)
+    // If you want to always prompt, remove this if block.
+    if (storedUsername && storedHashedPassword) {
+        document.getElementById('logoutButton').addEventListener('click', logout);
+        console.log("Login verified. Proceeding to invoice page.");
+        return true;
+    }
 
-            const hashedPassword = sha256(password);
+    const username = prompt("Enter Username", "");
+    const password = prompt("Enter Password", "");
 
-            if (hashedPassword === storedHashedPassword && username === storedUsername) {
-                document.getElementById('logoutButton').addEventListener('click', logout);
-                return true;
-            } else {
-                alert("Login failed!");
-                localStorage.clear();
-                window.location.href = 'login.html';
-                return false;
-            }
-        }
+    if (!username || !password) {
+        alert("Please enter both username and password.");
+        return false;
+    }
+
+    const hashedPassword = sha256(password);
+
+    if (hashedPassword === storedHashedPassword && username === storedUsername) {
+        document.getElementById('logoutButton').addEventListener('click', logout);
+        return true;
+    } else {
+        alert("Login failed!");
+        localStorage.clear();
+        window.location.href = 'login.html';
+        return false;
+    }
+}
 
         function logout() {
             localStorage.clear();

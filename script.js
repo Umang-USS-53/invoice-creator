@@ -996,29 +996,28 @@ function generatePDF() {
     addStyledText("7. E&OE", margin, currentY, { size: 7 });
 
     // Signature/Stamp Section
-    currentY += 15; // Add space after Terms & Conditions
+    currentY += 18; // Add space after Terms & Conditions
 
     // Calculate positions and line lengths
-    const lineLength = (pageWidth - margin * 4) / 4; // Original line length
-    const middleSpace = pageWidth / 2 - lineLength / 2;
+    const lineLength = (pageWidth - margin * 4) / 4; // Adjust as needed
     const leftLineX = margin;
-    const rightLineX = middleSpace + lineLength;
+    const rightLineX = pageWidth - margin - lineLength; // Align with right margin
 
     // Draw horizontal lines
     doc.line(leftLineX, currentY, leftLineX + lineLength, currentY);
     doc.line(rightLineX, currentY, rightLineX + lineLength, currentY);
 
-    currentY += 4; // Add space below lines
+    currentY += 2; // Add space below lines
 
-    // Buyer Sign (font size 6)
+    // Buyer Sign
     addStyledText("RECEIVER'S STAMP & SIGNATURE", leftLineX, currentY, { size: 6, align: 'left' });
-    currentY += 5;
+    currentY += 2;
     addStyledText("COMMON SEAL", leftLineX, currentY, { size: 6, align: 'left' });
 
-    // Seller Sign (font size 6)
-    addStyledText("FOR HK & SONS", rightLineX, currentY - 5, { size: 6, align: 'left' });
+    // Seller Sign
+    addStyledText("FOR HK & SONS", rightLineX, currentY - 2, { size: 6, align: 'left' });
     addStyledText("PARTNER / AUTHORISED SIGNATORY", rightLineX, currentY, { size: 6, align: 'left' });
 
     doc.save('invoice.pdf');
-    }
+}
 }); 

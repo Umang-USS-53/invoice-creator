@@ -1,228 +1,125 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
-
     <title>Invoice Creator</title>
-
     <link rel="stylesheet" href="style.css">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-
 </head>
-
 <body>
-
+    <button id="logoutButton" style="position: absolute; top: 10px; right: 10px;">Logout</button>
     <h1>Invoice Creator</h1>
 
-
     <div id="invoiceForm">
-
         <div class="form-section">
-
             <h2>Invoice Details</h2>
-
             <label for="invoiceDate">Invoice Date (DD/MM/YYYY):</label>
-
             <input type="date" id="invoiceDate" name="invoiceDate" required>
-
             <label for="invoiceNumber">Invoice Number:</label>
-
             <input type="text" id="invoiceNumber" name="invoiceNumber" required>
-
         </div>
 
-
         <div class="form-section">
-
             <h2>Seller Details</h2>
-
             <p><strong>Seller Name:</strong> <span id="sellerName">HK & SONS</span></p>
-
             <p><strong>Seller Address:</strong> <span id="sellerAddress">B-803 ANMOL EXCEL ESTATE OFF:- S V ROAD, GOREGAON WEST, MUMBAI:-400062</span></p>
-
             <p><strong>Seller State:</strong> <span id="sellerState">Maharashtra</span></p>
-
             <p><strong>Seller Email:</strong> <span id="sellerEmail">hkandsons18@gmail.com</span></p>
-
             <p><strong>Seller GST:</strong> <span id="sellerGST">27AALFH1384H1Z7</span></p>
-
             <p><strong>Seller PAN:</strong> <span id="sellerPAN">AALFH1384H</span></p>
-
         </div>
 
-
         <div class="form-section">
-
             <h2>Buyer Details</h2>
-
             <label for="buyerName">Buyer Name - Buyer GST:</label>
-
             <select id="buyerName" name="buyerName" required>
-
                 <option value="">Select Buyer</option>
-
             </select>
-
             <div id="buyerDetails">
-
                 <p><strong>Buyer Address:</strong> <span id="buyerAddress"></span></p>
-
                 <p><strong>Buyer City:</strong> <span id="buyerCity"></span></p>
-
                 <p><strong>Buyer State:</strong> <span id="buyerState"></span></p>
-
                 <p><strong>Buyer PIN:</strong> <span id="buyerPIN"></span></p>
-
                 <p><strong>Buyer GST:</strong> <span id="buyerGST"></span></p>
-
                 <p><strong>Buyer PAN:</strong> <span id="buyerPAN"></span></p>
-
             </div>
-
             <button type="button" id="addBuyerButton">Add New Buyer</button>
-
             <div id="newBuyerForm" style="display: none;">
-
                 <label for="newBuyerName">Buyer Name:</label>
-
                 <input type="text" id="newBuyerName" name="newBuyerName">
-
                 <label for="newBuyerAddress">Buyer Address:</label>
-
                 <input type="text" id="newBuyerAddress" name="newBuyerAddress">
-
                 <label for="newBuyerCity">Buyer City:</label>
-
                 <input type="text" id="newBuyerCity" name="newBuyerCity">
-
                 <label for="newBuyerState">Buyer State:</label>
-
                 <input type="text" id="newBuyerState" name="newBuyerState">
-
                 <label for="newBuyerPIN">Buyer PIN:</label>
-
                 <input type="text" id="newBuyerPIN" name="newBuyerPIN">
-
                 <label for="newBuyerGST">Buyer GST:</label>
-
                 <input type="text" id="newBuyerGST" name="newBuyerGST">
-
                 <label for="newBuyerPAN">Buyer PAN:</label>
-
                 <input type="text" id="newBuyerPAN" name="newBuyerPAN">
-
                 <button type="button" id="saveBuyerButton">Save Buyer</button>
-
             </div>
-
         </div>
 
-
         <div class="form-section">
-
             <h2>Place of Supply</h2>
-
             <p><strong>Place of Supply:</strong> <span id="placeOfSupply"></span></p>
-
             <label for="modeOfDelivery">Mode of Delivery:</label>
-<input type="text" id="modeOfDelivery" name="modeOfDelivery"><br><br>
-
-<label for="termsOfPayment">Terms of Payment:</label>
-<input type="text" id="termsOfPayment" name="termsOfPayment"><br><br>
-            
+            <input type="text" id="modeOfDelivery" name="modeOfDelivery"><br><br>
+            <label for="termsOfPayment">Terms of Payment:</label>
+            <input type="text" id="termsOfPayment" name="termsOfPayment"><br><br>
         </div>
 
-
         <div class="form-section">
-
             <h2>Item Details</h2>
-
             <table id="itemTable">
-
                 <thead>
-
                     <tr>
-
                         <th>Lot No.</th>
-
                         <th>Description</th>
-
                         <th>HSN Code</th>
-
                         <th>Unit</th>
-
                         <th>Quantity</th>
-
                         <th>Rate</th>
-
                         <th>Amount (QxR)</th>
-
                         <th>CGST Rate</th>
-
                         <th>SGST Rate</th>
-
                         <th>IGST Rate</th>
-
                     </tr>
-
                 </thead>
-
                 <tbody id="itemRows">
-
-                    </tbody>
-
+                </tbody>
             </table>
-
             <button type="button" id="addItemButton">Add Line Item</button>
-
         </div>
 
-
         <div class="form-section">
-
             <h2>Totals</h2>
-
             <p><strong>Total Quantity:</strong> <span id="totalQuantity"></span></p>
-
             <p><strong>Taxable Value:</strong> <span id="taxableValue"></span></p>
-
             <p><strong>CGST Value:</strong> <span id="cgstValue"></span></p>
-
             <p><strong>SGST Value:</strong> <span id="sgstValue"></span></p>
-
             <p><strong>IGST Value:</strong> <span id="igstValue"></span></p>
-
             <p><strong>Invoice Value:</strong> <span id="invoiceValue"></span></p>
-
             <p><strong>Amount in Words:</strong> <span id="amountInWords"></span></p>
-
         </div>
-
 
         <div class="form-section">
-
-            
             <button type="button" id="createButton">Test</button>
-
         </div>
-
     </div>
-
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
     <script src="script.js"></script>
 
     <button id="previewInvoiceButton">Preview Invoice</button>
 
     <div id="invoicePreview" style="display: none;">
         <h2>Invoice Preview</h2>
-       
-
         <p><strong>Invoice Number:</strong> <span id="previewInvoiceNumber"></span></p>
         <p><strong>Invoice Date:</strong> <span id="previewInvoiceDate"></span></p>
 
@@ -330,10 +227,53 @@
             <h3>Terms & Conditions</h3>
             <p><span id="previewTermsConditions"></span></p>
         </div>
-        
-<button type="button" id="saveInvoiceButton" style="display: none;">Save Invoice</button>
-   
+
+        <button type="button" id="saveInvoiceButton" style="display: none;">Save Invoice</button>
     </div>
+
+    <script>
+        function verifyLogin() {
+            const storedUsername = localStorage.getItem('username');
+            const storedHashedPassword = localStorage.getItem('hashedPassword');
+
+            if (!storedUsername || !storedHashedPassword) {
+                window.location.href = 'login.html';
+                return false;
+            }
+
+            const username = prompt("Enter Username", "");
+            const password = prompt("Enter Password", "");
+
+            if (!username || !password) {
+                alert("Please enter both username and password.");
+                return false;
+            }
+
+            const hashedPassword = sha256(password);
+
+            if (hashedPassword === storedHashedPassword && username === storedUsername) {
+                document.getElementById('logoutButton').addEventListener('click', logout);
+                return true;
+            } else {
+                alert("Login failed!");
+                localStorage.clear();
+                window.location.href = 'login.html';
+                return false;
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            alert("Logged out!");
+            window.location.href = 'login.html';
+        }
+
+        if (!verifyLogin()) {
+            console.log("Login verification failed. Redirected to login page.");
+        } else {
+            console.log("Login verified. Proceeding to invoice page.");
+        }
+    </script>
 
 </body>
 </html>

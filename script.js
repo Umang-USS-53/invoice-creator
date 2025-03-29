@@ -1026,47 +1026,6 @@ function generatePDF() {
     // Create the Filename
     const filename = `Invoice_${invoiceNumber}.pdf`;
 
-const invoiceData = {
-        invoiceNumber: invoiceNumber,
-        invoiceDate: document.getElementById('invoiceDate').value,
-        sellerDetails: {
-            name: document.getElementById('sellerName').textContent,
-            address: document.getElementById('sellerAddress').textContent,
-            state: document.getElementById('sellerState').textContent,
-            email: document.getElementById('sellerEmail').textContent,
-            gst: document.getElementById('sellerGST').textContent,
-            pan: document.getElementById('sellerPAN').textContent,
-        },
-        buyerDetails: {
-            name: document.getElementById('previewBuyerName').textContent,
-            address: document.getElementById('previewBuyerAddress').textContent,
-            city: document.getElementById('previewBuyerCity').textContent,
-            state: document.getElementById('previewBuyerState').textContent,
-            pin: document.getElementById('previewBuyerPIN').textContent,
-            gst: document.getElementById('previewBuyerGST').textContent,
-            pan: document.getElementById('previewBuyerPAN').textContent,
-        },
-        placeOfSupply: document.getElementById('previewPlaceOfSupply').textContent,
-        modeOfDelivery: document.getElementById('modeOfDelivery').value,
-        termsOfPayment: document.getElementById('termsOfPayment').value,
-        items: getItemsData(),
-        totals: {
-            totalQuantity: document.getElementById('previewTotalQuantity').textContent,
-            taxableValue: document.getElementById('previewTaxableValue').textContent,
-            cgstValue: document.getElementById('previewCgstValue').textContent,
-            sgstValue: document.getElementById('previewSgstValue').textContent,
-            igstValue: document.getElementById('previewIgstValue').textContent,
-            invoiceValue: document.getElementById('previewInvoiceValue').textContent,
-        },
-        amountInWords: document.getElementById('previewAmountInWords').textContent,
-        paymentInstructions: document.getElementById('previewPaymentInstructions').textContent,
-        bankDetails: document.getElementById('previewBankDetails').textContent,
-        termsConditions: document.getElementById('previewTermsConditions').textContent,
-    };
-
-    saveInvoiceToFirestore(invoiceData);
-    
-    
     // Save the PDF with the dynamic filename
     doc.save(filename);
     }

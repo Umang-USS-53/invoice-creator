@@ -1020,4 +1020,5 @@ function generatePDF() {
     addStyledText("PARTNER / AUTHORISED SIGNATORY", rightLineX, currentY, { size: 9, align: 'left' });
 
     doc.save('invoice.pdf');
+    }
 }); 

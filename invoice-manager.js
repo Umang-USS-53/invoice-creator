@@ -106,8 +106,66 @@ function deleteInvoice(invoiceId) {
     });
 }
 
-function viewInvoiceDetails(invoice) {
-    // ... (Modal display code) ...
+function viewInvoiceDetails(invoiceId) {
+    db.collection('invoices').doc(invoiceId).get().then((doc) => {
+        if (doc.exists) {
+            const invoice = doc.data();
+            displayDetailedInvoice(invoice);
+        } else {
+            console.log('No such document!');
+        }
+    }).catch((error) => {
+        console.error('Error getting document:', error);
+    });
+}
+
+function displayDetailedInvoice(invoice) {
+    const modal = document.getElementById('invoiceDetailsModal');
+    const modalContent = document.getElementById('invoiceDetailsContent');
+    const closeBtn = document.querySelector('.close');
+
+    // Format invoiceDate to dd/mm/yyyy
+    const date = new Date(invoice.invoiceDate);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const year = date.getFullYear();
+    const formattedDate = `${day}/${month}/${year}`;
+
+    modalContent.innerHTML = `
+        <h2>Invoice Details</h2>
+        <p><strong>Invoice Number:</strong> ${invoice.invoiceNumber}</p>
+        <p><strong>Invoice Date:</strong> ${formattedDate}</p>
+        <p><strong>Buyer Name:</strong> ${invoice.buyerName}</p>
+        <p><strong>Buyer GST:</strong> ${invoice.buyerGST}</p>
+        <p><strong>Terms of Payment:</strong> ${invoice.termsOfPayment}</p>
+        <h3>Items:</h3>
+        <ul>
+            ${invoice.items.map(item => `
+                <li>
+                    <strong>Description:</strong> ${item.description},
+                    <strong>Quantity:</strong> ${item.quantity},
+                    <strong>Rate:</strong> ${item.rate},
+                    <strong>Amount:</strong> ${item.amount}
+                </li>
+            `).join('')}
+        </ul>
+        <p><strong>Total Quantity:</strong> ${invoice.totalQuantity}</p>
+        <p><strong>Taxable Value:</strong> ${invoice.taxableValue}</p>
+        <p><strong>Invoice Value:</strong> ${invoice.invoiceValue}</p>
+        <p><strong>Amount in Words:</strong> ${invoice.amountInWords}</p>
+    `;
+
+    modal.style.display = 'block';
+
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    };
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
 }
 
 displayInvoices();

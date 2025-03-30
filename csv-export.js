@@ -3,8 +3,6 @@
 // Assuming Firebase is already initialized in invoice-manager.js
 // We only need to get the db instance
 
-const db = firebase.firestore();
-
 function exportToCSV() {
     db.collection('invoices').get().then((querySnapshot) => {
         const csvData = [];

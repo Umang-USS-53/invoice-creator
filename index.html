@@ -22,6 +22,14 @@
             <span>/25-26</span>
         </div>
 
+        <button id="invoiceManagerButton">Manage Invoices</button>
+
+<script>
+document.getElementById('invoiceManagerButton').addEventListener('click', function() {
+    window.open('invoice-manager.html', '_blank'); // Opens in a new tab
+});
+</script>
+
         <div class="form-section">
             <h2>Seller Details</h2>
             <p><strong>Seller Name:</strong> <span id="sellerName">HK & SONS</span></p>
@@ -251,14 +259,6 @@
             window.location.href = 'login.html';
         }
     </script>
-
-<button id="invoiceManagerButton">Manage Invoices</button>
-
-<script>
-document.getElementById('invoiceManagerButton').addEventListener('click', function() {
-    window.location.href = 'invoice-manager.html';
-});
-</script>
 
     
 </body>

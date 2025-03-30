@@ -45,9 +45,11 @@ function viewInvoiceDetails(invoiceId) {
 }
 
 function displayDetailedInvoice(invoice) {
-    // Create a modal or a separate section to display the invoice details
-    const detailsContainer = document.createElement('div');
-    detailsContainer.innerHTML = `
+    const modal = document.getElementById('invoiceDetailsModal');
+    const modalContent = document.getElementById('invoiceDetailsContent');
+    const closeBtn = document.querySelector('.close');
+
+    modalContent.innerHTML = `
         <h2>Invoice Details</h2>
         <p><strong>Invoice Number:</strong> ${invoice.invoiceNumber}</p>
         <p><strong>Invoice Date:</strong> ${invoice.invoiceDate}</p>
@@ -71,8 +73,17 @@ function displayDetailedInvoice(invoice) {
         <p><strong>Amount in Words:</strong> ${invoice.amountInWords}</p>
     `;
 
-    // Append the details container to the body or a specific element
-    document.body.appendChild(detailsContainer);
+    modal.style.display = 'block';
+
+    closeBtn.onclick = function() {
+        modal.style.display = 'none';
+    };
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
 }
 
 displayInvoices();

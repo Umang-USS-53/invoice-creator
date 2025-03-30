@@ -21,12 +21,20 @@ function displayInvoices() {
     db.collection('invoices').get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             const invoice = doc.data();
+
+            // Format invoiceDate to dd/mm/yyyy
+            const date = new Date(invoice.invoiceDate);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+            const year = date.getFullYear();
+            const formattedDate = `${day}/${month}/${year}`;
+
             const row = invoicesTable.insertRow();
             row.insertCell(0).textContent = invoice.invoiceNumber;
-            row.insertCell(1).textContent = invoice.invoiceDate;
+            row.insertCell(1).textContent = formattedDate; // Use formatted date
             row.insertCell(2).textContent = invoice.buyerName;
             row.insertCell(3).textContent = invoice.invoiceValue;
-            row.insertCell(4).innerHTML = '<button onclick="viewInvoiceDetails(\'' + doc.id + '\')">View Details</button>'; // Add View Details button
+            row.insertCell(4).innerHTML = '<button onclick="viewInvoiceDetails(\'' + doc.id + '\')">View Details</button>';
         });
     });
 }

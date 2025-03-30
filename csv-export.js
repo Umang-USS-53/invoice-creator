@@ -1,18 +1,7 @@
 // csv-export.js
 
-// Initialize Firebase (if not already initialized)
-const firebaseConfig = {
-    apiKey: "AIzaSyDCk3zgMLzuXZM79F5QhbG9spZ5p_Tq7Gg",
-    authDomain: "hk-invoice-new.firebaseapp.com",
-    projectId: "hk-invoice-new",
-    storageBucket: "hk-invoice-new.firebasestorage.app",
-    messagingSenderId: "433334964621",
-    appId: "1:433334964621:web:d4c679cf4a3193457a6dc4"
-};
-
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
+// Assuming Firebase is already initialized in invoice-manager.js
+// We only need to get the db instance
 
 const db = firebase.firestore();
 

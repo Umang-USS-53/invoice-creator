@@ -57,10 +57,17 @@ function displayDetailedInvoice(invoice) {
     const modalContent = document.getElementById('invoiceDetailsContent');
     const closeBtn = document.querySelector('.close');
 
+    // Format invoiceDate to dd/mm/yyyy
+    const date = new Date(invoice.invoiceDate);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const year = date.getFullYear();
+    const formattedDate = `${day}/${month}/${year}`;
+
     modalContent.innerHTML = `
         <h2>Invoice Details</h2>
         <p><strong>Invoice Number:</strong> ${invoice.invoiceNumber}</p>
-        <p><strong>Invoice Date:</strong> ${invoice.invoiceDate}</p>
+        <p><strong>Invoice Date:</strong> ${formattedDate}</p> // Use formatted date
         <p><strong>Buyer Name:</strong> ${invoice.buyerName}</p>
         <p><strong>Buyer GST:</strong> ${invoice.buyerGST}</p>
         <p><strong>Terms of Payment:</strong> ${invoice.termsOfPayment}</p>

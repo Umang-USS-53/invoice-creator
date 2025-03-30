@@ -1076,26 +1076,38 @@ function saveInvoiceToFirestore() {
             });
         });
 
-        db.collection('invoices').doc(invoiceNumber).set({
-            invoiceNumber: invoiceNumber,
-            invoiceDate: invoiceDate,
-            buyerName: buyerName,
-            buyerGST: buyerGST,
-            termsOfPayment: termsOfPayment,
-            items: items,
-            totalQuantity: totalQuantity,
-            taxableValue: taxableValue,
-            cgstValue: cgstValue,
-            sgstValue: sgstValue,
-            igstValue: igstValue,
-            invoiceValue: invoiceValue,
-            amountInWords: amountInWords,
-        }).then(() => {
-            alert('Invoice saved to Firestore!');
-            resolve(); // Resolve the promise
+        // Check if invoice number already exists
+        db.collection('invoices').doc(invoiceNumber).get().then((doc) => {
+            if (doc.exists) {
+                alert('Invoice number already exists. Please use a different number.');
+                reject('Invoice number exists');
+            } else {
+                // Invoice number is unique, save to Firestore
+                db.collection('invoices').doc(invoiceNumber).set({
+                    invoiceNumber: invoiceNumber,
+                    invoiceDate: invoiceDate,
+                    buyerName: buyerName,
+                    buyerGST: buyerGST,
+                    termsOfPayment: termsOfPayment,
+                    items: items,
+                    totalQuantity: totalQuantity,
+                    taxableValue: taxableValue,
+                    cgstValue: cgstValue,
+                    sgstValue: sgstValue,
+                    igstValue: igstValue,
+                    invoiceValue: invoiceValue,
+                    amountInWords: amountInWords,
+                }).then(() => {
+                    alert('Invoice saved to Firestore!');
+                    resolve(); // Resolve the promise
+                }).catch(error => {
+                    console.error('Error saving invoice:', error);
+                    reject(error); // Reject the promise
+                });
+            }
         }).catch(error => {
-            console.error('Error saving invoice:', error);
-            reject(error); // Reject the promise
+            console.error('Error checking invoice number:', error);
+            reject(error);
         });
     });
 }

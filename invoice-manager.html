@@ -73,5 +73,28 @@
         }
     </style>
 
+    <script>
+        // Modify the displayInvoices function in invoice-manager.js
+        function displayInvoices(invoices) {
+            const tableBody = document.querySelector('#invoicesTable tbody');
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            invoices.forEach(invoice => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${invoice.invoiceNumber}</td>
+                    <td>${invoice.invoiceDate}</td>
+                    <td>${invoice.buyerName}</td>
+                    <td>${invoice.invoiceValue}</td>
+                    <td>
+                        <button onclick="deleteInvoice('${invoice.invoiceNumber}')">Delete Invoice</button>
+                        <button onclick="generatePastInvoicePDF('${invoice.invoiceNumber}')">Generate PDF</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    </script>
+
 </body>
 </html>

@@ -67,7 +67,7 @@ function displayDetailedInvoice(invoice) {
     modalContent.innerHTML = `
         <h2>Invoice Details</h2>
         <p><strong>Invoice Number:</strong> ${invoice.invoiceNumber}</p>
-        <p><strong>Invoice Date:</strong> ${formattedDate}</p> // Use formatted date
+        <p><strong>Invoice Date:</strong> ${formattedDate}</p>
         <p><strong>Buyer Name:</strong> ${invoice.buyerName}</p>
         <p><strong>Buyer GST:</strong> ${invoice.buyerGST}</p>
         <p><strong>Terms of Payment:</strong> ${invoice.termsOfPayment}</p>

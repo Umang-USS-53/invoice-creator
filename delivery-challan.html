@@ -28,6 +28,11 @@
 document.getElementById('deliveryChallanManagerButton').addEventListener('click', function() {
     window.open('delivery-challan-manager.html', '_blank'); // We'll create this page later
 });
+
+document.getElementById('logoutButton').addEventListener('click', function() {
+    alert("Logged out!");
+    window.location.href = 'login.html';
+});
 </script>
 
         <div class="form-section">
@@ -241,24 +246,6 @@ document.getElementById('deliveryChallanManagerButton').addEventListener('click'
 
         <button type="button" id="saveChallanButton" style="display: none;">Save Challan</button>
     </div>
-
-    <script>
-        // Redirect to login.html on page load, unless loggedIn parameter is present
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (!urlParams.get('loggedIn')) {
-                window.location.href = 'login.html';
-            } else {
-                // Attach the event listener here, after login
-                document.getElementById('logoutButton').addEventListener('click', logout);
-            }
-        };
-
-        function logout() {
-            alert("Logged out!");
-            window.location.href = 'login.html';
-        }
-    </script>
 
 </body>
 </html>

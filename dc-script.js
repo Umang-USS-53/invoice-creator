@@ -570,3 +570,114 @@ function calculateAmountInWords(amount) {
 }
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    const previewChallanButton = document.getElementById('previewChallanButton');
+    const invoicePreview = document.getElementById('invoicePreview'); // Keeping the ID as it is in dc-index.html
+    const saveChallanButton = document.getElementById('saveChallanButton');
+
+    previewChallanButton.addEventListener('click', previewChallan);
+
+    saveChallanButton.addEventListener('click', () => {
+        saveChallanData(); // We will define this function later
+        // Logic for PDF generation can be added here later
+    });
+});
+
+
+    function previewChallan() {
+        console.log('Preview Challan button clicked');
+
+        // Challan Details
+        const challanNumberInput = document.getElementById('challanNumber').value;
+        document.getElementById('previewInvoiceNumber').textContent = `HK-${challanNumberInput}/25-26`; // Using previewInvoiceNumber ID as it exists in your preview
+
+        // Format Challan Date
+        const challanDate = new Date(document.getElementById('challanDate').value);
+        const day = String(challanDate.getDate()).padStart(2, '0');
+        const month = String(challanDate.getMonth() + 1).padStart(2, '0');
+        const year = challanDate.getFullYear();
+        const formattedDate = `${day}/${month}/${year}`;
+        document.getElementById('previewInvoiceDate').textContent = formattedDate; // Using previewInvoiceDate ID as it exists in your preview
+
+        // Detail of Receiver / Transporter
+        document.getElementById('previewBuyerName').textContent = document.getElementById('buyerName').options[document.getElementById('buyerName').selectedIndex].text;
+        document.getElementById('previewBuyerAddress').textContent = document.getElementById('buyerAddress').textContent;
+        document.getElementById('previewBuyerCity').textContent = document.getElementById('buyerCity').textContent;
+        document.getElementById('previewBuyerState').textContent = document.getElementById('buyerState').textContent;
+        document.getElementById('previewBuyerPIN').textContent = document.getElementById('buyerPIN').textContent;
+        document.getElementById('previewBuyerGST').textContent = document.getElementById('buyerGST').textContent;
+        document.getElementById('previewBuyerPAN').textContent = document.getElementById('buyerPAN').textContent;
+
+        // The following lines for termsOfPayment and placeOfSupply are omitted
+        // as these elements are not in your dc-index.html
+
+        // Seller Details (Static Data)
+        document.getElementById('previewSellerName').textContent = "HK & SONS";
+        document.getElementById('previewSellerAddress').textContent = "B-803 ANMOL EXCEL ESTATE OFF:- S V ROAD, GOREGAON WEST, MUMBAI:-400062";
+        document.getElementById('previewSellerState').textContent = "Maharashtra";
+        document.getElementById('previewSellerEmail').textContent = "hkandsons18@gmail.com";
+        document.getElementById('previewSellerGST').textContent = "27AALFH1384H1Z7";
+        document.getElementById('previewSellerPAN').textContent = "AALFH1384H";
+
+    
+        // Item Details
+        const previewItemRows = document.getElementById('previewItemRows');
+        previewItemRows.innerHTML = '';
+
+        const itemRowsData = document.querySelectorAll('#itemRows tr');
+
+        itemRowsData.forEach(row => {
+            const previewRow = document.createElement('tr');
+            const descriptionSelect = row.querySelector('.description');
+            const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
+            const quantityInput = row.querySelector('.quantity');
+            const quantityValue = quantityInput ? quantityInput.value : '0'; // Handle cases where input might not be found
+            const hsnCodeCell = row.cells[2];
+            const hsnCodeText = hsnCodeCell ? hsnCodeCell.textContent : '';
+            const unitCell = row.cells[3];
+            const unitText = unitCell ? unitCell.textContent : '';
+            const rateInput = row.querySelector('.rate');
+            const rateValue = rateInput ? rateInput.value : '0';
+            const amountCell = row.cells[6];
+            const amountText = amountCell ? amountCell.textContent : '0';
+            const cgstRateCell = row.cells[7];
+            const cgstRateText = cgstRateCell ? cgstRateCell.textContent : '';
+            const sgstRateCell = row.cells[8];
+            const sgstRateText = sgstRateCell ? sgstRateCell.textContent : '';
+            const igstRateCell = row.cells[9];
+            const igstRateText = igstRateCell ? igstRateCell.textContent : '';
+
+            previewRow.innerHTML = `
+                <td>${row.cells[0].textContent}</td>
+                <td>${descriptionText}</td>
+                <td>${hsnCodeText}</td>
+                <td>${unitText}</td>
+                <td>${quantityValue}</td>
+                <td>${rateValue}</td>
+                <td>${amountText}</td>
+                <td>${cgstRateText}</td>
+                <td>${sgstRateText}</td>
+                <td>${igstRateText}</td>
+            `;
+
+            previewItemRows.appendChild(previewRow);
+        });
+
+        // Totals
+        document.getElementById('previewTotalQuantity').textContent = document.getElementById('totalQuantity').textContent;
+        document.getElementById('previewTaxableValue').textContent = document.getElementById('taxableValue').textContent;
+        document.getElementById('previewCgstValue').textContent = document.getElementById('cgstValue').textContent;
+        document.getElementById('previewSgstValue').textContent = document.getElementById('sgstValue').textContent;
+        document.getElementById('previewIgstValue').textContent = document.getElementById('igstValue').textContent;
+        document.getElementById('previewInvoiceValue').textContent = document.getElementById('invoiceValue').textContent;
+        // Optionally include the following line if you have a corresponding element in your preview
+        document.getElementById('previewAmountInWords').textContent = document.getElementById('amountInWords').textContent;
+
+        invoicePreview.style.display = 'block';
+        document.getElementById('saveChallanButton').style.display = 'block';
+    }
+});
+
+
+
+        

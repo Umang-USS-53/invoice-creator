@@ -722,4 +722,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     return currentY;
+}
 });

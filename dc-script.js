@@ -35,7 +35,7 @@ if (!firebaseInitialized) { // Add this check
 
 const db = firebase.firestore();
 
-// script.js (continued)
+// dc-script.js (continued)
 
 
 const buyerDropdown = document.getElementById('buyerName');
@@ -73,7 +73,7 @@ function populateBuyerDropdown() {
 
 populateBuyerDropdown(); // Call the function to populate the dropdown initially
 
-// script.js (continued)
+// dc-script.js (continued)
 
 
 const buyerDetailsDiv = document.getElementById('buyerDetails');
@@ -138,7 +138,7 @@ buyerDropdown.addEventListener('change', (event) => {
 
 });
 
-// script.js (continued)
+// dc-script.js (continued)
 
 
 const addBuyerButton = document.getElementById('addBuyerButton');
@@ -202,7 +202,7 @@ saveBuyerButton.addEventListener('click', () => {
 
 });
 
-// script.js (continued)
+// dc-script.js (continued)
 
 
 // Item Details
@@ -569,6 +569,7 @@ function calculateAmountInWords(amount) {
 
 }
 
+// Part 3: preview function and event listener
 
 document.addEventListener('DOMContentLoaded', () => {
     const previewChallanButton = document.getElementById('previewChallanButton');
@@ -675,5 +676,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
         invoicePreview.style.display = 'block';
         document.getElementById('saveChallanButton').style.display = 'block';
-    }
+}
+        function generateTotalsTable(doc, startY) {
+        const margin = 10;
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const availableWidth = pageWidth - margin * 2; // Available width within margins
+        const col1Width = availableWidth * 0.7; // Adjust percentage as needed
+        const col2Width = availableWidth * 0.3; // Adjust percentage as needed
+        const cellHeight = 5; // Adjust as needed
+        let currentY = startY;
+    
+        // Get Item Details from the first line item
+        const itemRows = document.querySelectorAll('#previewItemRows tr');
+        let unit = '';
+        let cgstRate = '';
+        let sgstRate = '';
+        let igstRate = '';
+
+        if (itemRows.length > 0) {
+            const cells = itemRows[0].querySelectorAll('td');
+            if (cells.length >= 7) {
+                unit = cells[3].textContent;
+                cgstRate = cells[7] ? cells[7].textContent : '';
+                sgstRate = cells[8] ? cells[8].textContent : '';
+                igstRate = cells[9] ? cells[9].textContent : '';
+            }
+        }
+
+        // Totals data with modified labels and details
+        const totals = [
+            { label: `Total Quantity (${unit})`, value: document.getElementById('previewTotalQuantity').textContent },
+            { label: 'Taxable Value (INR)', value: document.getElementById('previewTaxableValue').textContent },
+            { label: `CGST (${cgstRate})`, value: document.getElementById('previewCgstValue').textContent },
+            { label: `SGST (${sgstRate})`, value: document.getElementById('previewSgstValue').textContent },
+            { label: `IGST (${igstRate})`, value: document.getElementById('previewIgstValue').textContent },
+            { label: 'Invoice Value (INR)', value: document.getElementById('previewInvoiceValue').textContent },
+        ];
+
+        totals.forEach(total => {
+            doc.text(total.label, margin + col1Width, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 }); // Right align label
+            doc.text(total.value, margin + col1Width + col2Width-5, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 }); // Right align value
+
+       
+            currentY += cellHeight;
+        });
+
+    return currentY;
+}
 });

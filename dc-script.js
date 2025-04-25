@@ -608,6 +608,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('previewBuyerPIN').textContent = document.getElementById('buyerPIN').textContent;
         document.getElementById('previewBuyerGST').textContent = document.getElementById('buyerGST').textContent;
         document.getElementById('previewBuyerPAN').textContent = document.getElementById('buyerPAN').textContent;
+        document.getElementById('previewplaceOfDestination').textContent = document.getElementById('placeOfDestination').textContent;
+        document.getElementById('previewDetailsOfTransporter').textContent = document.getElementById('detailsOfTransporter').textContent;
+        document.getElementById('previewPurposeOfMovement').textContent = document.getElementById('purposeOfMovement').value;
 
         // The following lines for termsOfPayment and placeOfSupply are omitted
         // as these elements are not in your dc-index.html

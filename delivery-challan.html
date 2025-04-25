@@ -81,10 +81,16 @@ document.getElementById('logoutButton').addEventListener('click', function() {
 
         <div class="form-section">
             <h2>Other Details</h2>
+            <label for="placeOfSupply">Place of Destination:</label>
+            <input type="text" id="placeOfSupply" name="placeOfSupply"><br><br>
             <label for="modeOfDelivery">Mode of Delivery:</label>
-            <input type="text" id="modeOfDelivery" name="modeOfDelivery"><br><br>
+            <input type="text" id="modeOfDelivery" name="modeOfDelivery"><br>
+            <span style="font-size: small;">e.g., Hand Delivery, Courier Transport, By Air, others</span><br><br>
+            <label for="nameOfTransporter">Name of Transporter:</label>
+            <input type="text" id="nameOfTransporter" name="nameOfTransporter"><br><br>
             <label for="purposeOfMovement">Purpose of Movement:</label>
-            <input type="text" id="purposeOfMovement" name="purposeOfMovement" placeholder="e.g., Business Promotion and Marketing, Sold on Approval basis"><br><br>
+            <input type="text" id="purposeOfMovement" name="purposeOfMovement" placeholder="e.g., Business Promotion and Marketing, Sold on Approval basis"><br>
+            <span style="font-size: small;">e.g., Business Promotion and Marketing, Sold on Approval basis</span><br><br>
         </div>
 
         <div class="form-section">
@@ -164,7 +170,9 @@ document.getElementById('logoutButton').addEventListener('click', function() {
             <p>PIN: <span id="previewBuyerPIN"></span></p>
             <p>GSTIN: <span id="previewBuyerGST"></span></p>
             <p>PAN: <span id="previewBuyerPAN"></span></p>
+            <p>Place of Destination: <span id="previewPlaceOfSupply"></span></p>
             <p>Mode of Delivery: <span id="previewModeOfDelivery"></span></p>
+            <p>Name of Transporter: <span id="previewNameOfTransporter"></span></p>
             <p>Purpose of Movement: <span id="previewPurposeOfMovement"></span></p>
         </div>
 

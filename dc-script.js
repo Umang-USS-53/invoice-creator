@@ -677,7 +677,3 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('saveChallanButton').style.display = 'block';
     }
 });
-
-
-
-        

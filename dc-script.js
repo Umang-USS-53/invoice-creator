@@ -90,6 +90,8 @@ const buyerGSTSpan = document.getElementById('buyerGST');
 
 const buyerPANSpan = document.getElementById('buyerPAN');
 
+const placeOfSupplySpan = document.getElementById('placeOfSupply');
+
 
 buyerDropdown.addEventListener('change', (event) => {
 

@@ -675,5 +675,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
         invoicePreview.style.display = 'block';
         document.getElementById('saveChallanButton').style.display = 'block';
-}
+    }
 });

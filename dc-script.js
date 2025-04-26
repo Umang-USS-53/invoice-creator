@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
     // Challan Details
     const challanNumberInput = document.getElementById('challanNumber').value;
-    document.getElementById('previewInvoiceNumber').textContent = `HK-${challanNumberInput}/25-26`; // Using previewInvoiceNumber ID as it exists in your preview
+    document.getElementById('previewInvoiceNumber').textContent = `HK-DC-${challanNumberInput}/25-26`; // Using previewInvoiceNumber ID as it exists in your preview
 
     // Format Challan Date
     const challanDate = new Date(document.getElementById('challanDate').value);

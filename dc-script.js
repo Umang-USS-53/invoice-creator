@@ -395,14 +395,14 @@ document.addEventListener('DOMContentLoaded', () => {
         previewRow.innerHTML = `
             <td>${row.cells[0].textContent}</td>
             <td>${descriptionText}</td>
-            <td>${hsnCodeText}</td>
-            <td>${unitText}</td>
-            <td>${quantityValue}</td>
-            <td>${rateValue}</td>
-            <td>${amountText}</td>
-            <td>${cgstRateText}</td>
-            <td>${sgstRateText}</td>
-            <td>${igstRateText}</td>
+            <td>${row.cells[2].textContent}</td>
+            <td>${row.cells[3].textContent}</td>
+            <td>${row.cells[4].querySelector('input').value}</td>
+            <td>${row.cells[5].querySelector('input').value}</td>
+            <td>${row.cells[6].textContent}</td>
+            <td>${row.cells[7].textContent}</td>
+            <td>${row.cells[8].textContent}</td>
+            <td>${row.cells[9].textContent}</td>
         `;
 
         previewItemRows.appendChild(previewRow);

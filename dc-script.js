@@ -346,141 +346,139 @@ document.addEventListener('DOMContentLoaded', () => {
 
    function previewChallan() {
         
-     // Challan Details
-     const challanNumberInput = document.getElementById('challanNumber').value;
-     document.getElementById('previewInvoiceNumber').textContent = `HK-${challanNumberInput}/25-26`; // Using previewInvoiceNumber ID as it exists in your preview
+    // Challan Details
+    const challanNumberInput = document.getElementById('challanNumber').value;
+    document.getElementById('previewInvoiceNumber').textContent = `HK-${challanNumberInput}/25-26`; // Using previewInvoiceNumber ID as it exists in your preview
 
-     // Format Challan Date
-     const challanDate = new Date(document.getElementById('challanDate').value);
-     const day = String(challanDate.getDate()).padStart(2, '0');
-     const month = String(challanDate.getMonth() + 1).padStart(2, '0');
-     const year = challanDate.getFullYear();
-     const formattedDate = `${day}/${month}/${year}`;
-     document.getElementById('previewInvoiceDate').textContent = formattedDate; // Using previewInvoiceDate ID as it exists in your preview
+    // Format Challan Date
+    const challanDate = new Date(document.getElementById('challanDate').value);
+    const day = String(challanDate.getDate()).padStart(2, '0');
+    const month = String(challanDate.getMonth() + 1).padStart(2, '0');
+    const year = challanDate.getFullYear();
+    const formattedDate = `${day}/${month}/${year}`;
+    document.getElementById('previewInvoiceDate').textContent = formattedDate; // Using previewInvoiceDate ID as it exists in your preview
 
-     // Detail of Receiver / Transporter
-     document.getElementById('previewBuyerName').textContent = document.getElementById('buyerName').options[document.getElementById('buyerName').selectedIndex].text;
-     document.getElementById('previewBuyerAddress').textContent = document.getElementById('buyerAddress').textContent;
-     document.getElementById('previewBuyerCity').textContent = document.getElementById('buyerCity').textContent;
-     document.getElementById('previewBuyerState').textContent = document.getElementById('buyerState').textContent;
-     document.getElementById('previewBuyerPIN').textContent = document.getElementById('buyerPIN').textContent;
-     document.getElementById('previewBuyerGST').textContent = document.getElementById('buyerGST').textContent;
-     document.getElementById('previewBuyerPAN').textContent = document.getElementById('buyerPAN').textContent;
-     document.getElementById('previewplaceOfDestination').textContent = document.getElementById('placeOfDestination').textContent;
-     document.getElementById('previewDetailsOfTransporter').textContent = document.getElementById('detailsOfTransporter').textContent;
-     document.getElementById('previewPurposeOfMovement').textContent = document.getElementById('purposeOfMovement').value;
+    // Detail of Receiver / Transporter
+    document.getElementById('previewBuyerName').textContent = document.getElementById('buyerName').options[document.getElementById('buyerName').selectedIndex].text;
+    document.getElementById('previewBuyerAddress').textContent = document.getElementById('buyerAddress').textContent;
+    document.getElementById('previewBuyerCity').textContent = document.getElementById('buyerCity').textContent;
+    document.getElementById('previewBuyerState').textContent = document.getElementById('buyerState').textContent;
+    document.getElementById('previewBuyerPIN').textContent = document.getElementById('buyerPIN').textContent;
+    document.getElementById('previewBuyerGST').textContent = document.getElementById('buyerGST').textContent;
+    document.getElementById('previewBuyerPAN').textContent = document.getElementById('buyerPAN').textContent;
+    document.getElementById('previewplaceOfDestination').textContent = document.getElementById('placeOfDestination').textContent;
+    document.getElementById('previewDetailsOfTransporter').textContent = document.getElementById('detailsOfTransporter').textContent;
+    document.getElementById('previewPurposeOfMovement').textContent = document.getElementById('purposeOfMovement').value;
 
-     // The following lines for termsOfPayment and placeOfSupply are omitted
-     // as these elements are not in your dc-index.html
+    // The following lines for termsOfPayment and placeOfSupply are omitted
+    // as these elements are not in your dc-index.html
 
-     // Seller Details (Static Data)
-     document.getElementById('previewSellerName').textContent = "HK & SONS";
-     document.getElementById('previewSellerAddress').textContent = "B-803 ANMOL EXCEL ESTATE OFF:- S V ROAD, GOREGAON WEST, MUMBAI:-400062";
-     document.getElementById('previewSellerState').textContent = "Maharashtra";
-     document.getElementById('previewSellerEmail').textContent = "hkandsons18@gmail.com";
-     document.getElementById('previewSellerGST').textContent = "27AALFH1384H1Z7";
-     document.getElementById('previewSellerPAN').textContent = "AALFH1384H";
-
+    // Seller Details (Static Data)
+    document.getElementById('previewSellerName').textContent = "HK & SONS";
+    document.getElementById('previewSellerAddress').textContent = "B-803 ANMOL EXCEL ESTATE OFF:- S V ROAD, GOREGAON WEST, MUMBAI:-400062";
+    document.getElementById('previewSellerState').textContent = "Maharashtra";
+    document.getElementById('previewSellerEmail').textContent = "hkandsons18@gmail.com";
+    document.getElementById('previewSellerGST').textContent = "27AALFH1384H1Z7";
+    document.getElementById('previewSellerPAN').textContent = "AALFH1384H";
     
-     // Item Details
-     const previewItemRows = document.getElementById('previewItemRows');
-     previewItemRows.innerHTML = '';
+    // Item Details
+    const previewItemRows = document.getElementById('previewItemRows');
+    previewItemRows.innerHTML = '';
 
-     const itemRowsData = document.querySelectorAll('#itemRows tr');
+    const itemRowsData = document.querySelectorAll('#itemRows tr');
 
-     itemRowsData.forEach(row => {
-         const previewRow = document.createElement('tr');
-         const descriptionSelect = row.querySelector('.description');
-         const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
-         const quantityInput = row.querySelector('.quantity');
-         const quantityValue = quantityInput ? quantityInput.value : '0'; // Handle cases where input might not be found
-         const hsnCodeCell = row.cells[2];
-         const hsnCodeText = hsnCodeCell ? hsnCodeCell.textContent : '';
-         const unitCell = row.cells[3];
-         const unitText = unitCell ? unitCell.textContent : '';
-         const rateInput = row.querySelector('.rate');
-         const rateValue = rateInput ? rateInput.value : '0';
-         const amountCell = row.cells[6];
-         const amountText = amountCell ? amountCell.textContent : '0';
-         const cgstRateCell = row.cells[7];
-         const cgstRateText = cgstRateCell ? cgstRateCell.textContent : '';
-         const sgstRateCell = row.cells[8];
-         const sgstRateText = sgstRateCell ? sgstRateCell.textContent : '';
-         const igstRateCell = row.cells[9];
-         const igstRateText = igstRateCell ? igstRateCell.textContent : '';
+    itemRowsData.forEach(row => {
+        const previewRow = document.createElement('tr');
+        const descriptionSelect = row.querySelector('.description');
+        const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
+        const quantityInput = row.querySelector('.quantity');
+        const quantityValue = quantityInput ? quantityInput.value : '0'; // Handle cases where input might not be found
+        const hsnCodeCell = row.cells[2];
+        const hsnCodeText = hsnCodeCell ? hsnCodeCell.textContent : '';
+        const unitCell = row.cells[3];
+        const unitText = unitCell ? unitCell.textContent : '';
+        const rateInput = row.querySelector('.rate');
+        const rateValue = rateInput ? rateInput.value : '0';
+        const amountCell = row.cells[6];
+        const amountText = amountCell ? amountCell.textContent : '0';
+        const cgstRateCell = row.cells[7];
+        const cgstRateText = cgstRateCell ? cgstRateCell.textContent : '';
+        const sgstRateCell = row.cells[8];
+        const sgstRateText = sgstRateCell ? sgstRateCell.textContent : '';
+        const igstRateCell = row.cells[9];
+        const igstRateText = igstRateCell ? igstRateCell.textContent : '';
 
-         previewRow.innerHTML = `
-             <td>${row.cells[0].textContent}</td>
-             <td>${descriptionText}</td>
-             <td>${hsnCodeText}</td>
-             <td>${unitText}</td>
-             <td>${quantityValue}</td>
-             <td>${rateValue}</td>
-             <td>${amountText}</td>
-             <td>${cgstRateText}</td>
-             <td>${sgstRateText}</td>
-             <td>${igstRateText}</td>
-         `;
+        previewRow.innerHTML = `
+            <td>${row.cells[0].textContent}</td>
+            <td>${descriptionText}</td>
+            <td>${hsnCodeText}</td>
+            <td>${unitText}</td>
+            <td>${quantityValue}</td>
+            <td>${rateValue}</td>
+            <td>${amountText}</td>
+            <td>${cgstRateText}</td>
+            <td>${sgstRateText}</td>
+            <td>${igstRateText}</td>
+        `;
 
-         previewItemRows.appendChild(previewRow);
-     });
+        previewItemRows.appendChild(previewRow);
+    });
 
-     // Totals
-     document.getElementById('previewTotalQuantity').textContent = document.getElementById('totalQuantity').textContent;
-     document.getElementById('previewTaxableValue').textContent = document.getElementById('taxableValue').textContent;
-     document.getElementById('previewCgstValue').textContent = document.getElementById('cgstValue').textContent;
-     document.getElementById('previewSgstValue').textContent = document.getElementById('sgstValue').textContent;
-     document.getElementById('previewIgstValue').textContent = document.getElementById('igstValue').textContent;
-     document.getElementById('previewInvoiceValue').textContent = document.getElementById('invoiceValue').textContent;
-     // Optionally include the following line if you have a corresponding element in your preview
-     document.getElementById('previewAmountInWords').textContent = document.getElementById('amountInWords').textContent;
+    // Totals
+    document.getElementById('previewTotalQuantity').textContent = document.getElementById('totalQuantity').textContent;
+    document.getElementById('previewTaxableValue').textContent = document.getElementById('taxableValue').textContent;
+    document.getElementById('previewCgstValue').textContent = document.getElementById('cgstValue').textContent;
+    document.getElementById('previewSgstValue').textContent = document.getElementById('sgstValue').textContent;
+    document.getElementById('previewIgstValue').textContent = document.getElementById('igstValue').textContent;
+    document.getElementById('previewInvoiceValue').textContent = document.getElementById('invoiceValue').textContent;
+    // Optionally include the following line if you have a corresponding element in your preview
+    document.getElementById('previewAmountInWords').textContent = document.getElementById('amountInWords').textContent;
 
-     invoicePreview.style.display = 'block';
-     document.getElementById('saveChallanButton').style.display = 'block';
+    invoicePreview.style.display = 'block';
+    document.getElementById('saveChallanButton').style.display = 'block';
 }
-     function generateTotalsTable(doc, startY) {
-     const margin = 10;
-     const pageWidth = doc.internal.pageSize.getWidth();
-     const availableWidth = pageWidth - margin * 2; // Available width within margins
-     const col1Width = availableWidth * 0.7; // Adjust percentage as needed
-     const col2Width = availableWidth * 0.3; // Adjust percentage as needed
-     const cellHeight = 5; // Adjust as needed
-     let currentY = startY;
+    function generateTotalsTable(doc, startY) {
+    const margin = 10;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const availableWidth = pageWidth - margin * 2; // Available width within margins
+    const col1Width = availableWidth * 0.7; // Adjust percentage as needed
+    const col2Width = availableWidth * 0.3; // Adjust percentage as needed
+    const cellHeight = 5; // Adjust as needed
+    let currentY = startY;
     
-     // Get Item Details from the first line item
-     const itemRows = document.querySelectorAll('#previewItemRows tr');
-     let unit = '';
-     let cgstRate = '';
-     let sgstRate = '';
-     let igstRate = '';
+    // Get Item Details from the first line item
+    const itemRows = document.querySelectorAll('#previewItemRows tr');
+    let unit = '';
+    let cgstRate = '';
+    let sgstRate = '';
+    let igstRate = '';
 
-     if (itemRows.length > 0) {
-         const cells = itemRows[0].querySelectorAll('td');
-         if (cells.length >= 7) {
-             unit = cells[3].textContent;
-             cgstRate = cells[7] ? cells[7].textContent : '';
-             sgstRate = cells[8] ? cells[8].textContent : '';
-             igstRate = cells[9] ? cells[9].textContent : '';
-         }
-     }
+    if (itemRows.length > 0) {
+        const cells = itemRows[0].querySelectorAll('td');
+        if (cells.length >= 7) {
+            unit = cells[3].textContent;
+            cgstRate = cells[7] ? cells[7].textContent : '';
+            sgstRate = cells[8] ? cells[8].textContent : '';
+            igstRate = cells[9] ? cells[9].textContent : '';
+        }
+    }
 
-     // Totals data with modified labels and details
-     const totals = [
-         { label: `Total Quantity (${unit})`, value: document.getElementById('previewTotalQuantity').textContent },
-         { label: 'Taxable Value (INR)', value: document.getElementById('previewTaxableValue').textContent },
-         { label: `CGST (${cgstRate})`, value: document.getElementById('previewCgstValue').textContent },
-         { label: `SGST (${sgstRate})`, value: document.getElementById('previewSgstValue').textContent },
-         { label: `IGST (${igstRate})`, value: document.getElementById('previewIgstValue').textContent },
-         { label: 'Invoice Value (INR)', value: document.getElementById('previewInvoiceValue').textContent },
-     ];
+    // Totals data with modified labels and details
+    const totals = [
+        { label: `Total Quantity (${unit})`, value: document.getElementById('previewTotalQuantity').textContent },
+        { label: 'Taxable Value (INR)', value: document.getElementById('previewTaxableValue').textContent },
+        { label: `CGST (${cgstRate})`, value: document.getElementById('previewCgstValue').textContent },
+        { label: `SGST (${sgstRate})`, value: document.getElementById('previewSgstValue').textContent },
+        { label: `IGST (${igstRate})`, value: document.getElementById('previewIgstValue').textContent },
+        { label: 'Invoice Value (INR)', value: document.getElementById('previewInvoiceValue').textContent },
+    ];
 
-     totals.forEach(total => {
-         doc.text(total.label, margin + col1Width, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 }); // Right align label
-         doc.text(total.value, margin + col1Width + col2Width-5, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 }); // Right align value
-
+    totals.forEach(total => {
+        doc.text(total.label, margin + col1Width, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 }); // Right align label
+        doc.text(total.value, margin + col1Width + col2Width-5, currentY + cellHeight / 2, { align: 'right', baseline: 'middle', fontSize: 10 }); // Right align value
        
-         currentY += cellHeight;
-     });
+        currentY += cellHeight;
+    });
 
     return currentY;
 }

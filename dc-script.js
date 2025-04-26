@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Logic for PDF generation can be added here later
 });
 
-    function previewChallan() {
+   function previewChallan() {
         
      // Challan Details
      const challanNumberInput = document.getElementById('challanNumber').value;
@@ -482,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
          currentY += cellHeight;
      });
 
-     return currentY;
+    return currentY;
 }
 
 });

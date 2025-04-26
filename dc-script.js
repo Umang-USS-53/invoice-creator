@@ -391,22 +391,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const previewRow = document.createElement('tr');
         const descriptionSelect = row.querySelector('.description');
         const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
-        const quantityInput = row.querySelector('.quantity');
-        const quantityValue = quantityInput ? quantityInput.value : '0'; // Handle cases where input might not be found
-        const hsnCodeCell = row.cells[2];
-        const hsnCodeText = hsnCodeCell ? hsnCodeCell.textContent : '';
-        const unitCell = row.cells[3];
-        const unitText = unitCell ? unitCell.textContent : '';
-        const rateInput = row.querySelector('.rate');
-        const rateValue = rateInput ? rateInput.value : '0';
-        const amountCell = row.cells[6];
-        const amountText = amountCell ? amountCell.textContent : '0';
-        const cgstRateCell = row.cells[7];
-        const cgstRateText = cgstRateCell ? cgstRateCell.textContent : '';
-        const sgstRateCell = row.cells[8];
-        const sgstRateText = sgstRateCell ? sgstRateCell.textContent : '';
-        const igstRateCell = row.cells[9];
-        const igstRateText = igstRateCell ? igstRateCell.textContent : '';
 
         previewRow.innerHTML = `
             <td>${row.cells[0].textContent}</td>

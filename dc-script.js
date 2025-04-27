@@ -476,6 +476,198 @@ document.addEventListener('DOMContentLoaded', () => {
     return currentY;
 }
 
+
+function generateChallanPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({
+        orientation: 'portrait',
+        format: 'a4'
+    });
+
+    const margin = 10;
+    let currentY = 46;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const rectWidth = pageWidth - (margin * 2);
+    const rectBorderThickness = 1;
+
+    function addStyledText(text, x, y, style = {}) {
+        doc.setFont(style.font || 'helvetica');
+        doc.setFontSize(style.size || 9);
+        doc.setFont(style.font, style.fontStyle || 'normal');
+        doc.text(text, x, y, { align: style.align || 'left' });
+    }
+
+    // Challan Header
+    addStyledText('DELIVERY CHALLAN', pageWidth / 2, currentY, {
+        font: 'helvetica',
+        size: 14,
+        fontStyle: 'bold',
+        align: 'center'
+    });
+    currentY += 5;
+    doc.line(margin, currentY - 5, pageWidth - margin, currentY - 5);
+    currentY += 5;
+
+    // Challan Number and Date
+    const challanNumberInput = document.getElementById('challanNumber').value;
+    addStyledText(`Challan No.: HK-DC-${challanNumberInput}/25-26`, margin, currentY, {
+        align: 'left',
+        size: 11,
+        fontStyle: 'bold'
+    });
+    let challanDate = document.getElementById('challanDate').value;
+    let formattedDate;
+    if (challanDate) {
+        const dateParts = challanDate.split('-');
+        formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+    } else {
+        formattedDate = "";
+    }
+    addStyledText(`Date: ${formattedDate}`, pageWidth - margin, currentY, {
+        align: 'right',
+        size: 11,
+        fontStyle: 'bold'
+    });
+    currentY += 5;
+
+    // Seller Details Rectangle
+    const sellerRectStartY = currentY;
+    addStyledText('Seller Details', margin + rectBorderThickness, currentY + 7, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += 7;
+    addStyledText(`Name: ${document.getElementById('sellerName').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9, fontStyle: 'bold' });
+    currentY += 5;
+    addStyledText(`Address: ${document.getElementById('sellerAddress').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 5;
+    const sellerState = document.getElementById('sellerState').textContent;
+    const sellerEmail = document.getElementById('sellerEmail').textContent;
+    const sellerGST = document.getElementById('sellerGST').textContent;
+    const sellerPAN = document.getElementById('sellerPAN').textContent;
+    const sellerDetailsLine = `State: ${sellerState}, Email: ${sellerEmail}, GST: `;
+    addStyledText(sellerDetailsLine, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    addStyledText(sellerGST, margin + rectBorderThickness + doc.getTextWidth(sellerDetailsLine), currentY + 5, { size: 9, fontStyle: 'bold' });
+    addStyledText(`, PAN: ${sellerPAN}`, margin + rectBorderThickness + doc.getTextWidth(sellerDetailsLine + sellerGST), currentY + 5, { size: 9 });
+    currentY += 10;
+    const sellerRectHeight = currentY - sellerRectStartY;
+    doc.rect(margin, sellerRectStartY, rectWidth, sellerRectHeight);
+
+    // Consignee Details Rectangle
+    const buyerRectStartY = currentY;
+    addStyledText('Consignee Details', margin + rectBorderThickness, currentY + 7, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += 7;
+    addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9, fontStyle: 'bold' });
+    currentY += 5;
+    addStyledText(`Address: ${document.getElementById('previewBuyerAddress').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 5;
+    const buyerCity = document.getElementById('previewBuyerCity').textContent;
+    const buyerState = document.getElementById('previewBuyerState').textContent;
+    const buyerPIN = document.getElementById('previewBuyerPIN').textContent;
+    const buyerCityDetailsLine = `City: ${buyerCity}, State: ${buyerState}, PIN: ${buyerPIN}`;
+    addStyledText(buyerCityDetailsLine, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 5;
+    const buyerGSTIN = document.getElementById('previewBuyerGST').textContent;
+    const buyerPAN = document.getElementById('previewBuyerPAN').textContent;
+    const buyerGSTDetailsLine = `GST: `;
+    addStyledText(buyerGSTDetailsLine, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    addStyledText(buyerGSTIN, margin + rectBorderThickness + doc.getTextWidth(buyerGSTDetailsLine), currentY + 5, { size: 9, fontStyle: 'bold' });
+    addStyledText(`, PAN: ${buyerPAN}`, margin + rectBorderThickness + doc.getTextWidth(buyerGSTDetailsLine + buyerGSTIN), currentY + 5, { size: 9 });
+    currentY += 10;
+    const buyerRectHeight = currentY - buyerRectStartY;
+    doc.rect(margin, buyerRectStartY, rectWidth, buyerRectHeight);
+
+    // Other Details Rectangle
+    const otherDetailsRectStartY = currentY;
+    addStyledText('Other Details', margin + rectBorderThickness, currentY + 7, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += 7;
+
+    addStyledText(`Place of Destination: ${document.getElementById('previewplaceOfDestination').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 5;
+    addStyledText(`Mode of Delivery: ${document.getElementById('previewmodeOfDelivery').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 5;
+    addStyledText(`Details of Transporter: ${document.getElementById('previewdetailsOfTransporter').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 5;
+    addStyledText(`Purpose of Movement: ${document.getElementById('previewpurposeOfMovement').value}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
+    currentY += 10;
+
+    const otherDetailsRectHeight = currentY - otherDetailsRectStartY;
+    doc.rect(margin, otherDetailsRectStartY, rectWidth, otherDetailsRectHeight);
+
+    // Item Details Table
+    currentY += 3;
+    addStyledText('Item Details', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += 3;
+
+    const tableHeadersPDF = ['Lot No.', 'Description', 'HSN/SAC', 'Unit', 'Quantity', 'Rate', 'Amount'];
+    const itemRows = document.querySelectorAll('#previewItemRows tr');
+    const tableData = [];
+
+    itemRows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        const rowData = [];
+        for (let i = 0; i < tableHeadersPDF.length; i++) {
+            rowData.push(cells[i].textContent);
+        }
+        tableData.push(rowData);
+    });
+
+    doc.autoTable({
+        head: [tableHeadersPDF],
+        body: tableData,
+        startX: margin,
+        startY: currentY,
+        styles: {
+            cellPadding: 0,
+            fontSize: 10,
+        },
+    });
+
+    currentY = doc.previousAutoTable.finalY;
+
+    // Totals Table
+    currentY += 5;
+    currentY = generateTotalsTable(doc, currentY);
+
+    // Amount In Words
+    currentY += 4;
+    addStyledText('Amount in Words:', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += 5;
+    addStyledText(document.getElementById('previewAmountInWords').textContent, margin, currentY, { size: 9 });
+
+    // Challan Terms and Conditions
+    currentY += 10;
+    addStyledText('Challan Terms and Conditions:', margin, currentY, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    currentY += 5;
+
+    const termsConditions = document.getElementById('challanTermsConditions').querySelectorAll('p');
+    termsConditions.forEach(term => {
+        addStyledText(term.textContent, margin, currentY, { size: 8 });
+        currentY += 4;
+    });
+
+    // Signature/Stamp Section
+    currentY += 8;
+
+    const lineLength = (pageWidth - margin * 4) / 4;
+    const leftLineX = margin;
+    const rightLineX = pageWidth - margin - lineLength;
+
+    doc.line(leftLineX, currentY, leftLineX + lineLength, currentY);
+    doc.line(rightLineX, currentY, rightLineX + lineLength, currentY);
+
+    currentY += 2;
+
+    addStyledText("CONSIGNEE'S STAMP & SIGNATURE", leftLineX, currentY, { size: 6, align: 'left' });
+    currentY += 2;
+    addStyledText("COMMON SEAL", leftLineX, currentY, { size: 6, align: 'left' });
+
+    addStyledText("FOR HK & SONS", rightLineX, currentY - 2, { size: 6, align: 'left' });
+    addStyledText("PARTNER / AUTHORISED SIGNATORY", rightLineX, currentY, { size: 6, align: 'left' });
+
+    // Retrieve Challan Number
+    const challanNumber = `HK-DC-${challanNumberInput}/25-26`;
+    const filename = `Challan_${challanNumber}.pdf`;
+    doc.save(filename);
+}
+
 function saveChallanData() {
     return new Promise((resolve, reject) => {
         let challanNumber = `HK-DC-${document.getElementById('challanNumber').value}/25-26`;

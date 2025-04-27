@@ -585,6 +585,7 @@ function generateChallanPDF() {
     currentY += 5;
     addStyledText(`Details of Transporter: ${document.getElementById('previewdetailsOfTransporter').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 5;
+    const purposeOfMovementValue = document.getElementById('purposeOfMovement').value;
     addStyledText(`Purpose of Movement: ${document.getElementById('previewpurposeOfMovement').value}`, margin + rectBorderThickness, currentY + 5, { size: 9 });
     currentY += 10;
 

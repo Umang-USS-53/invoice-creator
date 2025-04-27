@@ -149,7 +149,7 @@ function displayDetailedChallan(challan) {
 
 function exportToCSV() {
     db.collection('challans').get().then((querySnapshot) => {
-        let csvContent = "Challan Number,Challan Date,Consignee Name,Consignee GST,Place of Destination,Mode of Delivery,Transporter Details,Purpose of Movement,Total Quantity,Taxable Value,CGST Value,SGST Value,IGST Value,Invoice Value,Amount in Words,Lot No,Description,HSN/SAC,Unit,Quantity,Rate,Amount,CGST Rate (%),SGST Rate (%),IGST Rate (%)\n";
+        let csvContent = "Challan Number,Challan Date,Consignee Name,Consignee GST,Place of Destination,Mode of Delivery,Transporter Details,Purpose of Movement,Total Quantity,Taxable Value,CGST Value,SGST Value,IGST Value,Invoice Value,Amount in Words,Lot No,Description,HSN Code,Unit,Quantity,Rate,Amount,CGST Rate (%),SGST Rate (%),IGST Rate (%)\n"; // Corrected Header Row
 
         querySnapshot.forEach((doc) => {
             const challan = doc.data();

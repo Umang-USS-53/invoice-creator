@@ -340,9 +340,17 @@ document.addEventListener('DOMContentLoaded', () => {
     previewChallanButton.addEventListener('click', previewChallan);
 
    saveChallanButton.addEventListener('click', () => {
-    saveChallanData(); // We will define this function later
-        // Logic for PDF generation can be added here later
-});
+    saveChallanData()
+        .then(() => {
+            // Data saved successfully, generate PDF (call your PDF generation function here later)
+            generateChallanPDF(); // Calling the basic PDF function we defined
+        })
+        .catch((error) => {
+            // Data save failed, show error message
+            alert('Failed to save challan. PDF not generated.');
+            console.error('Error saving challan:', error);
+        });
+   });
 
    function previewChallan() {
         
@@ -466,6 +474,87 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     return currentY;
+}
+
+function saveChallanData() {
+    return new Promise((resolve, reject) => {
+        let challanNumber = `HK-DC-${document.getElementById('challanNumber').value}/25-26`;
+        challanNumber = challanNumber.replace("/", "-"); // Replace "/" with "-"
+        const challanDate = document.getElementById('challanDate').value;
+        const buyerName = document.getElementById('buyerName').options[document.getElementById('buyerName').selectedIndex].text;
+        const buyerGST = document.getElementById('buyerGST').textContent;
+        // const termsOfPayment = document.getElementById('termsOfPayment').value; // 'termsOfPayment' not in your HTML
+        const totalQuantity = document.getElementById('totalQuantity').textContent;
+        const taxableValue = document.getElementById('taxableValue').textContent;
+        const cgstValue = document.getElementById('cgstValue').textContent;
+        const sgstValue = document.getElementById('sgstValue').textContent;
+        const igstValue = document.getElementById('igstValue').textContent;
+        const invoiceValue = document.getElementById('invoiceValue').textContent;
+        const amountInWords = document.getElementById('amountInWords').textContent;
+        const placeOfDestination = document.getElementById('placeOfDestination').value; // Added from your HTML
+        const modeOfDelivery = document.getElementById('modeOfDelivery').value; // Added from your HTML
+        const detailsOfTransporter = document.getElementById('detailsOfTransporter').value; // Added from your HTML
+        const purposeOfMovement = document.getElementById('purposeOfMovement').value; // Added from your HTML
+
+        const items = [];
+        const itemRowsData = document.querySelectorAll('#itemRows tr');
+        itemRowsData.forEach(row => {
+            const descriptionSelect = row.querySelector('.description');
+            const descriptionText = descriptionSelect.options[descriptionSelect.selectedIndex].text;
+
+            items.push({
+                lotNo: row.cells[0].textContent,
+                description: descriptionText,
+                hsnCode: row.cells[2].textContent,
+                unit: row.cells[3].textContent,
+                quantity: row.cells[4].querySelector('input').value,
+                rate: row.cells[5].querySelector('input').value,
+                amount: row.cells[6].textContent,
+                cgstRate: row.cells[7].textContent,
+                sgstRate: row.cells[8].textContent,
+                igstRate: row.cells[9].textContent,
+            });
+        });
+
+        // Check if challan number already exists
+        db.collection('challans').doc(challanNumber).get().then((doc) => {
+            if (doc.exists) {
+                alert('Challan number already exists. Please use a different number.');
+                reject('Challan number exists');
+            } else {
+                // Challan number is unique, save to Firestore
+                db.collection('challans').doc(challanNumber).set({
+                    challanNumber: challanNumber,
+                    challanDate: challanDate,
+                    buyerName: buyerName,
+                    buyerGST: buyerGST,
+                    // termsOfPayment: termsOfPayment, // Removed as it's not in your HTML
+                    placeOfDestination: placeOfDestination,
+                    modeOfDelivery: modeOfDelivery,
+                    detailsOfTransporter: detailsOfTransporter,
+                    purposeOfMovement: purposeOfMovement,
+                    items: items,
+                    totalQuantity: totalQuantity,
+                    taxableValue: taxableValue,
+                    cgstValue: cgstValue,
+                    sgstValue: sgstValue,
+                    igstValue: igstValue,
+                    invoiceValue: invoiceValue,
+                    amountInWords: amountInWords,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp() // Added timestamp
+                }).then(() => {
+                    alert('Challan saved to Firestore!');
+                    resolve(true); // Resolve the promise
+                }).catch(error => {
+                    console.error('Error saving challan:', error);
+                    reject(error); // Reject the promise
+                });
+            }
+        }).catch(error => {
+            console.error('Error checking challan number:', error);
+            reject(error);
+        });
+    });
 }
 
 });

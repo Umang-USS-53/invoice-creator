@@ -366,8 +366,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('previewBuyerPIN').textContent = document.getElementById('buyerPIN').textContent;
     document.getElementById('previewBuyerGST').textContent = document.getElementById('buyerGST').textContent;
     document.getElementById('previewBuyerPAN').textContent = document.getElementById('buyerPAN').textContent;
-    document.getElementById('previewplaceOfDestination').textContent = document.getElementById('placeOfDestination').textContent;
-    document.getElementById('previewdetailsOfTransporter').textContent = document.getElementById('detailsOfTransporter').textContent;
+    document.getElementById('previewplaceOfDestination').textContent = document.getElementById('placeOfDestination').value;
+    document.getElementById('previewmodeOfDelivery').textContent = document.getElementById('modeOfDelivery').value;
+    document.getElementById('previewdetailsOfTransporter').textContent = document.getElementById('detailsOfTransporter').value;
     document.getElementById('previewpurposeOfMovement').textContent = document.getElementById('purposeOfMovement').value;
 
     // The following lines for termsOfPayment and placeOfSupply are omitted

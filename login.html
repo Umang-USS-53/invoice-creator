@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            font-family: sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -14,32 +15,55 @@
         }
 
         #login-container {
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 5px;
-            width: 300px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 350px; /* Slightly wider container */
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
         }
 
         input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
+            width: calc(100% - 20px); /* Adjust for padding */
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
             box-sizing: border-box;
+            font-size: 1rem;
         }
 
         button {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
+            background-color: #007bff; /* Primary blue color */
             color: white;
+            font-size: 1.2rem;
+            padding: 15px 30px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+        button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* Add focus ring */
         }
 
         .error-message {
-            color: red;
-            margin-top: 10px;
+            color: #dc3545; /* Error red color */
+            margin-top: 15px;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -60,8 +84,7 @@
 
             // Hardcoded username and password
             if (username === "hksons" && password === "hksons2025") { // Replace with your credentials
-                window.location.href = 'index.html?loggedIn=true'; // Add parameter here
-                    window.location.href = 'buttons.html?loggedIn=true'; // Redirect to buttons.html
+                window.location.href = 'buttons.html?loggedIn=true'; // Redirect to buttons.html
             } else {
                 errorMessage.textContent = "Invalid username or password.";
                 errorMessage.style.display = 'block';

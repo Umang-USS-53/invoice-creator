@@ -552,7 +552,7 @@ function generateChallanPDF() {
 
     // Consignee Details Rectangle
     const buyerRectStartY = currentY;
-    addStyledText('Consignee Details', margin + rectBorderThickness, currentY + 7, { font: 'helvetica', size: 9, fontStyle: 'bold' });
+    addStyledText('Consignee Details/ Transporter Details', margin + rectBorderThickness, currentY + 7, { font: 'helvetica', size: 9, fontStyle: 'bold' });
     currentY += 7;
     addStyledText(`Name: ${document.getElementById('previewBuyerName').textContent}`, margin + rectBorderThickness, currentY + 5, { size: 9, fontStyle: 'bold' });
     currentY += 5;

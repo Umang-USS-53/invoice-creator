@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select a Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h2>Welcome! Select a page to explore:</h2>
+    <button onclick="window.location.href='dc-index.html?loggedIn=true'">Delivery Challan</button><br><br>
+    <button onclick="window.location.href='challan-manager.html?loggedIn=true'">Manage Challans</button><br><br>
+    <button onclick="window.location.href='index.html?loggedIn=true'">Invoice Creation</button><br><br>
+    <button onclick="window.location.href='invoice-manager.html?loggedIn=true'">Manage Invoices</button><br><br>
+        <button onclick="logout()">Logout</button>
+
+    <script>
+        function logout() {
+            window.location.href = 'login.html'; // Redirect back to login
+            // In a more advanced scenario, you might clear tokens/session data here.
+        }
+    </script>
+</body>
+</html>
